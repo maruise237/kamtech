@@ -1,146 +1,115 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "./ui/button"
-import { Check, ArrowRight } from "lucide-react"
-
-const pricingPlans = [
-  {
-    name: "Starter",
-    price: "$29",
-    period: "/month",
-    description: "Perfect for small teams getting started",
-    features: ["Up to 5 team members", "10GB storage", "Basic analytics", "Email support", "Standard integrations"],
-    popular: false,
-  },
-  {
-    name: "Professional",
-    price: "$79",
-    period: "/month",
-    description: "Best for growing businesses",
-    features: [
-      "Up to 25 team members",
-      "100GB storage",
-      "Advanced analytics",
-      "Priority support",
-      "All integrations",
-      "Custom workflows",
-      "API access",
-    ],
-    popular: true,
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    description: "For large organizations",
-    features: [
-      "Unlimited team members",
-      "Unlimited storage",
-      "Enterprise analytics",
-      "24/7 dedicated support",
-      "Custom integrations",
-      "Advanced security",
-      "SLA guarantee",
-      "On-premise deployment",
-    ],
-    popular: false,
-  },
-]
+import { Calculator, ShieldCheck } from "lucide-react"
 
 export function PricingSection() {
+  const [hoursSaved, setHoursSaved] = useState(20)
+  const hourlyRate = 35 // Estimation du taux horaire moyen (ex: 35€/h)
+  const monthlySavings = hoursSaved * hourlyRate * 4
+
   return (
-    <section id="pricing" className="py-20 px-4 bg-black">
-      <div className="container mx-auto">
+    <section id="pricing" className="py-20 px-4 bg-black relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="container mx-auto relative z-10">
         <div className="text-center mb-16">
+          <motion.div
+            className="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <ShieldCheck className="w-5 h-5 text-blue-400" />
+            <p className="text-blue-400 text-sm font-semibold uppercase tracking-wider">Investissement rentabilisé</p>
+          </motion.div>
+
           <motion.h2
-            className="text-4xl font-bold text-white mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6"
             style={{ fontFamily: "var(--font-playfair)" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Simple, Transparent Pricing
+            Ne payez que si ça vous <span className="text-blue-500">rapporte</span>
           </motion.h2>
           <motion.p
-            className="text-xl text-gray-300 max-w-2xl mx-auto"
+            className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Choose the perfect plan for your business needs. No hidden fees, no surprises.
+            Nos offres sont construites pour être rentables dès le premier mois grâce au temps gagné et aux ventes supplémentaires.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {pricingPlans.map((plan, index) => (
-            <motion.div
-              key={plan.name}
-              className={`relative bg-card border rounded-lg p-8 ${
-                plan.popular ? "border-white/30 bg-white/5" : "border-border/20 bg-background/50"
-              }`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -5 }}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-white text-black px-4 py-1 rounded-full text-sm font-medium">Most Popular</span>
-                </div>
-              )}
+        {/* ROI Calculator */}
+        <div className="max-w-3xl mx-auto mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gray-900/60 border border-gray-800 rounded-3xl p-6 sm:p-10 backdrop-blur-sm"
+          >
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-3 bg-blue-500/10 rounded-xl">
+                <Calculator className="w-6 h-6 text-blue-500" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Calculez votre ROI</h3>
+                <p className="text-gray-400 text-sm">Découvrez combien vous coûte votre système manuel actuel.</p>
+              </div>
+            </div>
 
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold text-white">{plan.price}</span>
-                  <span className="text-gray-400">{plan.period}</span>
+            <div className="space-y-8">
+              <div>
+                <div className="flex justify-between items-end mb-4">
+                  <label className="text-white font-medium">Heures passées à répondre / qualifier (par semaine)</label>
+                  <span className="text-2xl font-black text-blue-400">{hoursSaved}h</span>
                 </div>
-                <p className="text-gray-300">{plan.description}</p>
+                <input
+                  type="range"
+                  min="5"
+                  max="80"
+                  step="5"
+                  value={hoursSaved}
+                  onChange={(e) => setHoursSaved(Number(e.target.value))}
+                  className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                />
+                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                  <span>5h</span>
+                  <span>80h+</span>
+                </div>
               </div>
 
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center text-gray-300">
-                    <Check className="h-5 w-5 text-white mr-3 flex-shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+              <div className="bg-black/50 border border-gray-800 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div>
+                  <p className="text-gray-400 text-sm mb-1">Économie mensuelle estimée*</p>
+                  <p className="text-3xl sm:text-4xl font-black text-green-400">{monthlySavings.toLocaleString('fr-FR')} €</p>
+                  <p className="text-gray-500 text-xs mt-2">*Basé sur un coût horaire de 35€ (salaire + charges)</p>
+                </div>
 
-              <Button
-                className={`w-full ${
-                  plan.popular
-                    ? "bg-white text-black hover:bg-white/90"
-                    : "bg-transparent border border-white/20 text-white hover:bg-white/10"
-                } group`}
-                size="lg"
-              >
-                {plan.name === "Enterprise" ? "Contact Sales" : "Get Started"}
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </motion.div>
-          ))}
+                <div className="text-center sm:text-right">
+                  <p className="text-white font-bold mb-2">L'IA coûte 3x à 10x moins cher</p>
+                  <Button
+                    data-cal-namespace="15min"
+                    data-cal-link="kamtech/15min"
+                    data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+                    className="bg-blue-600 hover:bg-blue-500 text-white w-full sm:w-auto font-bold rounded-full shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                  >
+                    Auditer mon potentiel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-gray-400 mb-4">All plans include 14-day free trial • No credit card required</p>
-          <p className="text-sm text-gray-500">
-            Need a custom solution?{" "}
-            <a href="#" className="text-white hover:underline">
-              Contact our sales team
-            </a>
-          </p>
-        </motion.div>
       </div>
     </section>
   )
