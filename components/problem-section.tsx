@@ -98,7 +98,7 @@ export function ProblemSection() {
         
         {/* Footer Link (Solution focus) */}
         <motion.div
-          className="text-center mt-12 sm:mt-16"
+          className="text-center mt-12 sm:mt-16 flex flex-col items-center gap-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -106,6 +106,14 @@ export function ProblemSection() {
           <p className="text-white/60 text-base sm:text-lg">
             La bonne nouvelle ? Tout cela peut se régler en <span className="text-blue-500 font-bold">7 jours</span> avec Kamtech IA.
           </p>
+          <button
+            data-cal-namespace="15min"
+            data-cal-link="kamtech/15min"
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-base font-semibold transition-all shadow-lg hover:shadow-blue-500/25"
+          >
+            Obtenir mon audit gratuit
+          </button>
         </motion.div>
       </div>
     </section>
