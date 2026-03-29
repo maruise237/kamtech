@@ -22,7 +22,7 @@ export function HeroSection() {
       <div className="container mx-auto text-center relative z-10 pb-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6 inline-block px-3 sm:px-4 py-2 bg-blue-500/10 border rounded-full border-blue-500/30 backdrop-blur-md">
-            <p className="text-xs sm:text-sm font-semibold text-blue-400">Audit offert avec essai de 7 jours</p>
+            <p className="text-xs sm:text-sm font-semibold text-blue-400">Audit gratuit - 15 minutes</p>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-balance leading-tight">
@@ -49,7 +49,7 @@ export function HeroSection() {
                 size="lg" 
                 className="bg-blue-600 hover:bg-blue-700 text-white group text-sm sm:text-base font-semibold w-full sm:w-auto px-8"
               >
-                Réserver mon audit gratuit
+                Obtenir mon audit gratuit
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
