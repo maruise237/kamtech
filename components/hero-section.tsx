@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from "react"
 import { Button } from "./ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ShieldCheck, Zap, Clock } from "lucide-react"
 import { ParticleTextEffect } from "./particle-text-effect"
 import { InfiniteSlider } from "./ui/infinite-slider"
 import { ProgressiveBlur } from "./ui/progressive-blur"
@@ -161,7 +161,7 @@ export function HeroSection() {
           {socialProofPlacement === "B" && renderSocialProof()}
 
           <div className="mb-6 inline-block px-3 sm:px-4 py-2 bg-blue-500/10 border rounded-full border-blue-500/30 backdrop-blur-md">
-            <p className="text-xs sm:text-sm font-semibold text-blue-400">Audit offert avec essai de 7 jours</p>
+            <p className="text-xs sm:text-sm font-semibold text-blue-400">Audit gratuit - 15 minutes</p>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-balance leading-tight">
@@ -174,8 +174,8 @@ export function HeroSection() {
             <span className="block mb-3">
               <strong>La solution :</strong> Un système IA qui travaille pour vous, qualifie vos prospects, prend des rendez-vous, et propulse votre croissance — sans recruter.
             </span>
-            <span className="text-blue-400 font-bold">
-              Déployé en 7 jours. Résultats en 30 jours. Garantie 100% satisfait.
+            <span className="block text-blue-400 font-bold">
+              Déployé en 7 jours. Résultats garantis ou remboursés.
             </span>
           </h2>
 
@@ -200,40 +200,44 @@ export function HeroSection() {
                 onClick={handleExpertClick}
                 size="lg" 
                 variant="outline" 
-                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent font-semibold w-full sm:w-auto px-8"
+                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent font-bold w-full sm:w-auto px-8 h-14 rounded-full transition-all hover:-translate-y-1"
               >
-                Parler à un expert (WhatsApp)
+                Parler à un expert
               </Button>
             </div>
             
-            <a 
-              href="#contact" 
-              className="text-gray-400 hover:text-blue-400 transition-colors text-sm font-medium flex items-center gap-2 group underline-offset-4 hover:underline"
-            >
-              Ou envoyez-nous un message détaillé par formulaire
-              <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-            </a>
+            <p className="text-gray-500 text-sm font-medium flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-green-500" />
+              Sans engagement. Aucune carte requise.
+            </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-8 mb-12 text-xs sm:text-sm">
-            <div className="flex items-start sm:items-center gap-2">
-              <span className="text-green-400 font-bold flex-shrink-0">✓</span>
-              <div>
-                <p className="text-white font-semibold text-sm sm:text-base">Garantie 30 jours</p>
+          {/* Trust badges */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-6 sm:gap-10 mb-16 mt-12 text-sm">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-500/10 rounded-full">
+                <ShieldCheck className="w-5 h-5 text-green-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-white font-bold">Garantie 30 jours</p>
                 <p className="text-gray-400 text-xs">Satisfait ou remboursé</p>
               </div>
             </div>
-            <div className="flex items-start sm:items-center gap-2">
-              <span className="text-green-400 font-bold flex-shrink-0">✓</span>
-              <div>
-                <p className="text-white font-semibold text-sm sm:text-base">Déploiement 48-72h</p>
-                <p className="text-gray-400 text-xs">Sans travail technique</p>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-500/10 rounded-full">
+                <Zap className="w-5 h-5 text-blue-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-white font-bold">Déploiement en 72h</p>
+                <p className="text-gray-400 text-xs">Clé en main</p>
               </div>
             </div>
-            <div className="flex items-start sm:items-center gap-2">
-              <span className="text-green-400 font-bold flex-shrink-0">✓</span>
-              <div>
-                <p className="text-white font-semibold text-sm sm:text-base">Support 24/7</p>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-purple-500/10 rounded-full">
+                <Clock className="w-5 h-5 text-purple-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-white font-bold">Support 24/7</p>
                 <p className="text-gray-400 text-xs">Équipe dédiée</p>
               </div>
             </div>
