@@ -14,33 +14,33 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="py-16 sm:py-24 px-4 relative overflow-hidden min-h-screen flex flex-col justify-between">
-      <div className="flex-1 flex items-start justify-center pt-20">
+    <section className="py-12 sm:py-24 px-4 relative overflow-hidden min-h-[100dvh] flex flex-col justify-between">
+      <div className="hidden sm:flex flex-1 items-start justify-center pt-20">
         <ParticleTextEffect words={["KAMTECH", "IA", "CHATBOT", "KAMTECH"]} />
       </div>
 
-      <div className="container mx-auto text-center relative z-10 pb-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-6 inline-block px-3 sm:px-4 py-2 bg-blue-500/10 border rounded-full border-blue-500/30 backdrop-blur-md">
-            <p className="text-xs sm:text-sm font-semibold text-blue-400">Audit offert avec essai de 7 jours</p>
+      <div className="container mx-auto text-center relative z-10 pt-20 sm:pt-0 pb-8 flex-1 flex flex-col justify-center">
+        <div className="max-w-4xl mx-auto w-full">
+          <div className="mb-4 sm:mb-6 inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500/10 border rounded-full border-blue-500/30 backdrop-blur-md">
+            <p className="text-[11px] sm:text-sm font-semibold text-blue-400">Audit offert avec essai de 7 jours</p>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-balance leading-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance leading-tight">
             Pendant que vous dormez, vos clients demandent votre prix
           </h1>
-          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-300 mb-8 text-balance">
-            <span className="block mb-3">
+          <h2 className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-300 mb-6 sm:mb-8 text-balance">
+            <span className="hidden sm:block mb-3">
               <strong>Le problème :</strong> Vous perdez 20 heures/semaine en tâches répétitives. Vos prospects attendent une réponse pendant 24h. Votre concurrent vous double.
             </span>
-            <span className="block mb-3">
-              <strong>La solution :</strong> Un système IA qui travaille pour vous, qualifie vos prospects, prend des rendez-vous, et propulse votre croissance — sans recruter.
+            <span className="block mb-2 sm:mb-3">
+              <strong>La solution :</strong> Un système IA qui travaille pour vous, qualifie vos prospects, prend des rendez-vous, et propulse votre croissance.
             </span>
-            <span className="text-blue-400 font-bold">
+            <span className="text-blue-400 font-bold text-xs sm:text-base">
               Déployé en 7 jours. Résultats en 30 jours. Garantie 100% satisfait.
             </span>
           </h2>
 
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-4 sm:gap-6 w-full px-2 sm:px-0">
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full">
               <Button 
                 data-cal-namespace="15min"
@@ -110,6 +110,8 @@ export function HeroSection() {
                         alt="Nvidia Logo"
                         height="20"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
 
@@ -120,6 +122,8 @@ export function HeroSection() {
                         alt="Column Logo"
                         height="16"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="flex">
@@ -129,6 +133,8 @@ export function HeroSection() {
                         alt="GitHub Logo"
                         height="16"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="flex">
@@ -138,6 +144,8 @@ export function HeroSection() {
                         alt="Nike Logo"
                         height="20"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="flex">
@@ -147,6 +155,8 @@ export function HeroSection() {
                         alt="Lemon Squeezy Logo"
                         height="20"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="flex">
@@ -156,6 +166,8 @@ export function HeroSection() {
                         alt="Laravel Logo"
                         height="16"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="flex">
@@ -165,6 +177,8 @@ export function HeroSection() {
                         alt="Lilly Logo"
                         height="28"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
 
@@ -175,6 +189,8 @@ export function HeroSection() {
                         alt="OpenAI Logo"
                         height="24"
                         width="auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </InfiniteSlider>
