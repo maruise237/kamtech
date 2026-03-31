@@ -1,5 +1,5 @@
 // Utility for WhatsApp integration with personalized messages for different sections
-const WHATSAPP_PHONE = "237658992588" // Cameroon number format
+export const WHATSAPP_PHONE = "237658992588" // Cameroon number format
 
 // Messages organized by section and action type
 export const whatsappMessages = {
@@ -29,6 +29,6 @@ export function getWhatsAppLink(messageKey: WhatsAppMessageKey): string {
 export function openWhatsAppChat(messageKey: WhatsAppMessageKey): void {
   if (typeof window !== "undefined") {
     const link = getWhatsAppLink(messageKey)
-    window.open(link, "_blank")
+    window.open(link, "_blank", "noopener,noreferrer")
   }
 }

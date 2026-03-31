@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
-import { feature } from "topojson-client"
+import { loadWorldData } from "@/lib/world-data-loader"
 import { Button } from "@/components/ui/button"
 
 interface GeoFeature {
@@ -42,12 +42,9 @@ export function GlobeToMapTransform() {
 
   // Load world data
   useEffect(() => {
-    const loadWorldData = async () => {
+    const fetchData = async () => {
       try {
-        // Using Natural Earth data from a CDN
-        const response = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
-        const world: any = await response.json()
-        const countries = feature(world, world.objects.countries).features
+        const countries = await loadWorldData()
         setWorldData(countries)
         console.log("[v0] Successfully loaded world data with", countries.length, "countries")
       } catch (error) {
@@ -75,7 +72,7 @@ export function GlobeToMapTransform() {
       }
     }
 
-    loadWorldData()
+    fetchData()
   }, [])
 
   const handleMouseDown = (event: React.MouseEvent) => {

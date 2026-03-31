@@ -70,7 +70,7 @@ Tous les boutons d'action du site KAMTECH IA redirigent vers WhatsApp avec un me
 - **Contexte:** CTA pour les utilisateurs qui scrollent jusqu'au pied de page
 
 #### Liens WhatsApp directs:
-- **Lien:** `<a href="https://wa.me/237658992588">WhatsApp</a>`
+- **Lien:** `<a href="https://wa.me/237658992588" target="_blank" rel="noopener noreferrer">WhatsApp</a>`
 - **Position:** Colonne "Contact"
 - **Ouvre directement WhatsApp sans message préécrit**
 
@@ -107,7 +107,7 @@ export const whatsappMessages = {
 export function openWhatsAppChat(messageKey: WhatsAppMessageKey): void {
   if (typeof window !== "undefined") {
     const link = getWhatsAppLink(messageKey)
-    window.open(link, "_blank")
+    window.open(link, "_blank", "noopener,noreferrer")
   }
 }
 ```
