@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
-import { feature } from "topojson-client"
+import { loadWorldData } from "@/lib/world-data-loader"
 
 interface GeoFeature {
   type: string
@@ -36,17 +36,15 @@ export default function Globe({
   ]
 
   useEffect(() => {
-    const loadData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
-        const world: any = await response.json()
-        const countries = (feature(world, world.objects.countries) as any).features
+        const countries = await loadWorldData()
         setWorldData(countries as any)
       } catch (error) {
         console.error("Error loading globe data:", error)
       }
     }
-    loadData()
+    fetchData()
   }, [])
 
   useEffect(() => {
