@@ -29,6 +29,6 @@ export function getWhatsAppLink(messageKey: WhatsAppMessageKey): string {
 export function openWhatsAppChat(messageKey: WhatsAppMessageKey): void {
   if (typeof window !== "undefined") {
     const link = getWhatsAppLink(messageKey)
-    window.open(link, "_blank")
+    window.open(link, "_blank", "noopener,noreferrer")
   }
 }
