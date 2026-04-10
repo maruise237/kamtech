@@ -9,6 +9,7 @@ import Loader from "@/components/ui/loader"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
 import { NoSSRWrapper } from "@/components/no-ssr-wrapper"
+import { ElevenLabsWidget } from "@/components/elevenlabs-widget"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -126,6 +127,7 @@ function ClientLayoutContent({
           <NoSSRWrapper>
             <StickyMobileCTA />
             <ExitIntentPopup />
+            <ElevenLabsWidget />
           </NoSSRWrapper>
           <Toaster richColors position="top-right" />
         </div>
