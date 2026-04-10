@@ -6,14 +6,15 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 1780ms
- ○ Compiling /blog/[slug] ...
- ✓ Compiled /blog/[slug] in 10s (1582 modules)
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 11388ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 121ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 52ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 44ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 41ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 42ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 45ms
- GET /blog/etude-de-cas-pme-logistique-ia 200 in 43ms
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ ✓ Ready in 1734ms
+ ○ Compiling / ...
+ ✓ Compiled / in 15.9s (3004 modules)
+ GET / 200 in 17243ms
+ GET / 200 in 56ms
+ ✓ Compiled in 1546ms (2977 modules)
+ GET / 200 in 275ms

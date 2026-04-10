@@ -35,6 +35,11 @@ export default function RootLayout({
   return (
     <ClientLayout>
       <Script
+        src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+        async
+        strategy="afterInteractive"
+      />
+      <Script
         defer
         src="https://umami.kamtech.online/script.js"
         data-website-id="ffe15763-97ed-4db8-88e3-7f3923a42ce2"
