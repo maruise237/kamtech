@@ -2,50 +2,55 @@
 
 import { motion } from "framer-motion"
 import { Star } from "lucide-react"
+import { useTranslation } from "@/lib/i18n-context"
 
 export function TestimonialsSection() {
+  const { t } = useTranslation()
   const testimonials = [
     {
       name: "Sophie Rivière",
-      role: "Fondatrice, Agence Immobilière Luxe",
+      role: t.language === "fr" ? "Fondatrice, Agence Immobilière Luxe" : "Founder, Luxury Real Estate Agency",
       company: "Rivière Immobilier",
-      sector: "Immobilier",
+      sector: t.language === "fr" ? "Immobilier" : "Real Estate",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-      quote:
-        "Avant KAMTECH, j'avais 15+ messages WhatsApp par jour sans réponses. Après 7 jours, mon chatbot répond instantanément et qualifie les prospects. J'ai fermé 4 ventes en 15 jours grâce aux prospects qualifiés.",
+      quote: t.language === "fr"
+        ? "Avant KAMTECH, j'avais 15+ messages WhatsApp par jour sans réponses. Après 7 jours, mon chatbot répond instantanément et qualifie les prospects. J'ai fermé 4 ventes en 15 jours grâce aux prospects qualifiés."
+        : "Before KAMTECH, I had 15+ WhatsApp messages per day without answers. After 7 days, my chatbot answers instantly and qualifies prospects. I closed 4 sales in 15 days thanks to qualified leads.",
       metrics: [
-        { label: "Réponses instantanées", value: "100%" },
-        { label: "Taux de qualification", value: "+72%" },
-        { label: "Temps économisé", value: "12h/semaine" },
+        { label: t.language === "fr" ? "Réponses instantanées" : "Instant answers", value: "100%" },
+        { label: t.language === "fr" ? "Taux de qualification" : "Qualification rate", value: "+72%" },
+        { label: t.language === "fr" ? "Temps économisé" : "Time saved", value: t.language === "fr" ? "12h/semaine" : "12h/week" },
       ],
       rating: 5,
     },
     {
       name: "Marc Durand",
-      role: "Gérant, Atelier Mécanique",
+      role: t.language === "fr" ? "Gérant, Atelier Mécanique" : "Manager, Mechanic Workshop",
       company: "Durand Auto Services",
-      sector: "Services Automobiles",
+      sector: t.language === "fr" ? "Services Automobiles" : "Automotive Services",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-      quote:
-        "Mon secrétaire pouvait enfin arrêter d'appeler des clients pour confirmer les rendez-vous. Le bot le fait seul. Les no-shows ont baissé de 40%. Et j'ai pu l'affecter à des tâches plus importantes.",
+      quote: t.language === "fr"
+        ? "Mon secrétaire pouvait enfin arrêter d'appeler des clients pour confirmer les rendez-vous. Le bot le fait seul. Les no-shows ont baissé de 40%. Et j'ai pu l'affecter à des tâches plus importantes."
+        : "My secretary could finally stop calling clients to confirm appointments. The bot does it alone. No-shows dropped by 40%. And I was able to assign him to more important tasks.",
       metrics: [
-        { label: "Confirmations automatiques", value: "85%" },
-        { label: "Réduction no-shows", value: "-40%" },
-        { label: "Économies", value: "€2,500/mois" },
+        { label: t.language === "fr" ? "Confirmations automatiques" : "Auto confirmations", value: "85%" },
+        { label: t.language === "fr" ? "Réduction no-shows" : "No-show reduction", value: "-40%" },
+        { label: t.language === "fr" ? "Économies" : "Savings", value: "€2,500/mo" },
       ],
       rating: 5,
     },
     {
       name: "Fatima Karim",
-      role: "Responsable ventes, Boutique Mode",
+      role: t.language === "fr" ? "Responsable ventes, Boutique Mode" : "Sales Manager, Fashion Boutique",
       company: "Étoile Mode Marrakech",
       sector: "E-commerce & Retail",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
-      quote:
-        "Notre taux de conversion a explosé. Le bot qualifie les clients automatiquement, les envoie à notre catalogue, et crée les commandes. On a augmenté les ventes de 58% en 3 mois. C'est incroyable.",
+      quote: t.language === "fr"
+        ? "Notre taux de conversion a explosé. Le bot qualifie les clients automatiquement, les envoie à notre catalogue, et crée les commandes. On a augmenté les ventes de 58% en 3 mois. C'est incroyable."
+        : "Our conversion rate exploded. The bot qualifies customers automatically, sends them to our catalog, and creates orders. We increased sales by 58% in 3 months. It's incredible.",
       metrics: [
-        { label: "Augmentation ventes", value: "+58%" },
-        { label: "Taux conversion", value: "+34%" },
+        { label: t.language === "fr" ? "Augmentation ventes" : "Sales increase", value: "+58%" },
+        { label: t.language === "fr" ? "Taux conversion" : "Conversion rate", value: "+34%" },
         { label: "Lead time", value: "-60%" },
       ],
       rating: 5,
@@ -66,7 +71,7 @@ export function TestimonialsSection() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">Résultats réels</p>
+            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.language === "fr" ? "Résultats réels" : "Real results"}</p>
           </motion.div>
 
           <motion.h2
@@ -77,7 +82,7 @@ export function TestimonialsSection() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Ce qu'en disent nos clients
+            {t.testimonials.title}
           </motion.h2>
           <motion.p
             className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-2"
@@ -86,7 +91,7 @@ export function TestimonialsSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Voici ce que nos clients disent vraiment sur KAMTECH IA.
+            {t.language === "fr" ? "Voici ce que nos clients disent vraiment sur KAMTECH IA." : "Here is what our clients really say about KAMTECH IA."}
           </motion.p>
         </div>
 
@@ -140,11 +145,17 @@ export function TestimonialsSection() {
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 px-2">Prêt à obtenir des résultats similaires ?</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 px-2">
+            {t.language === "fr" ? "Prêt à obtenir des résultats similaires ?" : "Ready to get similar results?"}
+          </h3>
           <p className="text-sm sm:text-base text-gray-300 mb-6 px-2">
-            Votre secteur est différent ? Pas de problème. KAMTECH IA s&apos;adapte à tous les secteurs. Parlons de votre situation.
+            {t.language === "fr" ? "Votre secteur est différent ? Pas de problème. KAMTECH IA s'adapte à tous les secteurs. Parlons de votre situation." : "Your sector is different? No problem. KAMTECH IA adapts to all sectors. Let's talk about your situation."}
           </p>
-          <p className="text-green-400 font-semibold text-sm sm:text-base px-2">Obtenir mon audit gratuit → 30 jours → Résultats mesurables ou remboursé.</p>
+          <p className="text-green-400 font-semibold text-sm sm:text-base px-2">
+            {t.language === "fr"
+              ? "Obtenir mon audit gratuit → 30 jours → Résultats mesurables ou remboursé."
+              : "Get my free audit → 30 days → Measurable results or refunded."}
+          </p>
         </motion.div>
       </div>
     </section>

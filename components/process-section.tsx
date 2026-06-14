@@ -4,35 +4,37 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Search, Settings, GraduationCap, TrendingUp } from 'lucide-react';
 import { BentoCard } from '@/components/ui/bento-card';
+import { useTranslation } from "@/lib/i18n-context"
 
 export function ProcessSection() {
+  const { t } = useTranslation()
   const steps = [
     {
       icon: <Search className="size-6" />,
-      title: "Obtenir mon audit gratuit",
-      description: "Analyse complète de vos opportunités d'automatisation. On identifie où vous perdez le plus de temps.",
-      metric: "Jour 1",
+      title: t.process.step1Title,
+      description: t.process.step1Desc,
+      metric: t.process.step1Metric,
       size: 'medium'
     },
     {
       icon: <Settings className="size-6" />,
-      title: "Configuration IA",
-      description: "Déploiement de votre chatbot et connexion à vos outils (CRM, Email, Sheets).",
-      metric: "Jours 2-3",
+      title: t.process.step2Title,
+      description: t.process.step2Desc,
+      metric: t.process.step2Metric,
       size: 'medium'
     },
     {
       icon: <GraduationCap className="size-6" />,
-      title: "Lancement & Formation",
-      description: "Mise en service et formation de votre équipe. Vous êtes autonomes dès le premier jour.",
-      metric: "Jour 4",
+      title: t.process.step3Title,
+      description: t.process.step3Desc,
+      metric: t.process.step3Metric,
       size: 'medium'
     },
     {
       icon: <TrendingUp className="size-6" />,
-      title: "Optimisation ROI",
-      description: "Suivi hebdomadaire et ajustements pour maximiser vos conversions en continu.",
-      metric: "Jours 5+",
+      title: t.process.step4Title,
+      description: t.process.step4Desc,
+      metric: t.process.step4Metric,
       size: 'medium'
     },
   ];
@@ -60,14 +62,20 @@ export function ProcessSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <p className="text-green-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">La solution en 7 jours</p>
+            <p className="text-green-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.process.badge}</p>
           </motion.div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
-            De l'audit à l'automatisation <span className="text-green-500">complète</span>
+            {t.process.title.split('complete').length > 1 ? (
+              <>{t.process.title.split('complete')[0]} <span className="text-green-500">complete</span></>
+            ) : t.process.title.split('complète').length > 1 ? (
+              <>{t.process.title.split('complète')[0]} <span className="text-green-500">complète</span></>
+            ) : (
+              t.process.title
+            )}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Un processus rapide, sans code et sans délai technique pour commencer à scaler immédiatement.
+            {t.process.subtitle}
           </p>
         </div>
 
@@ -97,9 +105,9 @@ export function ProcessSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="text-green-400 font-semibold mb-2">Zéro délai technique</p>
+          <p className="text-green-400 font-semibold mb-2">{t.process.footerTitle}</p>
           <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-            Vous n'avez besoin d'aucune compétence technique. Nous gérons l'intégralité du setup. Votre seule mission : accueillir vos nouveaux clients.
+            {t.process.footerDesc}
           </p>
         </motion.div>
       </div>

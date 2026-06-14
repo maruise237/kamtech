@@ -8,6 +8,7 @@ import { Label } from "./ui/label"
 import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react"
 import Cal, { getCalApi } from "@calcom/embed-react"
 import { useEffect } from "react"
+import { useTranslation } from "@/lib/i18n-context"
 
 type Step = 1 | 2 | 3
 
@@ -19,6 +20,7 @@ interface FormData {
 }
 
 export function AuditForm() {
+  const { t } = useTranslation()
   const [step, setStep] = useState<Step>(1)
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -73,13 +75,13 @@ export function AuditForm() {
             className="space-y-6"
           >
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-white mb-2">Commençons par les bases</h3>
-              <p className="text-gray-400">Pour qui allons-nous réaliser cet audit gratuit ?</p>
+              <h3 className="text-2xl font-bold text-white mb-2">{t.auditForm.step1Title}</h3>
+              <p className="text-gray-400">{t.auditForm.step1Subtitle}</p>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-gray-300">Prénom & Nom</Label>
+                <Label htmlFor="name" className="text-gray-300">{t.auditForm.labelName}</Label>
                 <Input
                   id="name"
                   placeholder="Jean Dupont"
@@ -90,7 +92,7 @@ export function AuditForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-300">Email professionnel</Label>
+                <Label htmlFor="email" className="text-gray-300">{t.auditForm.labelEmail}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -107,7 +109,7 @@ export function AuditForm() {
               disabled={!isStep1Valid}
               className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold mt-4"
             >
-              Continuer <ArrowRight className="ml-2 h-4 w-4" />
+              {t.auditForm.ctaContinue} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </motion.div>
         )}
@@ -121,13 +123,13 @@ export function AuditForm() {
             className="space-y-6"
           >
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-white mb-2">Votre contexte</h3>
-              <p className="text-gray-400">Pour nous permettre de préparer l'audit.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">{t.auditForm.step2Title}</h3>
+              <p className="text-gray-400">{t.auditForm.step2Subtitle}</p>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-3">
-                <Label className="text-gray-300">Taille de l'entreprise</Label>
+                <Label className="text-gray-300">{t.auditForm.labelCompanySize}</Label>
                 <div className="grid grid-cols-2 gap-3">
                   {["1-10", "11-50", "51-200", "200+"].map((size) => (
                     <div
@@ -146,13 +148,13 @@ export function AuditForm() {
               </div>
 
               <div className="space-y-3">
-                <Label className="text-gray-300">Principal besoin</Label>
+                <Label className="text-gray-300">{t.auditForm.labelNeed}</Label>
                 <div className="grid grid-cols-1 gap-2">
                   {[
-                    "Automatisation du support client",
-                    "Génération & qualification de leads",
-                    "Automatisation des prises de rendez-vous",
-                    "Autre"
+                    t.auditForm.need1,
+                    t.auditForm.need2,
+                    t.auditForm.need3,
+                    t.auditForm.need4
                   ].map((need) => (
                     <div
                       key={need}
@@ -188,7 +190,7 @@ export function AuditForm() {
                 disabled={!isStep2Valid}
                 className="flex-1 h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
               >
-                Voir les créneaux disponibles <ArrowRight className="ml-2 h-4 w-4" />
+                {t.auditForm.ctaSlots} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </motion.div>
@@ -204,9 +206,9 @@ export function AuditForm() {
             <div className="text-center mb-2">
               <h3 className="text-xl font-bold text-white mb-1 flex items-center justify-center gap-2">
                 <CheckCircle2 className="text-green-500 h-5 w-5" />
-                Super ! Plus qu'à choisir un horaire.
+                {t.auditForm.step3Title}
               </h3>
-              <p className="text-sm text-gray-400">Fuseau horaire détecté automatiquement.</p>
+              <p className="text-sm text-gray-400">{t.auditForm.step3Subtitle}</p>
             </div>
 
             <div className="w-full bg-white rounded-xl overflow-hidden min-h-[400px]">
@@ -228,7 +230,7 @@ export function AuditForm() {
               onClick={handlePrev}
               className="text-gray-400 hover:text-white w-full"
             >
-              <ArrowLeft className="mr-2 h-4 w-4" /> Retour
+              <ArrowLeft className="mr-2 h-4 w-4" /> {t.auditForm.ctaBack}
             </Button>
           </motion.div>
         )}

@@ -1,13 +1,17 @@
 export interface BlogPost {
   slug: string;
   title: string;
+  titleEn?: string;
   excerpt: string;
+  excerptEn?: string;
   date: string;
   author: string;
   category: string;
+  categoryEn?: string;
   readTime: string;
   image: string;
   content: string;
+  contentEn?: string;
   seoDescription: string;
 }
 
@@ -15,10 +19,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "ia-levier-croissance-pme-2026",
     title: "Pourquoi l'IA est le levier de croissance indispensable pour les PME en 2026",
+    titleEn: "Why AI is the indispensable growth lever for SMEs in 2026",
     excerpt: "Découvrez comment l'intelligence artificielle agentique redéfinit la compétitivité et la rentabilité des entreprises cette année.",
+    excerptEn: "Discover how agentic artificial intelligence is redefining business competitiveness and profitability this year.",
     date: "29 Mars 2026",
     author: "Kamtech IA Expert",
     category: "Stratégie",
+    categoryEn: "Strategy",
     readTime: "18 min",
     image: "/images/blog/pexels-mahmoudramadan-32624441.jpg",
     seoDescription: "Analyse stratégique de l'IA pour PME en 2026. Croissance, agents autonomes et ROI mesurable sur le long terme.",
@@ -49,21 +56,52 @@ export const blogPosts: BlogPost[] = [
       <p>En 2026, une PME peut démarrer avec un budget maîtrisé entre 200€ et 500€ par mois pour les licences d'outils et d'APIs, tout en générant des gains de productivité valant plusieurs milliers d'euros.</p>
 
       <p><strong>Conclusion :</strong> L'IA agentique est la clé pour libérer le potentiel humain. Chez KAMTECH IA, nous vous accompagnons pour que cette technologie devienne votre moteur de croissance.</p>
+    `,
+    contentEn: `
+      <h2>The Hour of Agentic AI: The Invisible Revolution of 2026</h2>
+      <p>In 2026, artificial intelligence is no longer a demonstration gadget. For SMEs, it has become the central nervous system of growth. We are no longer talking about simple chatbots, but agentic AI: systems capable of planning, acting, and correcting their own errors autonomously.</p>
+      <p>This article deciphers why AI integration has moved from a competitive advantage to an operational survival condition for companies with 10 to 250 employees.</p>
+
+      <h3>1. From Punctual Productivity to Sustainable Value</h3>
+      <p>Previously, AI was used to write an email or summarize text. Today, it steers entire processes. An SME integrating AI agents can now divide its processing times by 10 while increasing the precision of its outputs. The challenge is no longer just gaining time, but creating scalability that was once reserved for large groups.</p>
+
+      <h3>2. The Three Pillars of Growth through AI</h3>
+      <ul>
+        <li><strong>Predictive Demand Analysis:</strong> Stop suffering from your stocks. AI analyzes weak market signals to anticipate your purchasing needs.</li>
+        <li><strong>Marketing Hyper-personalization:</strong> Communicate with each prospect as if they were your only client, thanks to dynamic segmentation driven by data.</li>
+        <li><strong>Operational Excellence:</strong> Automate transverse workflows between your CRM, your accounting, and your customer support.</li>
+      </ul>
+
+      <h3>3. ROI Beyond Cost Reduction</h3>
+      <p>The return on investment of AI in 2026 is measured on four key axes:
+      liberated human time for strategy, increased conversion rate, drastic reduction in input errors, and, above all, the improvement of employee well-being who focus on rewarding tasks.</p>
+
+      <h3>FAQ: Frequently Asked Questions about AI in SMEs</h3>
+      <h4>Where to start if our SME has never automated?</h4>
+      <p>Start by mapping your recurring and time-consuming processes. Select a simple process, with high frequency and low decisional complexity. An AI diagnosis is often the first step to identify these "quick wins".</p>
+
+      <h4>What is the minimum budget to plan?</h4>
+      <p>In 2026, an SME can start with a controlled budget between 200€ and 500€ per month for tool and API licenses, while generating productivity gains worth several thousand euros.</p>
+
+      <p><strong>Conclusion:</strong> Agentic AI is the key to unleashing human potential. At KAMTECH IA, we accompany you so that this technology becomes your growth engine.</p>
     `
   },
   {
     slug: "stack-automatisation-moderne-pme",
     title: "Construire un stack d’automatisation moderne pour PME",
+    titleEn: "Building a modern automation stack for SMEs",
     excerpt: "Découvrez les briques, la gouvernance et la méthode pour bâtir un stack d’automatisation mesurable.",
+    excerptEn: "Discover the bricks, governance, and method to build a measurable automation stack.",
     date: "25 Mars 2026",
     author: "Kamtech IA Expert",
     category: "Stack Technique",
+    categoryEn: "Technical Stack",
     readTime: "22 min",
     image: "/images/blog/pexels-steve-28858124.jpg",
     seoDescription: "Guide complet pour bâtir un stack d'automatisation PME en 2026. Stratégie n8n, Make, IA et ROI opérationnel.",
     content: `
       <h2>L'architecture de l'efficacité numérique</h2>
-      <p>Les PME françaises consacrent entre 18 et 24 heures par semaine à des tâches répétitives. Automatiser, ce n'est plus seulement adopter un outil : c'est orchestrer un ensemble cohérent de briques technologiques, sécurisé et piloté par des indicateurs métier. Cet article vous guide dans la conception d'un stack performant.</p>
+      <p>Les PME consacrent entre 18 et 24 heures par semaine à des tâches répétitives. Automatiser, ce n'est plus seulement adopter un outil : c'est orchestrer un ensemble cohérent de briques technologiques, sécurisé et piloté par des indicateurs métier. Cet article vous guide dans la conception d'un stack performant.</p>
 
       <h3>Clarifier vos objectifs et votre maturité</h3>
       <p>Toute stratégie efficace commence par un diagnostic. Où se trouvent vos goulots d'étranglement ? Quels processus consomment le plus de temps pour un résultat standardisable ? Une organisation doit d'abord structurer ses données et cartographier ses workflows. Cette étape évite la sur-ingénierie et maximise le ROI.</p>
@@ -89,18 +127,53 @@ export const blogPosts: BlogPost[] = [
       <h4>Quelle différence entre un stack d'automatisation et un iPaaS seul ?</h4>
       <p>Un iPaaS est une brique d'orchestration. Un stack est un écosystème complet incluant collecte, stockage, monitoring et sécurité.</p>
       <h4>Faut-il un data warehouse pour une PME ?</h4>
-      <p>Non, une base Airtable bien structurée suffit pour 80% des usages PME avant de passer à des solutions plus lourdes.</p>
+      <p>No, une base Airtable bien structurée suffit pour 80% des usages PME avant de passer à des solutions plus lourdes.</p>
 
       <p><strong>Passer à l'action :</strong> Construisez pas à pas, validez chaque gain et faites évoluer votre stack avec vos ambitions.</p>
+    `,
+    contentEn: `
+      <h2>The Architecture of Digital Efficiency</h2>
+      <p>SMEs spend between 18 and 24 hours per week on repetitive tasks. Automating is no longer just adopting a tool: it's orchestrating a coherent set of technological bricks, secured and driven by business indicators. This article guides you in the design of a powerful stack.</p>
+
+      <h3>Clarify Your Goals and Maturity</h3>
+      <p>Any effective strategy starts with a diagnosis. Where are your bottlenecks? Which processes consume the most time for a standardized result? An organization must first structure its data and map its workflows. This step avoids over-engineering and maximizes ROI.</p>
+
+      <h3>Which Processes Offer the Strongest ROI?</h3>
+      <p>Prioritize high-frequency, low-decisional complexity processes: lead qualification, recurring billing, CRM synchronization. They show a visible ROI in less than three months.</p>
+
+      <h3>The Essential Bricks of a Modern Stack</h3>
+      <ul>
+        <li><strong>Collection:</strong> Valid forms (Tally, Typeform) connected via webhooks.</li>
+        <li><strong>Orchestration (iPaaS):</strong> The choice between Zapier (simplicity), Make (flexibility), or n8n (sovereignty).</li>
+        <li><strong>Database:</strong> Centralize your operational data in Airtable or Notion with a robust API.</li>
+        <li><strong>Monitoring:</strong> Monitor and log each execution to guarantee reliability.</li>
+      </ul>
+
+      <h3>Governance, Security, and Compliance</h3>
+      <p>Automation amplifies risks if not governed. Use a secrets manager (1Password), activate 2FA, and sign DPAs with your subcontractors to respect GDPR. Non-compliant automation exposes you to heavy sanctions.</p>
+
+      <h3>Integrating AI into the Stack</h3>
+      <p>Generative AI transforms automation by processing unstructured documents and customer sentiments. The challenge is strategic: identifying use cases (CRM enrichment, support responses) and mastering token costs.</p>
+
+      <h3>FAQ: Operational Questions</h3>
+      <h4>What's the difference between an automation stack and an iPaaS alone?</h4>
+      <p>An iPaaS is an orchestration brick. A stack is a complete ecosystem including collection, storage, monitoring, and security.</p>
+      <h4>Does an SME need a data warehouse?</h4>
+      <p>No, a well-structured Airtable base is enough for 80% of SME usages before moving to heavier solutions.</p>
+
+      <p><strong>Take Action:</strong> Build step by step, validate each gain, and evolve your stack with your ambitions.</p>
     `
   },
   {
     slug: "top-outils-ia-productivite-2026",
     title: "Top 5 des outils d'IA pour booster la productivité de vos équipes en 2026",
+    titleEn: "Top 5 AI tools to boost your teams' productivity in 2026",
     excerpt: "Notre sélection actualisée des briques indispensables pour transformer vos méthodes de travail dès aujourd'hui.",
+    excerptEn: "Our updated selection of indispensable bricks to transform your work methods today.",
     date: "20 Mars 2026",
     author: "Kamtech IA Expert",
     category: "Outils",
+    categoryEn: "Tools",
     readTime: "16 min",
     image: "/images/blog/pexels-steve-29404569.jpg",
     seoDescription: "Analyse des meilleurs outils d'IA pour PME en 2026 : productivité, automatisation agentique et analyse de données.",
@@ -133,125 +206,36 @@ export const blogPosts: BlogPost[] = [
       <p>Oui, 95% des logiciels SaaS modernes ont des connecteurs prêts à l'emploi avec Make ou Zapier.</p>
 
       <p><strong>Conseil KAMTECH :</strong> Ne multipliez pas les outils. Focus sur ceux qui résolvent vos 3 plus gros problèmes quotidiens.</p>
-    `
-  },
-  {
-    slug: "experience-client-ia-predictive",
-    title: "Expérience Client 2026 : Du Chatbot passif à l'Agent IA Prédictif",
-    excerpt: "Découvrez comment l'IA transforme votre support client en un levier de fidélisation et de vente proactive.",
-    date: "15 Mars 2026",
-    author: "Kamtech IA Expert",
-    category: "Relation Client",
-    readTime: "19 min",
-    image: "/images/blog/pexels-steve-29450016.jpg",
-    seoDescription: "Stratégie de service client avec l'IA en 2026. Agents prédictifs, personnalisation et support 24/7 pour les PME.",
-    content: `
-      <h2>L'excellence relationnelle à l'heure de l'IA</h2>
-      <p>En 2026, un mauvais service client est impardonnable. Les PME ont désormais accès aux mêmes technologies que les géants pour offrir un support instantané, précis et chaleureux. On passe d'un support qui "subit" à un support qui "anticipe".</p>
+    `,
+    contentEn: `
+      <h2>The Modern Enterprise Toolbox</h2>
+      <p>In 2026, the ideal tool is one that integrates. The time of isolated software is over. Leading SMEs now use an interconnected software stack where AI flows freely between departments.</p>
 
-      <h3>1. L'Agent IA : Votre premier rempart intelligent</h3>
-      <p>Les agents modernes comprennent l'intention et l'émotion. Ils traitent 80% des demandes de niveau 1 sans intervention humaine, tout en qualifiant parfaitement les dossiers complexes pour vos experts. Le client ne se sent plus "traité par un robot", mais écouté par un assistant efficace.</p>
+      <h3>1. Make & n8n: The Agentic Conductors</h3>
+      <p>These iPaaS platforms have mutated. They now allow creating "chains of thought" for your AI agents. For example, with each new lead, the system can search for the LinkedIn profile, analyze the company website, and prepare a strategic memo for your salesperson, all automatically.</p>
 
-      <h3>2. La puissance de l'IA Prédictive</h3>
-      <p>L'IA analyse le comportement de navigation et d'achat. Si un retard de livraison est détecté, l'IA peut proactivement envoyer un message d'excuse avec un geste commercial, avant même que le client ne s'en plaigne. C'est le secret de la fidélisation en 2026.</p>
+      <h3>2. Fireflies.ai: The End of Meeting Minutes</h3>
+      <p>This assistant transcribes, summarizes, and extracts "action items" from each call. In 2026, AI is capable of identifying if a promise was made to a customer and automatically creating the corresponding task in your project manager.</p>
 
-      <h3>3. Personnalisation dynamique du parcours</h3>
-      <p>Chaque interaction alimente la connaissance client. L'IA adapte ses réponses en fonction de l'historique complet de l'utilisateur, créant un sentiment de proximité unique malgré l'automatisation.</p>
+      <h3>3. ChatGPT Enterprise & Claude for Business</h3>
+      <p>Professional versions guarantee that your data is not used for training. They serve as a "second brain" for writing, code generation, or analyzing large PDF files in seconds.</p>
 
-      <h3>Facteurs de succès</h3>
-      <ul>
-        <li><strong>Vitesse :</strong> Réponse en moins de 30 secondes, 24h/24.</li>
-        <li><strong>Qualité :</strong> Une base de connaissances (RAG) à jour et vérifiée.</li>
-        <li><strong>Escalade :</strong> Un passage fluide de l'IA vers l'humain en cas de frustration détectée.</li>
-      </ul>
+      <h3>4. Perplexity Pro for Real-Time Research</h3>
+      <p>Replace unsuccessful Google searches with structured and sourced answers. It's the indispensable tool for precision competitive and technical monitoring.</p>
 
-      <h3>FAQ Relation Client</h3>
-      <h4>Est-ce que mes clients ne vont pas regretter le contact humain ?</h4>
-      <p>Au contraire. En automatisant le simple, vous libérez vos agents humains pour passer plus de temps de qualité sur les cas complexes et émotionnels.</p>
-      <h4>Peut-on automatiser le support sur WhatsApp et Facebook ?</h4>
-      <p>Absolument. Les stacks modernes permettent de centraliser tous les canaux de messagerie en un seul flux automatisé par l'IA.</p>
+      <h3>5. Jasper & SurferSEO: Data-Driven Marketing</h3>
+      <p>Generate content that pleases your customers as much as search algorithms, with an optimized length and structure for 2026 SEO.</p>
 
-      <p><strong>Transformez votre support dès aujourd'hui :</strong> Le service client de demain est déjà là.</p>
-    `
-  },
-  {
-    slug: "securite-gouvernance-ia-pme",
-    title: "Sécurité et Gouvernance IA : Guide de survie pour les dirigeants en 2026",
-    excerpt: "Tout ce qu'un décideur doit savoir pour adopter l'IA sans risquer ses données ou sa conformité légale.",
-    date: "10 Mars 2026",
-    author: "Kamtech IA Expert",
-    category: "Securité",
-    readTime: "20 min",
-    image: "/images/blog/pexels-steve-29506603.jpg",
-    seoDescription: "Gouvernance et sécurité de l'IA pour PME. Respect de l'AI Act, protection des secrets industriels et cybersécurité en 2026.",
-    content: `
-      <h2>L'IA en toute confiance : Un enjeu de direction</h2>
-      <p>L'enthousiasme pour l'IA ne doit pas occulter les risques. Une fuite de données ou une recommandation erronée peut coûter cher. En 2026, la sécurité de l'IA est un pilier de la cybersécurité globale de l'entreprise.</p>
+      <h3>How to Choose Your Tool?</h3>
+      <p>Evaluate three criteria: interoperability (API presence), ease of use for your teams, and data sovereignty (server location).</p>
 
-      <h3>1. Comprendre l'AI Act Européen de 2026</h3>
-      <p>Le cadre légal s'est durci. Chaque PME doit classer ses systèmes d'IA selon leur niveau de risque et garantir la transparence des données utilisées. La conformité n'est plus optionnelle, elle est documentée.</p>
+      <h3>Tools FAQ</h3>
+      <h4>Is it complicated to set up?</h4>
+      <p>Most of these tools are "Low-Code". A few days of training allow a motivated employee to become autonomous on basic setup.</p>
+      <h4>Can we link these tools to our current software?</h4>
+      <p>Yes, 95% of modern SaaS software have ready-to-use connectors with Make or Zapier.</p>
 
-      <h3>2. Protection des secrets industriels</h3>
-      <p>L'erreur classique est d'envoyer des documents confidentiels vers des versions gratuites d'outils grand public. Nous recommandons l'utilisation de modèles privés ou d'environnements "Enterprise" où vos données sont isolées et ne servent pas à l'entraînement des modèles globaux.</p>
-
-      <h3>3. La méthode du "Human-in-the-loop"</h3>
-      <p>Gardez toujours un humain dans la boucle pour les décisions critiques (RH, Finance, Juridique). L'IA propose, le dirigeant valide. Cette gouvernance protège votre responsabilité juridique et morale.</p>
-
-      <h3>Checklist de sécurité IA</h3>
-      <ul>
-        <li><strong>Gestion des accès :</strong> Qui peut lancer des automatisations IA ?</li>
-        <li><strong>Audit des logs :</strong> Traçabilité de chaque décision prise par un agent.</li>
-        <li><strong>Qualité des Data :</strong> Vérifiez la source de vos données d'alimentation (RAG).</li>
-      </ul>
-
-      <h3>FAQ Sécurité</h3>
-      <h4>Comment protéger nos données clients en utilisant l'IA ?</h4>
-      <p>Utilisez des API professionnelles avec des contrats de confidentialité stricts (DPA) et activez l'anonymisation des données sensibles avant traitement.</p>
-      <h4>Qu’est-ce qu’on peut automatiser sans risque ?</h4>
-      <p>Toutes les tâches administratives, marketing et opérationnelles de bas niveau ne présentant pas d'enjeu vital ou de données ultra-sensibles.</p>
-
-      <p><strong>L'expertise Sécurité KAMTECH :</strong> Nous construisons des coffres-forts numériques augmentés par l'IA.</p>
-    `
-  },
-  {
-    slug: "etude-de-cas-pme-logistique-ia",
-    title: "Étude de cas : Transformation Agentique d'une PME logistique en 6 mois",
-    excerpt: "Analyse concrète d'une réduction de coûts de 30% et d'une explosion de la productivité opérationnelle.",
-    date: "05 Mars 2026",
-    author: "Kamtech IA Expert",
-    category: "Réussite",
-    readTime: "25 min",
-    image: "/images/blog/pexels-steve-30066061.jpg",
-    seoDescription: "Case study ROI IA PME 2026. Comment économiser 30% sur les coûts opérationnels grâce à l'automatisation agentique.",
-    content: `
-      <h2>Le Défi : Briser le plafond de verre administratif</h2>
-      <p>Une PME de logistique avec 50 salariés stagnait à cause d'une surcharge administrative massive. Chaque commande nécessitait 15 minutes de saisie manuelle et de vérification. La croissance était bloquée par le manque de bras, pas par manque de clients.</p>
-
-      <h3>La Solution KAMTECH IA</h3>
-      <p>Nous avons déployé un "Stack d'Automatisation Agentique" en trois phases :</p>
-      <ul>
-        <li><strong>Phase 1 : Capture intelligente.</strong> Extraction automatique des données des bons de commande (PDF, images) vers l'ERP via IA.</li>
-        <li><strong>Phase 2 : Orchestration.</strong> Connexion des flux logistiques avec le support client pour des alertes proactives de livraison.</li>
-        <li><strong>Phase 3 : Analyse.</strong> Pilotage de la rentabilité par tournée grâce à l'IA prédictive.</li>
-      </ul>
-
-      <h3>Des résultats spectaculaires et mesurés</h3>
-      <ul>
-        <li><strong>Temps de saisie :</strong> Passé de 15 min à 30 secondes par commande.</li>
-        <li><strong>Réduction des coûts :</strong> Diminution de 30% des frais opérationnels administratifs dès le 5ème mois.</li>
-        <li><strong>Qualité :</strong> Disparition totale des erreurs de saisie manuelle.</li>
-      </ul>
-
-      <h3>Leçon clé : L'humain au coeur</h3>
-      <p>Le succès critique a été l'adhésion de l'équipe comptable. En leur expliquant que l'IA allait supprimer leurs tâches ingrates, ils sont devenus les architectes de leur propre outil d'automatisation.</p>
-
-      <h3>FAQ Cas Client</h3>
-      <h4>Est-ce que ça va vraiment me faire gagner du temps ?</h4>
-      <p>Dans ce cas précis, l'entreprise a économisé l'équivalent de 3 postes administratifs à temps plein, réaffectés au développement commercial.</p>
-      <h4>Combien de temps avant de voir les premiers résultats ?</h4>
-      <p>Le gain de temps a été immédiat dès la mise en service du premier workflow automatisé (semaine 3).</p>
-
-      <p><strong>C'est votre tour :</strong> Votre entreprise possède un potentiel d'optimisation similaire. Contactez-nous pour votre diagnostic.</p>
+      <p><strong>KAMTECH Tip:</strong> Don't multiply tools. Focus on those that solve your 3 biggest daily problems.</p>
     `
   }
 ];

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, MessageCircleQuestion } from "lucide-react"
+import { useTranslation } from "@/lib/i18n-context"
 
 interface Objection {
   question: string;
@@ -14,6 +15,7 @@ interface ObjectionHandlingProps {
 }
 
 export function ObjectionHandling({ objections }: ObjectionHandlingProps) {
+  const { t } = useTranslation()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
@@ -22,10 +24,16 @@ export function ObjectionHandling({ objections }: ObjectionHandlingProps) {
         <div className="text-center mb-16">
           <MessageCircleQuestion className="w-12 h-12 text-blue-500 mx-auto mb-6" />
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Vous avez des doutes ? <span className="text-blue-500">C'est normal.</span>
+            {t.segments.doubtsTitle.split('normal').length > 1 ? (
+              <>{t.segments.doubtsTitle.split('normal')[0]} <span className="text-blue-500">normal.</span></>
+            ) : t.segments.doubtsTitle.split('normal.').length > 1 ? (
+               <>{t.segments.doubtsTitle.split('normal.')[0]} <span className="text-blue-500">normal.</span></>
+            ) : (
+              t.segments.doubtsTitle
+            )}
           </h2>
           <p className="text-lg text-gray-400">
-            Voici les questions les plus fréquentes que se posent nos clients avant de se lancer.
+            {t.segments.doubtsSubtitle}
           </p>
         </div>
 

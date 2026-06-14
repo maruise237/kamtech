@@ -8,13 +8,15 @@ import { Calendar, Clock, ChevronLeft, User, Share2, ArrowRight, Twitter, Linked
 import { blogPosts } from "@/lib/blog-data";
 import { Header } from "@/components/header";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n-context"
 
 export default function BlogPostClient({ slug }: { slug: string }) {
+  const { t, language } = useTranslation()
   const post = blogPosts.find((p) => p.slug === slug);
 
   const handleShare = (platform: string) => {
     const url = window.location.href;
-    const text = post?.title || "";
+    const text = (language === "fr" ? post?.title : post?.titleEn) || post?.title || "";
 
     switch (platform) {
       case "twitter":
@@ -31,7 +33,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
         break;
       case "copy":
         navigator.clipboard.writeText(url);
-        toast.success("Lien de l'article copié !");
+        toast.success(t.blog.linkCopied);
         break;
     }
   };
@@ -40,8 +42,8 @@ export default function BlogPostClient({ slug }: { slug: string }) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Article non trouvé</h1>
-          <Link href="/blog" className="text-blue-500 hover:underline">Retour au blog</Link>
+          <h1 className="text-4xl font-bold mb-4">{t.blog.articleNotFound}</h1>
+          <Link href="/blog" className="text-blue-500 hover:underline">{t.blog.backToBlog}</Link>
         </div>
       </div>
     );
@@ -50,6 +52,11 @@ export default function BlogPostClient({ slug }: { slug: string }) {
   const relatedPosts = blogPosts
     .filter((p) => p.slug !== post.slug)
     .slice(0, 2);
+
+  const title = language === "fr" ? post.title : (post.titleEn || post.title)
+  const category = language === "fr" ? post.category : (post.categoryEn || post.category)
+  const content = language === "fr" ? post.content : (post.contentEn || post.content)
+  const excerpt = language === "fr" ? post.excerpt : (post.excerptEn || post.excerpt)
 
   return (
     <main className="min-h-screen bg-black text-white selection:bg-blue-500/30">
@@ -71,7 +78,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
             className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors mb-8 group"
           >
             <ChevronLeft className="w-5 h-5 mr-1 group-hover:-translate-x-1 transition-transform" />
-            Retour au blog
+            {t.blog.backToBlog}
           </Link>
 
           <motion.div
@@ -79,10 +86,10 @@ export default function BlogPostClient({ slug }: { slug: string }) {
             animate={{ opacity: 1, y: 0 }}
           >
             <span className="px-4 py-1.5 bg-blue-600/20 text-blue-400 border border-blue-500/30 rounded-full text-xs font-bold tracking-wider uppercase mb-6 inline-block">
-              {post.category}
+              {category}
             </span>
             <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-8 leading-tight">
-              {post.title}
+              {title}
             </h1>
 
             <div className="flex flex-wrap items-center gap-6 text-sm text-blue-100/40 mb-12 pb-12 border-b border-white/10">
@@ -98,7 +105,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
               </div>
               <div className="flex items-center">
                 <Clock className="w-4 h-4 mr-2" />
-                {post.readTime} de lecture
+                {post.readTime} {t.blog.readTime}
               </div>
             </div>
           </motion.div>
@@ -113,7 +120,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
           >
             <Image
               src={post.image}
-              alt={post.title}
+              alt={title}
               fill
               className="object-cover"
               priority
@@ -131,45 +138,45 @@ export default function BlogPostClient({ slug }: { slug: string }) {
               prose-li:text-blue-100/70 prose-li:text-lg
               prose-strong:text-white prose-strong:font-bold
               prose-ul:my-8 prose-ul:list-disc prose-ul:pl-6"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: content }}
           />
 
           {/* Share Section */}
           <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-              <span className="text-sm text-blue-100/40 font-medium tracking-wider uppercase whitespace-nowrap">Partager l'article</span>
+              <span className="text-sm text-blue-100/40 font-medium tracking-wider uppercase whitespace-nowrap">{t.blog.shareArticle}</span>
               <div className="flex flex-wrap justify-center gap-3 sm:gap-2">
                 <button
                   onClick={() => handleShare("twitter")}
-                  title="Partager sur X"
+                  title={t.blog.shareX}
                   className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-400/20 hover:border-blue-400/30 transition-all text-blue-400"
                 >
                   <Twitter className="w-5 h-5 sm:w-4 sm:h-4" />
                 </button>
                 <button
                   onClick={() => handleShare("linkedin")}
-                  title="Partager sur LinkedIn"
+                  title={t.blog.shareLinkedIn}
                   className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600/20 hover:border-blue-600/30 transition-all text-blue-600"
                 >
                   <Linkedin className="w-5 h-5 sm:w-4 sm:h-4" />
                 </button>
                 <button
                   onClick={() => handleShare("facebook")}
-                  title="Partager sur Facebook"
+                  title={t.blog.shareFacebook}
                   className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-800/20 hover:border-blue-800/30 transition-all text-blue-800"
                 >
                   <Facebook className="w-5 h-5 sm:w-4 sm:h-4" />
                 </button>
                 <button
                   onClick={() => handleShare("whatsapp")}
-                  title="Partager sur WhatsApp"
+                  title={t.blog.shareWhatsApp}
                   className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-500/20 hover:border-emerald-500/30 transition-all text-emerald-500"
                 >
                   <MessageCircle className="w-5 h-5 sm:w-4 sm:h-4" />
                 </button>
                 <button
                   onClick={() => handleShare("copy")}
-                  title="Copier le lien"
+                  title={t.blog.copyLink}
                   className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all text-white/50"
                 >
                   <Link2 className="w-5 h-5 sm:w-4 sm:h-4" />
@@ -181,7 +188,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
 
         {/* Related Posts */}
         <div className="max-w-5xl mx-auto px-6 mt-32">
-          <h2 className="text-3xl font-playfair font-bold mb-12">Articles similaires</h2>
+          <h2 className="text-3xl font-playfair font-bold mb-12">{t.blog.relatedArticles}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {relatedPosts.map((relatedPost) => (
               <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`} className="group">
@@ -189,17 +196,17 @@ export default function BlogPostClient({ slug }: { slug: string }) {
                   <div className="relative w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden">
                     <Image
                       src={relatedPost.image}
-                      alt={relatedPost.title}
+                      alt={language === "fr" ? relatedPost.title : (relatedPost.titleEn || relatedPost.title)}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                   <div>
                     <span className="text-[10px] font-bold tracking-widest text-blue-500 uppercase mb-2 block">
-                      {relatedPost.category}
+                      {language === "fr" ? relatedPost.category : (relatedPost.categoryEn || relatedPost.category)}
                     </span>
                     <h3 className="text-lg font-bold group-hover:text-blue-400 transition-colors line-clamp-2">
-                      {relatedPost.title}
+                      {language === "fr" ? relatedPost.title : (relatedPost.titleEn || relatedPost.title)}
                     </h3>
                   </div>
                 </div>
@@ -213,14 +220,14 @@ export default function BlogPostClient({ slug }: { slug: string }) {
       <section className="py-24 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <div className="inline-block p-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold mb-6">
-            PRÊT À PASSER À L'IA ?
+            {t.blog.readyToStart}
           </div>
-          <h2 className="text-4xl font-playfair font-bold mb-8">Transformons ensemble votre entreprise</h2>
+          <h2 className="text-4xl font-playfair font-bold mb-8">{t.blog.transformTogether}</h2>
           <Link
             href="/#contact"
             className="inline-flex items-center px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-blue-500 hover:text-white transition-all group"
           >
-            Démarrer un audit gratuit
+            {t.blog.startAudit}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

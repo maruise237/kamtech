@@ -4,11 +4,19 @@ import { useState, useEffect, useCallback } from "react"
 import { LeLoLogo } from "./lelo-logo"
 import { Button } from "./ui/button"
 import { openWhatsAppChat } from "@/lib/whatsapp"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { useRef } from "react"
+import { useTranslation } from "@/lib/i18n-context"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export function Header() {
+  const { t, language, setLanguage } = useTranslation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -38,10 +46,10 @@ export function Header() {
   }, [lastScrollY])
 
   const navLinks = [
-    { name: "Services", href: "/#features" },
-    { name: "Blog", href: "/blog" },
-    { name: "FAQ", href: "/#faq" },
-    { name: "Contact", href: "/#contact" },
+    { name: t.header.services, href: "/#features" },
+    { name: t.header.blog, href: "/blog" },
+    { name: t.header.faq, href: "/#faq" },
+    { name: t.header.contact, href: "/#contact" },
   ]
 
   return (
@@ -75,6 +83,24 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3 flex-shrink-0">
+            {/* Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-9 px-2 text-white hover:bg-white/10 rounded-xl">
+                  {language === "fr" ? "🇫🇷" : "🇬🇧"}
+                  <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-background/95 backdrop-blur-xl border-white/10 rounded-xl">
+                <DropdownMenuItem onClick={() => setLanguage("fr")} className="cursor-pointer hover:bg-white/10 focus:bg-white/10 rounded-lg">
+                  <span className="mr-2">🇫🇷</span> Français
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage("en")} className="cursor-pointer hover:bg-white/10 focus:bg-white/10 rounded-lg">
+                  <span className="mr-2">🇬🇧</span> English
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Button
               data-cal-namespace="15min"
               data-cal-link="kamtech/15min"
@@ -82,14 +108,14 @@ export function Header() {
               size="sm"
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-semibold h-9 px-4 sm:px-6"
             >
-              Obtenir mon audit gratuit
+              {t.header.getAudit}
             </Button>
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-3 m-1 text-foreground/70 hover:text-foreground transition-colors rounded-xl bg-white/5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 active:scale-95 touch-manipulation"
               aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-label={isMobileMenuOpen ? t.header.closeMenu : t.header.openMenu}
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -139,17 +165,17 @@ export function Header() {
                       className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl w-full"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Réserver un audit
+                      {t.header.bookAudit}
                     </Button>
                     <Button
                       variant="outline"
                       className="border-white/20 text-white hover:bg-white/5 rounded-xl w-full"
                       onClick={() => {
-                        openWhatsAppChat("parlerExpert")
+                        openWhatsAppChat("parlerExpert", language)
                         setIsMobileMenuOpen(false)
                       }}
                     >
-                      Parler à un expert
+                      {t.header.talkExpert}
                     </Button>
                   </div>
                 </nav>
