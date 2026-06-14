@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
+import { useTranslation } from "@/lib/i18n-context"
 
 export function ExitIntentPopup() {
+  const { t } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
   const [hasTriggered, setHasTriggered] = useState(false)
 
@@ -53,16 +55,16 @@ export function ExitIntentPopup() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                 </span>
                 <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">
-                  Attendez ! Ne partez pas les mains vides
+                  {t.exitIntent.badge}
                 </p>
               </div>
 
               <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight" style={{ fontFamily: "var(--font-playfair)" }}>
-                Vous perdez 20 heures par semaine ?
+                {t.exitIntent.title}
               </h3>
 
               <p className="text-gray-300 text-base mb-8 max-w-md">
-                Laissez-nous vous montrer comment un chatbot IA peut automatiser vos ventes et votre support. Sans engagement.
+                {t.exitIntent.desc}
               </p>
 
               <button
@@ -72,11 +74,11 @@ export function ExitIntentPopup() {
                 onClick={() => setIsVisible(false)} // Close the popup when opening cal.com modal
                 className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-base font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 group"
               >
-                Recevoir mon plan personnalisé
+                {t.exitIntent.cta}
               </button>
 
               <p className="mt-4 text-sm text-[#E2E8F0]">
-                15 minutes. 100% gratuit. Déployable en 7 jours.
+                {t.exitIntent.footer}
               </p>
             </div>
           </motion.div>

@@ -6,49 +6,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { motion } from 'framer-motion';
 import { Quote, TrendingUp, Clock, Zap } from 'lucide-react';
-
-const kamtechTestimonials = [
-  {
-    text: "Depuis l'intégration, l'IA répond à 85% de nos requêtes clients sans intervention humaine. Nous avons économisé plus de 15h par semaine.",
-    metric: "-15h/semaine",
-    imageSrc: 'https://i.pravatar.cc/150?u=1',
-    name: 'Jean-Christophe P.',
-    username: '@jcp_immo',
-    role: 'Dirigeant Agence Immobilière',
-  },
-  {
-    text: "Notre taux de conversion sur WhatsApp a bondi de 35% en seulement 2 semaines. L'IA qualifie parfaitement les prospects avant la vente.",
-    metric: "+35% de conversion",
-    imageSrc: 'https://i.pravatar.cc/150?u=2',
-    name: 'Sophie L.',
-    username: '@sophie_market',
-    role: 'CEO E-commerce',
-  },
-  {
-    text: "L'automatisation nous a permis de traiter 3 fois plus de leads entrants sans embaucher de commercial supplémentaire. C'est magique.",
-    metric: "x3 Leads traités",
-    imageSrc: 'https://i.pravatar.cc/150?u=3',
-    name: 'Marc-Antoine G.',
-    username: '@mag_conseil',
-    role: 'Consultant Business',
-  },
-  {
-    text: "Temps de réponse passé de 4h à 5 secondes. Nos clients sont bluffés par la rapidité et la pertinence des réponses.",
-    metric: "Réponse en 5s",
-    imageSrc: 'https://i.pravatar.cc/150?u=4',
-    name: 'Amélie D.',
-    username: '@amelie_tech',
-    role: 'Responsable Opérations',
-  },
-  {
-    text: "Kamtech a divisé nos coûts de support par 2 tout en augmentant la satisfaction client. Un investissement rentabilisé en 10 jours.",
-    metric: "-50% coûts support",
-    imageSrc: 'https://i.pravatar.cc/150?u=5',
-    name: 'Thomas R.',
-    username: '@tom_startup',
-    role: 'Fondateur SaaS',
-  },
-];
+import { useTranslation } from "@/lib/i18n-context"
 
 interface TestimonialProps {
   testimonials?: {
@@ -66,12 +24,61 @@ interface TestimonialProps {
 }
 
 export default function TestimonialsCarousel({
-  testimonials = kamtechTestimonials,
-  title = "Ce que disent nos clients",
-  subtitle = "De l'automatisation WhatsApp à l'IA conversationnelle, ils ont trouvé le moteur de croissance qu'il leur manquait.",
+  testimonials,
+  title,
+  subtitle,
   autoplaySpeed = 4000,
   className,
 }: TestimonialProps) {
+  const { t } = useTranslation()
+
+  const kamtechTestimonials = [
+    {
+      text: t.faq.q1.includes("résultats") || t.faq.q1.includes("results") ? (t.language === "fr" ? "Depuis l'intégration, l'IA répond à 85% de nos requêtes clients sans intervention humaine. Nous avons économisé plus de 15h par semaine." : "Since integration, AI handles 85% of our customer requests without human intervention. We saved over 15h per week.") : "",
+      metric: "-15h/semaine",
+      imageSrc: 'https://i.pravatar.cc/150?u=1',
+      name: 'Jean-Christophe P.',
+      username: '@jcp_immo',
+      role: t.language === "fr" ? 'Dirigeant Agence Immobilière' : 'Real Estate Agency Manager',
+    },
+    {
+      text: t.language === "fr" ? "Notre taux de conversion sur WhatsApp a bondi de 35% en seulement 2 semaines. L'IA qualifie parfaitement les prospects avant la vente." : "Our WhatsApp conversion rate jumped 35% in just 2 weeks. AI perfectly qualifies leads before the sale.",
+      metric: "+35% de conversion",
+      imageSrc: 'https://i.pravatar.cc/150?u=2',
+      name: 'Sophie L.',
+      username: '@sophie_market',
+      role: 'CEO E-commerce',
+    },
+    {
+      text: t.language === "fr" ? "L'automatisation nous a permis de traiter 3 fois plus de leads entrants sans embaucher de commercial supplémentaire. C'est magique." : "Automation allowed us to handle 3 times more incoming leads without hiring additional sales staff. It's magic.",
+      metric: "x3 Leads traités",
+      imageSrc: 'https://i.pravatar.cc/150?u=3',
+      name: 'Marc-Antoine G.',
+      username: '@mag_conseil',
+      role: t.language === "fr" ? 'Consultant Business' : 'Business Consultant',
+    },
+    {
+      text: t.language === "fr" ? "Temps de réponse passé de 4h à 5 secondes. Nos clients sont bluffés par la rapidité et la pertinence des réponses." : "Response time went from 4h to 5 seconds. Our customers are amazed by the speed and relevance of the answers.",
+      metric: "Réponse en 5s",
+      imageSrc: 'https://i.pravatar.cc/150?u=4',
+      name: 'Amélie D.',
+      username: '@amelie_tech',
+      role: t.language === "fr" ? 'Responsable Opérations' : 'Operations Manager',
+    },
+    {
+      text: t.language === "fr" ? "Kamtech a divisé nos coûts de support par 2 tout en augmentant la satisfaction client. Un investissement rentabilisé en 10 jours." : "Kamtech cut our support costs in half while increasing customer satisfaction. Investment paid off in 10 days.",
+      metric: "-50% coûts support",
+      imageSrc: 'https://i.pravatar.cc/150?u=5',
+      name: 'Thomas R.',
+      username: '@tom_startup',
+      role: t.language === "fr" ? 'Fondateur SaaS' : 'SaaS Founder',
+    },
+  ];
+
+  const displayTestimonials = testimonials || kamtechTestimonials;
+  const displayTitle = title || t.testimonials.title;
+  const displaySubtitle = subtitle || t.testimonials.subtitle;
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'center',
@@ -91,7 +98,7 @@ export default function TestimonialsCarousel({
     };
   }, [emblaApi, autoplaySpeed]);
 
-  const allTestimonials = [...testimonials, ...testimonials];
+  const allTestimonials = [...displayTestimonials, ...displayTestimonials];
 
   return (
     <section
@@ -113,11 +120,17 @@ export default function TestimonialsCarousel({
           className="relative mb-12 text-center md:mb-16"
         >
           <div className="mb-4 sm:mb-6 inline-block px-3 sm:px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full">
-            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">Ils ont franchi le pas</p>
+            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.testimonials.badge}</p>
           </div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
-            Des résultats <span className="text-blue-500">mesurables</span>
+            {displayTitle.split('mesurables').length > 1 ? (
+              <>{displayTitle.split('mesurables')[0]} <span className="text-blue-500">mesurables</span></>
+            ) : displayTitle.split('Measurable').length > 1 ? (
+              <><span className="text-blue-500">Measurable</span> {displayTitle.split('Measurable')[1]}</>
+            ) : (
+              displayTitle
+            )}
           </h2>
 
           <motion.p
@@ -127,7 +140,7 @@ export default function TestimonialsCarousel({
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Ne nous croyez pas sur parole. Regardez les chiffres.
+            {displaySubtitle}
           </motion.p>
         </motion.div>
 
@@ -141,11 +154,11 @@ export default function TestimonialsCarousel({
           >
             <div className="flex-1 space-y-4">
               <div className="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold uppercase tracking-wide">
-                Étude de Cas : Agence Immobilière
+                {t.testimonials.caseStudyBadge}
               </div>
-              <h3 className="text-2xl font-bold text-white">Comment ils ont sauvé 60 heures par mois</h3>
+              <h3 className="text-2xl font-bold text-white">{t.testimonials.caseStudyTitle}</h3>
               <p className="text-[#E2E8F0] text-sm sm:text-base">
-                "Avant KAMTECH, nos agents passaient leurs soirées à répondre aux mêmes questions sur les biens (prix, surface, dispo). Maintenant, le Chatbot qualifie, envoie la brochure, et prend le RDV pour les visites."
+                "{t.testimonials.caseStudyQuote}"
               </p>
               <div className="pt-4 flex items-center gap-4">
                 <Avatar className="h-12 w-12 border-2 border-blue-500/50">
@@ -153,8 +166,8 @@ export default function TestimonialsCarousel({
                   <AvatarFallback>LD</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-white font-bold">Laurent D.</p>
-                  <p className="text-blue-400 text-sm">Directeur d'Agence</p>
+                  <p className="text-white font-bold">{t.testimonials.caseStudyAuthor}</p>
+                  <p className="text-blue-400 text-sm">{t.testimonials.caseStudyRole}</p>
                 </div>
               </div>
             </div>
@@ -163,12 +176,12 @@ export default function TestimonialsCarousel({
               <div className="bg-black/50 border border-gray-800 rounded-xl p-4 text-center">
                 <Clock className="w-6 h-6 text-blue-400 mx-auto mb-2" />
                 <p className="text-2xl font-black text-white">-60h</p>
-                <p className="text-xs text-[#E2E8F0]">Temps gagné / mois</p>
+                <p className="text-xs text-[#E2E8F0]">{t.testimonials.metric1Label}</p>
               </div>
               <div className="bg-black/50 border border-gray-800 rounded-xl p-4 text-center">
                 <TrendingUp className="w-6 h-6 text-green-400 mx-auto mb-2" />
                 <p className="text-2xl font-black text-white">+42%</p>
-                <p className="text-xs text-[#E2E8F0]">De RDV visites</p>
+                <p className="text-xs text-[#E2E8F0]">{t.testimonials.metric2Label}</p>
               </div>
             </div>
           </motion.div>
@@ -252,7 +265,7 @@ export default function TestimonialsCarousel({
             data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-base font-semibold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center gap-2 group"
           >
-            Obtenir mon audit gratuit
+            {t.testimonials.cta}
           </button>
         </motion.div>
       </div>

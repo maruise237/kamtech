@@ -1,34 +1,27 @@
-// Utility for WhatsApp integration with personalized messages for different sections
-export const WHATSAPP_PHONE = "237658992588" // Cameroon number format
+export const WHATSAPP_PHONE = "237658992588"
 
-// Messages organized by section and action type
 export const whatsappMessages = {
-  // Hero Section
-  auditGratuit: "Bonjour, je veux réserver mon audit gratuit KAMTECH IA pour voir comment automatiser mon activité. Merci!",
-  parlerExpert: "Bonjour, je voudrais parler à un expert de KAMTECH IA maintenant pour discuter de mon projet.",
-  
-  // Header
-  headerAudit: "Bonjour, je suis intéressé par l'audit gratuit KAMTECH IA. Pouvez-vous m'en dire plus?",
-  
-  // CTA Final Section
-  placesLimitees: "Bonjour, je veux réserver une des 5 places limitées pour cet audit gratuit cette semaine!",
-  contactDirect: "Bonjour, je voudrais vous contacter directement pour discuter de mes besoins en automatisation IA.",
-  
-  // General inquiries
-  demandeGeneral: "Bonjour, je voudrais en savoir plus sur KAMTECH IA et vos services d'automatisation.",
-} as const
-
-export type WhatsAppMessageKey = keyof typeof whatsappMessages
-
-export function getWhatsAppLink(messageKey: WhatsAppMessageKey): string {
-  const message = whatsappMessages[messageKey]
-  const encodedMessage = encodeURIComponent(message)
-  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`
+  fr: {
+    auditGratuit: "Bonjour Kamtech IA, j'aimerais réserver mon audit gratuit pour automatiser mon WhatsApp.",
+    parlerExpert: "Bonjour, je souhaite parler à un expert KAMTECH IA.",
+    contactDirect: "Bonjour, j'ai une question sur vos solutions d'automatisation IA.",
+  },
+  en: {
+    auditGratuit: "Hello Kamtech IA, I would like to book my free audit to automate my WhatsApp.",
+    parlerExpert: "Hello, I wish to speak with a KAMTECH IA expert.",
+    contactDirect: "Hello, I have a question about your IA automation solutions.",
+  }
 }
 
-export function openWhatsAppChat(messageKey: WhatsAppMessageKey): void {
+export const getWhatsAppLink = (messageKey: keyof typeof whatsappMessages.fr, language: string = "fr") => {
+  const lang = language === "en" ? "en" : "fr"
+  const message = whatsappMessages[lang][messageKey] || whatsappMessages[lang].contactDirect
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`
+}
+
+export const openWhatsAppChat = (messageKey: keyof typeof whatsappMessages.fr, language: string = "fr") => {
   if (typeof window !== "undefined") {
-    const link = getWhatsAppLink(messageKey)
+    const link = getWhatsAppLink(messageKey, language)
     window.open(link, "_blank", "noopener,noreferrer")
   }
 }

@@ -7,8 +7,11 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, ArrowRight, ChevronLeft } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
 import { Header } from "@/components/header";
+import { useTranslation } from "@/lib/i18n-context"
 
 export default function BlogPageClient() {
+  const { t, language } = useTranslation()
+
   return (
     <main className="min-h-screen bg-black text-white selection:bg-blue-500/30">
       <Header />
@@ -20,7 +23,7 @@ export default function BlogPageClient() {
           className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors mb-8 group"
         >
           <ChevronLeft className="w-5 h-5 mr-1 group-hover:-translate-x-1 transition-transform" />
-          Retour à l'accueil
+          {t.blog.backToHome}
         </Link>
 
         {/* Hero Section */}
@@ -30,7 +33,13 @@ export default function BlogPageClient() {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-playfair font-bold mb-6"
           >
-            Le Blog de l'IA <span className="text-blue-500">pour PME</span>
+            {t.blog.title.split('pour PME').length > 1 ? (
+              <>{t.blog.title.split('pour PME')[0]} <span className="text-blue-500">pour PME</span></>
+            ) : t.blog.title.split('for SMEs').length > 1 ? (
+              <>{t.blog.title.split('for SMEs')[0]} <span className="text-blue-500">for SMEs</span></>
+            ) : (
+              t.blog.title
+            )}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -38,7 +47,7 @@ export default function BlogPageClient() {
             transition={{ delay: 0.1 }}
             className="text-blue-100/60 text-xl max-w-2xl leading-relaxed"
           >
-            Explorez nos dernières analyses sur l'automatisation intelligente et comment elle transforme les PME d'aujourd'hui.
+            {t.blog.subtitle}
           </motion.p>
         </div>
 
@@ -56,13 +65,13 @@ export default function BlogPageClient() {
               <div className="relative h-64 w-full overflow-hidden">
                 <Image
                   src={post.image}
-                  alt={post.title}
+                  alt={language === "fr" ? post.title : (post.titleEn || post.title)}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="px-4 py-1.5 bg-blue-600/90 backdrop-blur-md rounded-full text-xs font-bold tracking-wider uppercase">
-                    {post.category}
+                    {language === "fr" ? post.category : (post.categoryEn || post.category)}
                   </span>
                 </div>
               </div>
@@ -76,16 +85,16 @@ export default function BlogPageClient() {
                   </div>
                   <div className="flex items-center">
                     <Clock className="w-3.5 h-3.5 mr-1.5" />
-                    {post.readTime}
+                    {post.readTime} {t.blog.readTime}
                   </div>
                 </div>
 
                 <h3 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors leading-tight">
-                  {post.title}
+                  {language === "fr" ? post.title : (post.titleEn || post.title)}
                 </h3>
 
                 <p className="text-blue-100/60 text-base mb-8 line-clamp-3">
-                  {post.excerpt}
+                  {language === "fr" ? post.excerpt : (post.excerptEn || post.excerpt)}
                 </p>
 
                 <div className="mt-auto">
@@ -93,7 +102,7 @@ export default function BlogPageClient() {
                     href={`/blog/${post.slug}`}
                     className="inline-flex items-center text-white font-bold group/link"
                   >
-                    Lire l'article
+                    {t.blog.readArticle}
                     <ArrowRight className="ml-2 w-5 h-5 group-hover/link:translate-x-2 transition-transform text-blue-500" />
                   </Link>
                 </div>
@@ -106,16 +115,16 @@ export default function BlogPageClient() {
       {/* Newsletter / CTA Section */}
       <section className="py-24 bg-gradient-to-t from-blue-900/20 to-transparent">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-playfair font-bold mb-6">Restez à l'avant-garde</h2>
-          <p className="text-blue-100/60 text-lg mb-10">Recevez nos meilleures stratégies d'automatisation directement dans votre boîte mail.</p>
+          <h2 className="text-4xl font-playfair font-bold mb-6">{t.blog.stayAhead}</h2>
+          <p className="text-blue-100/60 text-lg mb-10">{t.blog.newsletterDesc}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <input
               type="email"
-              placeholder="votre@email.com"
+              placeholder={t.blog.placeholderEmail}
               className="px-6 py-4 bg-white/5 border border-white/10 rounded-full focus:outline-none focus:border-blue-500 transition-colors min-w-[300px]"
             />
             <button className="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-full font-bold transition-all shadow-lg shadow-blue-600/20">
-              S'abonner
+              {t.blog.subscribe}
             </button>
           </div>
         </div>

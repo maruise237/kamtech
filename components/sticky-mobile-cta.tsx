@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from "@/lib/i18n-context"
 
 export function StickyMobileCTA() {
+  const { t } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export function StickyMobileCTA() {
             data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl text-base font-semibold shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-all"
           >
-            Obtenir mon audit gratuit
+            {t.stickyCTA.cta}
           </button>
         </motion.div>
       )}

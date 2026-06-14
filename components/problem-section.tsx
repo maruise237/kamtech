@@ -4,8 +4,10 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { AlertCircle, Clock, TrendingDown, Users, CheckCircle2, XCircle, ArrowRight, Zap } from 'lucide-react';
 import { BentoCard } from '@/components/ui/bento-card';
+import { useTranslation } from "@/lib/i18n-context"
 
 export function ProblemSection() {
+  const { t } = useTranslation()
   const containerVariants = {
     hidden: {},
     visible: {
@@ -29,14 +31,20 @@ export function ProblemSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <p className="text-red-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">Le challenge du statu quo</p>
+            <p className="text-red-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.problem.badge}</p>
           </motion.div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
-            Chaque minute d'attente vous <span className="text-red-500">coûte cher</span>
+            {t.problem.title.split('cost you').length > 1 ? (
+              <>{t.problem.title.split('cost you')[0]} <span className="text-red-500">cost you</span> {t.problem.title.split('cost you')[1]}</>
+            ) : t.problem.title.split('coûte cher').length > 1 ? (
+              <>{t.problem.title.split('coûte cher')[0]} <span className="text-red-500">coûte cher</span></>
+            ) : (
+              t.problem.title
+            )}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-[#E2E8F0] max-w-2xl mx-auto">
-            Sans un système automatisé, votre croissance est limitée par le temps humain. Vos concurrents, eux, ne dorment pas.
+            {t.problem.subtitle}
           </p>
         </div>
 
@@ -52,7 +60,7 @@ export function ProblemSection() {
             <div className="absolute top-0 left-0 w-full h-1 bg-red-500/50" />
             <div className="flex items-center gap-3 mb-6">
               <XCircle className="w-8 h-8 text-red-500" />
-              <h3 className="text-2xl font-bold text-white">Méthode Traditionnelle</h3>
+              <h3 className="text-2xl font-bold text-white">{t.problem.traditionalTitle}</h3>
             </div>
 
             <ul className="space-y-6">
@@ -61,8 +69,8 @@ export function ProblemSection() {
                   <Clock className="w-5 h-5 text-red-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">20h perdues par semaine</p>
-                  <p className="text-[#E2E8F0] text-sm">Copier-coller les mêmes réponses aux mêmes questions de prospects.</p>
+                  <p className="text-white font-semibold mb-1">{t.problem.traditionalItem1Title}</p>
+                  <p className="text-[#E2E8F0] text-sm">{t.problem.traditionalItem1Desc}</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -70,8 +78,8 @@ export function ProblemSection() {
                   <AlertCircle className="w-5 h-5 text-red-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Réponses lentes (24h+)</p>
-                  <p className="text-[#E2E8F0] text-sm">Le prospect s'impatiente et part chez un concurrent plus réactif.</p>
+                  <p className="text-white font-semibold mb-1">{t.problem.traditionalItem2Title}</p>
+                  <p className="text-[#E2E8F0] text-sm">{t.problem.traditionalItem2Desc}</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -79,8 +87,8 @@ export function ProblemSection() {
                   <TrendingDown className="w-5 h-5 text-red-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Croissance plafonnée</p>
-                  <p className="text-[#E2E8F0] text-sm">Impossible de scaler sans recruter massivement et augmenter les coûts.</p>
+                  <p className="text-white font-semibold mb-1">{t.problem.traditionalItem3Title}</p>
+                  <p className="text-[#E2E8F0] text-sm">{t.problem.traditionalItem3Desc}</p>
                 </div>
               </li>
             </ul>
@@ -91,12 +99,12 @@ export function ProblemSection() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-blue-950/20 border border-blue-500/30 rounded-2xl p-8 relative overflow-hidden shadow-[0_0_30px_rgba(37,99,235,0.1)]"
+            className="bg-blue-950/20 border border-blue-500/30 rounded-2xl p-8 relative overflow-hidden shadow-[0_0_30px_rgba(37,99,235,0.15)]"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-blue-500" />
             <div className="flex items-center gap-3 mb-6">
               <CheckCircle2 className="w-8 h-8 text-blue-500" />
-              <h3 className="text-2xl font-bold text-white">Avec KAMTECH IA</h3>
+              <h3 className="text-2xl font-bold text-white">{t.problem.kamtechTitle}</h3>
             </div>
 
             <ul className="space-y-6">
@@ -105,8 +113,8 @@ export function ProblemSection() {
                   <Clock className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Automatisation à 100%</p>
-                  <p className="text-[#E2E8F0] text-sm">L'IA gère la qualification et la prise de RDV. Vous récupérez vos soirées.</p>
+                  <p className="text-white font-semibold mb-1">{t.problem.kamtechItem1Title}</p>
+                  <p className="text-[#E2E8F0] text-sm">{t.problem.kamtechItem1Desc}</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -114,8 +122,8 @@ export function ProblemSection() {
                   <Zap className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Réponse en 5 secondes</p>
-                  <p className="text-[#E2E8F0] text-sm">Conversion maximisée. Vos prospects sont pris en charge instantanément 24/7.</p>
+                  <p className="text-white font-semibold mb-1">{t.problem.kamtechItem2Title}</p>
+                  <p className="text-[#E2E8F0] text-sm">{t.problem.kamtechItem2Desc}</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -123,8 +131,8 @@ export function ProblemSection() {
                   <Users className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Scalabilité infinie</p>
-                  <p className="text-[#E2E8F0] text-sm">Gérez 10 ou 10 000 leads avec la même fluidité sans embaucher.</p>
+                  <p className="text-white font-semibold mb-1">{t.problem.kamtechItem3Title}</p>
+                  <p className="text-[#E2E8F0] text-sm">{t.problem.kamtechItem3Desc}</p>
                 </div>
               </li>
             </ul>
@@ -143,10 +151,10 @@ export function ProblemSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
             </span>
-            La solution en 7 jours
+            {t.problem.solutionBadge}
           </div>
           <p className="text-white/80 text-lg sm:text-xl font-medium max-w-xl">
-            Passez du chaos manuel à une machine bien huilée. Découvrez comment nous transformons votre WhatsApp.
+            {t.problem.solutionText}
           </p>
           <button
             data-cal-namespace="15min"
@@ -154,7 +162,7 @@ export function ProblemSection() {
             data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-base font-semibold transition-all shadow-lg hover:shadow-blue-500/25"
           >
-            Obtenir mon audit gratuit
+            {t.problem.cta}
           </button>
         </motion.div>
       </div>

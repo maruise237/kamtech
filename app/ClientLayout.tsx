@@ -10,6 +10,7 @@ import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
 import { NoSSRWrapper } from "@/components/no-ssr-wrapper"
 import { ElevenLabsWidget } from "@/components/elevenlabs-widget"
+import { LanguageProvider, useTranslation } from "@/lib/i18n-context"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -79,9 +80,40 @@ function ClientLayoutContent({
   }, []);
 
   return (
-    <html lang="fr" className="dark scroll-smooth" suppressHydrationWarning>
+    <LanguageProvider>
+      <InnerLayout
+        showLoader={showLoader}
+        isReady={isReady}
+        inter={inter}
+        jetbrainsMono={jetbrainsMono}
+        playfair={playfair}
+      >
+        {children}
+      </InnerLayout>
+    </LanguageProvider>
+  )
+}
+
+function InnerLayout({
+  children,
+  showLoader,
+  isReady,
+  inter,
+  jetbrainsMono,
+  playfair
+}: {
+  children: React.ReactNode,
+  showLoader: boolean,
+  isReady: boolean,
+  inter: any,
+  jetbrainsMono: any,
+  playfair: any
+}) {
+  const { language } = useTranslation();
+
+  return (
+    <html lang={language} className="dark scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Critical CSS to prevent FOUC / render-blocking white screen */}
         <style dangerouslySetInnerHTML={{
           __html: `
             body, html {
@@ -109,7 +141,6 @@ function ClientLayoutContent({
         }} />
       </head>
       <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-black text-white antialiased`} suppressHydrationWarning>
-        {/* The loader overlay. Rendered by React but only visible when showLoader && !isReady */}
         <NoSSRWrapper>
           <div
             id="loader-kamtech"
@@ -120,8 +151,6 @@ function ClientLayoutContent({
           </div>
         </NoSSRWrapper>
 
-        {/* We ALWAYS render children in place so SSR produces the actual HTML structure immediately.
-            The loader just sits on top if the page hasn't finished loading after 500ms. */}
         <div>
           {children}
           <NoSSRWrapper>
@@ -133,7 +162,7 @@ function ClientLayoutContent({
         </div>
       </body>
     </html>
-  )
+  );
 }
 
 export default function ClientLayout({
@@ -151,7 +180,6 @@ export default function ClientLayout({
             }} />
           </head>
           <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-black text-white antialiased`} suppressHydrationWarning>
-            {/* Minimal fallback state */}
           </body>
         </html>
       }

@@ -10,8 +10,10 @@ import { SparklesCore } from "@/components/ui/sparkles";
 import { Label } from "@/components/ui/label";
 import { Check, Loader2, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/i18n-context"
 
 export default function ContactSection() {
+  const { t } = useTranslation()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -43,16 +45,16 @@ export default function ContactSection() {
         setEmail("");
         setMessage("");
         setIsSubmitted(true);
-        toast.success("Message envoyé avec succès !");
+        toast.success(t.contact.success);
         setTimeout(() => {
           setIsSubmitted(false);
         }, 5000);
       } else {
-        toast.error("Une erreur est survenue lors de l'envoi du message.");
+        toast.error(t.contact.error);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("Erreur de connexion. Veuillez réessayer.");
+      toast.error(t.contact.connError);
     } finally {
       setIsSubmitting(false);
     }
@@ -87,11 +89,11 @@ export default function ContactSection() {
                 <div className="flex items-center gap-3 mb-4">
                    <div className="h-10 w-1 px-0 bg-blue-600 rounded-full" />
                    <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
-                    Contactez-nous
+                    {t.contact.title}
                   </h2>
                 </div>
                 <p className="text-[#E2E8F0] text-lg max-w-md">
-                  Une question ? Un projet ? Notre équipe d'experts IA vous répond sous 24h.
+                  {t.contact.subtitle}
                 </p>
                 
                 <SparklesCore
@@ -119,12 +121,12 @@ export default function ContactSection() {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.4 }}
                   >
-                    <Label htmlFor="name" className="text-gray-300 font-medium ml-1">Nom Complet</Label>
+                    <Label htmlFor="name" className="text-gray-300 font-medium ml-1">{t.contact.labelName}</Label>
                     <Input
                       id="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Jean Dupont"
+                      placeholder={t.contact.placeholderName}
                       required
                       autoComplete="name"
                       className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-12 focus:ring-blue-500/50"
@@ -137,13 +139,13 @@ export default function ContactSection() {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.5 }}
                   >
-                    <Label htmlFor="email" className="text-gray-300 font-medium ml-1">Email Professionnel</Label>
+                    <Label htmlFor="email" className="text-gray-300 font-medium ml-1">{t.contact.labelEmail}</Label>
                     <Input
                       id="email"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="contact@entreprise.com"
+                      placeholder={t.contact.placeholderEmail}
                       required
                       autoComplete="email"
                       inputMode="email"
@@ -158,12 +160,12 @@ export default function ContactSection() {
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.6 }}
                 >
-                  <Label htmlFor="message" className="text-gray-300 font-medium ml-1">Votre Message</Label>
+                  <Label htmlFor="message" className="text-gray-300 font-medium ml-1">{t.contact.labelMessage}</Label>
                   <Textarea
                     id="message"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Comment pouvons-nous vous aider ?"
+                    placeholder={t.contact.placeholderMessage}
                     required
                     inputMode="text"
                     className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-40 resize-none focus:ring-blue-500/50"
@@ -183,16 +185,16 @@ export default function ContactSection() {
                     {isSubmitting ? (
                       <span className="flex items-center justify-center">
                         <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                        Envoi en cours...
+                        {t.contact.submitting}
                       </span>
                     ) : isSubmitted ? (
                       <span className="flex items-center justify-center">
                         <Check className="mr-3 h-5 w-5" />
-                        Message Envoyé !
+                        {t.contact.submitted}
                       </span>
                     ) : (
                       <span className="flex items-center justify-center">
-                        Envoyer le message
+                        {t.contact.send}
                         <Send className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </span>
                     )}
@@ -220,10 +222,10 @@ export default function ContactSection() {
               <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center p-6">
                 <div className="max-w-xs mb-20">
                   <h3 className="text-4xl font-bold text-white mb-4 tracking-tight">
-                    L'IA sans frontières.
+                    {t.contact.sidebarTitle}
                   </h3>
                   <p className="text-blue-100/70 text-base leading-relaxed">
-                    Rejoignez les entreprises qui automatisent déjà leur succès avec KAMTECH IA.
+                    {t.contact.sidebarSubtitle}
                   </p>
                 </div>
                 
@@ -237,7 +239,7 @@ export default function ContactSection() {
                     ))}
                   </div>
                   <p className="text-xs text-blue-200/90 font-medium tracking-wide">
-                    +50 entreprises nous font confiance
+                    {t.contact.sidebarBadge}
                   </p>
                 </div>
               </div>

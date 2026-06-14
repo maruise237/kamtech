@@ -4,8 +4,10 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "./ui/button"
 import { Calculator, ShieldCheck } from "lucide-react"
+import { useTranslation } from "@/lib/i18n-context"
 
 export function PricingSection() {
+  const { t, language } = useTranslation()
   const [hoursSaved, setHoursSaved] = useState(20)
   const hourlyRate = 35 // Estimation du taux horaire moyen (ex: 35€/h)
   const monthlySavings = hoursSaved * hourlyRate * 4
@@ -24,7 +26,7 @@ export function PricingSection() {
             viewport={{ once: true }}
           >
             <ShieldCheck className="w-5 h-5 text-blue-400" />
-            <p className="text-blue-400 text-sm font-semibold uppercase tracking-wider">Investissement rentabilisé</p>
+            <p className="text-blue-400 text-sm font-semibold uppercase tracking-wider">{t.pricing.badge}</p>
           </motion.div>
 
           <motion.h2
@@ -35,7 +37,13 @@ export function PricingSection() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Ne payez que si ça vous <span className="text-blue-500">rapporte</span>
+            {t.pricing.title.split('rapporte').length > 1 ? (
+              <>{t.pricing.title.split('rapporte')[0]} <span className="text-blue-500">rapporte</span></>
+            ) : t.pricing.title.split('pays off').length > 1 ? (
+              <>{t.pricing.title.split('pays off')[0]} <span className="text-blue-500">pays off</span></>
+            ) : (
+              t.pricing.title
+            )}
           </motion.h2>
           <motion.p
             className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto"
@@ -44,7 +52,7 @@ export function PricingSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Nos offres sont construites pour être rentables dès le premier mois grâce au temps gagné et aux ventes supplémentaires.
+            {t.pricing.subtitle}
           </motion.p>
         </div>
 
@@ -61,15 +69,15 @@ export function PricingSection() {
                 <Calculator className="w-6 h-6 text-blue-500" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Calculez votre ROI</h3>
-                <p className="text-gray-400 text-sm">Découvrez combien vous coûte votre système manuel actuel.</p>
+                <h3 className="text-2xl font-bold text-white">{t.pricing.roiTitle}</h3>
+                <p className="text-gray-400 text-sm">{t.pricing.roiSubtitle}</p>
               </div>
             </div>
 
             <div className="space-y-8">
               <div>
                 <div className="flex justify-between items-end mb-4">
-                  <label className="text-white font-medium">Heures passées à répondre / qualifier (par semaine)</label>
+                  <label className="text-white font-medium">{t.pricing.roiLabel}</label>
                   <span className="text-2xl font-black text-blue-400">{hoursSaved}h</span>
                 </div>
                 <input
@@ -90,20 +98,20 @@ export function PricingSection() {
 
               <div className="bg-black/50 border border-gray-800 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Économie mensuelle estimée*</p>
-                  <p className="text-3xl sm:text-4xl font-black text-green-400">{monthlySavings.toLocaleString('fr-FR')} €</p>
-                  <p className="text-gray-500 text-xs mt-2">*Basé sur un coût horaire de 35€ (salaire + charges)</p>
+                  <p className="text-gray-400 text-sm mb-1">{t.pricing.savingsLabel}</p>
+                  <p className="text-3xl sm:text-4xl font-black text-green-400">{monthlySavings.toLocaleString(language === "fr" ? 'fr-FR' : 'en-US')} €</p>
+                  <p className="text-gray-500 text-xs mt-2">{t.pricing.savingsFootnote}</p>
                 </div>
 
                 <div className="text-center sm:text-right">
-                  <p className="text-white font-bold mb-2">L'IA coûte 3x à 10x moins cher</p>
+                  <p className="text-white font-bold mb-2">{t.pricing.roiFooter}</p>
                   <Button
                     data-cal-namespace="15min"
                     data-cal-link="kamtech/15min"
                     data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
                     className="bg-blue-600 hover:bg-blue-500 text-white w-full sm:w-auto font-bold rounded-full shadow-[0_0_15px_rgba(37,99,235,0.4)]"
                   >
-                    Auditer mon potentiel
+                    {t.pricing.cta}
                   </Button>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, XCircle, CheckCircle2, Zap } from "lucide-react"
 import { openWhatsAppChat } from "@/lib/whatsapp"
 import { motion } from "framer-motion"
+import { useTranslation } from "@/lib/i18n-context"
 
 interface SegmentHeroProps {
   segment: string;
@@ -25,8 +26,9 @@ interface SegmentHeroProps {
 }
 
 export function SegmentHero({ segment, title, subtitle, before, after, bridge }: SegmentHeroProps) {
+  const { t } = useTranslation()
   const handleExpertClick = useCallback(() => {
-    openWhatsAppChat("parlerExpert")
+    openWhatsAppChat("parlerExpert", language)
   }, [])
 
   return (
@@ -36,7 +38,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
       <div className="container mx-auto relative z-10 pt-10">
         <div className="text-center mb-16 max-w-4xl mx-auto">
           <div className="mb-6 inline-block px-4 py-2 bg-blue-500/10 border rounded-full border-blue-500/30 backdrop-blur-md">
-            <p className="text-sm font-semibold text-blue-400">Solutions pour {segment}</p>
+            <p className="text-sm font-semibold text-blue-400">{t.segments.solutionsFor} {segment}</p>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-balance leading-tight">
             {title}
@@ -53,7 +55,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white group font-semibold px-8"
             >
-              Réserver mon audit gratuit
+              {t.segments.ctaAudit}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
@@ -62,7 +64,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
               variant="outline"
               className="border-gray-600 text-white hover:bg-gray-800 bg-transparent font-semibold px-8"
             >
-              Parler à un expert
+              {t.segments.ctaExpert}
             </Button>
           </div>
         </div>
@@ -78,7 +80,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-red-500" />
             <XCircle className="h-10 w-10 text-red-500 mb-6" />
-            <h3 className="text-2xl font-bold text-white mb-3">Avant : <span className="text-red-400">{before.title}</span></h3>
+            <h3 className="text-2xl font-bold text-white mb-3">{t.segments.before} <span className="text-red-400">{before.title}</span></h3>
             <p className="text-gray-400 leading-relaxed">{before.description}</p>
           </motion.div>
 
@@ -91,7 +93,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
           >
              <div className="absolute top-0 left-0 w-full h-1 bg-blue-500" />
             <Zap className="h-10 w-10 text-blue-500 mb-6" />
-            <h3 className="text-2xl font-bold text-white mb-3">La Solution : <span className="text-blue-400">{bridge.title}</span></h3>
+            <h3 className="text-2xl font-bold text-white mb-3">{t.segments.solution} <span className="text-blue-400">{bridge.title}</span></h3>
             <p className="text-gray-400 leading-relaxed">{bridge.description}</p>
           </motion.div>
 
@@ -104,7 +106,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
           >
              <div className="absolute top-0 left-0 w-full h-1 bg-green-500" />
             <CheckCircle2 className="h-10 w-10 text-green-500 mb-6" />
-            <h3 className="text-2xl font-bold text-white mb-3">Après : <span className="text-green-400">{after.title}</span></h3>
+            <h3 className="text-2xl font-bold text-white mb-3">{t.segments.after} <span className="text-green-400">{after.title}</span></h3>
             <p className="text-gray-400 leading-relaxed">{after.description}</p>
           </motion.div>
         </div>

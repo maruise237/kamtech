@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { motion, useTime, useTransform } from "framer-motion"
 import { useEffect, useState } from "react"
+import { useTranslation } from "@/lib/i18n-context"
 
 const logos = [
   {
@@ -146,6 +147,7 @@ function MovingLogo({ logo, index, total, radius }: { logo: any, index: number, 
 }
 
 export function ArcCarouselSection() {
+  const { t } = useTranslation()
   const [radius, setRadius] = useState(400)
 
   useEffect(() => {
@@ -183,17 +185,21 @@ export function ArcCarouselSection() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                 </span>
-                <p className="text-blue-400 text-xs sm:text-sm font-medium tracking-wider uppercase">Notre solution</p>
+                <p className="text-blue-400 text-xs sm:text-sm font-medium tracking-wider uppercase">{t.solutions.badge}</p>
               </div>
 
               <h2
                 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 tracking-tight"
                 style={{ fontFamily: "var(--font-playfair)" }}
               >
-                Notre Solution
+                {t.solutions.title.split('Solution').length > 1 ? (
+                  <>{t.solutions.title.split('Solution')[0]} <span className="text-blue-500">Solution</span></>
+                ) : (
+                  t.solutions.title
+                )}
               </h2>
               <p className="text-gray-400 text-xs sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-10">
-                Nous transformons vos tâches répétitives en systèmes automatisés qui libèrent du temps et améliorent vos performances.
+                {t.solutions.subtitle}
               </p>
 
               <motion.button
@@ -204,7 +210,7 @@ export function ArcCarouselSection() {
                 whileTap={{ scale: 0.95 }}
                 className="bg-blue-600 hover:bg-blue-500 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl text-sm sm:text-base font-semibold transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] pointer-events-auto"
               >
-                Obtenir mon audit gratuit
+                {t.hero.ctaAudit}
               </motion.button>
             </motion.div>
           </div>

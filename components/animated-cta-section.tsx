@@ -5,12 +5,14 @@ import { Button } from "./ui/button"
 import { ArrowRight } from "lucide-react"
 import { BackgroundPaths } from "./ui/floating-paths"
 import { openWhatsAppChat } from "@/lib/whatsapp"
+import { useTranslation } from "@/lib/i18n-context"
 
 export function AnimatedCTASection() {
+  const { t } = useTranslation()
   const contentRef = useRef<HTMLDivElement>(null)
 
   const handleWhatsAppClick = useCallback(() => {
-    openWhatsAppChat("contactDirect")
+    openWhatsAppChat("contactDirect", language)
   }, [])
 
   return (
@@ -50,28 +52,28 @@ export function AnimatedCTASection() {
           style={{ animationDelay: "0.3s" }}
         >
           <div className="mb-4 sm:mb-6 inline-block px-3 sm:px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full">
-            <p className="text-red-400 text-xs sm:text-sm font-semibold">⏰ Places limitées : Audit gratuit - 15 minutes</p>
+            <p className="text-red-400 text-xs sm:text-sm font-semibold">{t.ctaSection.badge}</p>
           </div>
 
           <h2
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 drop-shadow-lg animate-fade-in-up leading-tight"
             style={{ fontFamily: "var(--font-playfair)", animationDelay: "0.5s" }}
           >
-            Tous vos clients sont déjà sur WhatsApp.
+            {t.ctaSection.title}
             <br className="hidden sm:block" />
-            Vendez-leur maintenant.
+            {t.ctaSection.title2}
           </h2>
           <p
             className="text-base sm:text-lg md:text-xl text-white/90 mb-3 sm:mb-4 max-w-2xl mx-auto drop-shadow-md animate-fade-in-up font-semibold"
             style={{ animationDelay: "0.6s" }}
           >
-            Pendant qu&apos;on parle, vos concurrents automatisent.
+            {t.ctaSection.subtitle}
           </p>
           <p
             className="text-sm sm:text-base md:text-lg text-white/80 mb-6 sm:mb-8 max-w-2xl mx-auto drop-shadow-md animate-fade-in-up px-2"
             style={{ animationDelay: "0.7s" }}
           >
-            Prenez 15 minutes avec notre équipe pour voir EXACTEMENT comment KAMTECH IA peut transformer votre activité. Pas de vente forcée. Juste un plan d&apos;action.
+            {t.ctaSection.desc}
           </p>
             <div className="flex flex-col items-center gap-6 w-full">
               <div
@@ -85,7 +87,7 @@ export function AnimatedCTASection() {
                   size="lg" 
                   className="bg-blue-600 hover:bg-blue-700 text-white group font-semibold text-sm sm:text-base w-full sm:w-auto px-10"
                 >
-                  Obtenir mon audit gratuit
+                  {t.ctaSection.ctaAudit}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button 
@@ -94,7 +96,7 @@ export function AnimatedCTASection() {
                   variant="outline" 
                   className="border-white text-white hover:bg-white/10 bg-transparent font-semibold text-sm sm:text-base w-full sm:w-auto px-10"
                 >
-                  Parler à un expert (WhatsApp)
+                  {t.ctaSection.ctaExpert}
                 </Button>
               </div>
 
@@ -103,23 +105,23 @@ export function AnimatedCTASection() {
                 className="text-white/60 hover:text-blue-400 transition-colors text-sm font-medium flex items-center gap-2 group underline-offset-4 hover:underline animate-fade-in-up"
                 style={{ animationDelay: "1s" }}
               >
-                Envoyer une demande par formulaire
+                {t.ctaSection.formLink}
                 <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm px-2">
             <div className="text-white/70 text-center">
-              <p className="font-semibold text-green-400">✓ Garantie 30 jours</p>
-              <p className="text-xs">Satisfait ou remboursé</p>
+              <p className="font-semibold text-green-400">✓ {t.ctaSection.guarantee}</p>
+              <p className="text-xs">{t.ctaSection.satisfied}</p>
             </div>
             <div className="text-white/70 text-center">
-              <p className="font-semibold text-green-400">✓ Déploiement 48-72h</p>
-              <p className="text-xs">Prêt à vendre immédiatement</p>
+              <p className="font-semibold text-green-400">✓ {t.ctaSection.deploy}</p>
+              <p className="text-xs">{t.ctaSection.ready}</p>
             </div>
             <div className="text-white/70 text-center">
-              <p className="font-semibold text-green-400">✓ Support 24/7</p>
-              <p className="text-xs">L&apos;équipe vous aide</p>
+              <p className="font-semibold text-green-400">✓ {t.ctaSection.support}</p>
+              <p className="text-xs">{t.ctaSection.teamHelps}</p>
             </div>
           </div>
         </div>
