@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: "",
     },
     sitemap: "https://kamtech.online/sitemap.xml",
   };
