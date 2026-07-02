@@ -1,8 +1,25 @@
 import type React from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import ClientLayout from "./ClientLayout"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+})
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["400", "700"],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kamtech.online"),
@@ -33,23 +50,54 @@ export default function RootLayout({
   }
 
   return (
-    <ClientLayout>
-      <Script
-        src="https://unpkg.com/@elevenlabs/convai-widget-embed"
-        async
-        strategy="afterInteractive"
-      />
-      <Script
-        defer
-        src="https://umami.kamtech.online/script.js"
-        data-website-id="ffe15763-97ed-4db8-88e3-7f3923a42ce2"
-        strategy="afterInteractive"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      {children}
-    </ClientLayout>
+    <html lang="fr" className="dark scroll-smooth" suppressHydrationWarning>
+      <head>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            body, html {
+              background-color: #000000 !important;
+              color: #ffffff;
+              margin: 0;
+              padding: 0;
+            }
+            #loader-kamtech {
+              position: fixed;
+              top: 0; left: 0; width: 100vw; height: 100vh;
+              background-color: #000000;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              z-index: 9999;
+              transition: opacity 0.3s ease-out;
+            }
+            .loader-hidden {
+              opacity: 0;
+              pointer-events: none;
+              visibility: hidden;
+            }
+          `
+        }} />
+      </head>
+      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-black text-white antialiased`} suppressHydrationWarning>
+        <ClientLayout>
+          <Script
+            src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+            async
+            strategy="afterInteractive"
+          />
+          <Script
+            defer
+            src="https://umami.kamtech.online/script.js"
+            data-website-id="ffe15763-97ed-4db8-88e3-7f3923a42ce2"
+            strategy="afterInteractive"
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+          {children}
+        </ClientLayout>
+      </body>
+    </html>
   )
 }

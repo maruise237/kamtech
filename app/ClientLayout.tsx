@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import { Suspense, useEffect, useState } from "react"
 import { getCalApi } from "@calcom/embed-react"
 import { Toaster } from "sonner"
@@ -10,23 +9,7 @@ import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
 import { NoSSRWrapper } from "@/components/no-ssr-wrapper"
 import { ElevenLabsWidget } from "@/components/elevenlabs-widget"
-import { LanguageProvider, useTranslation } from "@/lib/i18n-context"
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  weight: ["400", "700"],
-})
+import { LanguageProvider } from "@/lib/i18n-context"
 
 function ClientLayoutContent({
   children,
@@ -35,11 +18,8 @@ function ClientLayoutContent({
 }>) {
   const [showLoader, setShowLoader] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-
     (async function () {
       const cal = await getCalApi({ namespace: "15min" });
       cal("ui", {
@@ -50,7 +30,6 @@ function ClientLayoutContent({
       });
     })();
     
-    // Check if the initial fast rendering logic already completed
     if (document.readyState === "complete") {
       setIsReady(true);
       return;
@@ -65,8 +44,6 @@ function ClientLayoutContent({
 
     window.addEventListener("load", handleLoad);
 
-    // If load takes more than 500ms, set showLoader to true
-    // Note: We don't hide children, we just overlay the loader to avoid layout shift bug
     const timer = setTimeout(() => {
       if (!hasLoaded) {
         setShowLoader(true);
@@ -81,88 +58,27 @@ function ClientLayoutContent({
 
   return (
     <LanguageProvider>
-      <InnerLayout
-        showLoader={showLoader}
-        isReady={isReady}
-        inter={inter}
-        jetbrainsMono={jetbrainsMono}
-        playfair={playfair}
-      >
+      <NoSSRWrapper>
+        <div
+          id="loader-kamtech"
+          className={(!showLoader || isReady) ? "loader-hidden" : ""}
+          aria-hidden={!showLoader || isReady}
+        >
+          {showLoader && !isReady && <Loader />}
+        </div>
+      </NoSSRWrapper>
+
+      <div>
         {children}
-      </InnerLayout>
+        <NoSSRWrapper>
+          <StickyMobileCTA />
+          <ExitIntentPopup />
+          <ElevenLabsWidget />
+        </NoSSRWrapper>
+        <Toaster richColors position="top-right" />
+      </div>
     </LanguageProvider>
   )
-}
-
-function InnerLayout({
-  children,
-  showLoader,
-  isReady,
-  inter,
-  jetbrainsMono,
-  playfair
-}: {
-  children: React.ReactNode,
-  showLoader: boolean,
-  isReady: boolean,
-  inter: any,
-  jetbrainsMono: any,
-  playfair: any
-}) {
-  const { language } = useTranslation();
-
-  return (
-    <html lang={language} className="dark scroll-smooth" suppressHydrationWarning>
-      <head>
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            body, html {
-              background-color: #000000 !important;
-              color: #ffffff;
-              margin: 0;
-              padding: 0;
-            }
-            #loader-kamtech {
-              position: fixed;
-              top: 0; left: 0; width: 100vw; height: 100vh;
-              background-color: #000000;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              z-index: 9999;
-              transition: opacity 0.3s ease-out;
-            }
-            .loader-hidden {
-              opacity: 0;
-              pointer-events: none;
-              visibility: hidden;
-            }
-          `
-        }} />
-      </head>
-      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-black text-white antialiased`} suppressHydrationWarning>
-        <NoSSRWrapper>
-          <div
-            id="loader-kamtech"
-            className={(!showLoader || isReady) ? "loader-hidden" : ""}
-            aria-hidden={!showLoader || isReady}
-          >
-            {showLoader && !isReady && <Loader />}
-          </div>
-        </NoSSRWrapper>
-
-        <div>
-          {children}
-          <NoSSRWrapper>
-            <StickyMobileCTA />
-            <ExitIntentPopup />
-            <ElevenLabsWidget />
-          </NoSSRWrapper>
-          <Toaster richColors position="top-right" />
-        </div>
-      </body>
-    </html>
-  );
 }
 
 export default function ClientLayout({
@@ -171,19 +87,7 @@ export default function ClientLayout({
   children: React.ReactNode
 }>) {
   return (
-    <Suspense
-      fallback={
-        <html lang="fr" className="dark" suppressHydrationWarning>
-          <head>
-            <style dangerouslySetInnerHTML={{
-              __html: `body, html { background-color: #000000 !important; }`
-            }} />
-          </head>
-          <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-black text-white antialiased`} suppressHydrationWarning>
-          </body>
-        </html>
-      }
-    >
+    <Suspense fallback={null}>
       <ClientLayoutContent>{children}</ClientLayoutContent>
     </Suspense>
   )
