@@ -55,10 +55,10 @@ export function HeroSection() {
       <div className="container mx-auto text-center relative z-10 pt-20 sm:pt-0 pb-8 flex-1 flex flex-col justify-center">
         <div className="max-w-4xl mx-auto w-full">
           <div className="mb-4 sm:mb-6 inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500/10 border rounded-full border-blue-500/30 backdrop-blur-md">
-            <p className="text-[11px] sm:text-sm font-semibold text-blue-400">{t.hero.badge}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.13em] text-blue-400">{t.hero.badge}</p>
           </div>
 
-	          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance leading-tight tracking-tighter">
+	          <h1 className="font-heading text-[clamp(2.2rem,4.5vw,4.2rem)] font-extrabold text-white mb-4 sm:mb-6 text-balance leading-none tracking-[-0.04em]">
             {t.hero.title}
           </h1>
           <div className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-300 mb-6 sm:mb-8 text-balance">

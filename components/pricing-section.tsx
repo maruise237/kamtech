@@ -26,7 +26,7 @@ export function PricingSection() {
             viewport={{ once: true }}
           >
             <ShieldCheck className="w-5 h-5 text-blue-400" />
-            <p className="text-blue-400 text-sm font-semibold uppercase tracking-wider">{t.pricing.badge}</p>
+            <p className="text-blue-400 text-xs font-semibold uppercase tracking-[0.13em]">{t.pricing.badge}</p>
           </motion.div>
 
           <motion.h2

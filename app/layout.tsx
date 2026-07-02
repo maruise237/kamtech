@@ -1,14 +1,27 @@
 import type React from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
-import { JetBrains_Mono } from "next/font/google"
-import { GeistSans } from "geist/font/sans"
+import { Inter, Bricolage_Grotesque, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import ClientLayout from "./ClientLayout"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  weight: ["600", "700", "800"],
+})
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -68,7 +81,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${GeistSans.variable} ${jetbrainsMono.variable} bg-[#0a0a0a] text-white antialiased`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${bricolage.variable} ${jetbrainsMono.variable} bg-[#0a0a0a] text-white antialiased`} suppressHydrationWarning>
         <ClientLayout>
           <Script
             src="https://unpkg.com/@elevenlabs/convai-widget-embed"

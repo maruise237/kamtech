@@ -71,7 +71,7 @@ export function TestimonialsSection() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.language === "fr" ? "Résultats réels" : "Real results"}</p>
+            <p className="text-blue-400 text-xs font-semibold uppercase tracking-[0.13em]">{t.language === "fr" ? "Résultats réels" : "Real results"}</p>
           </motion.div>
 
           <motion.h2

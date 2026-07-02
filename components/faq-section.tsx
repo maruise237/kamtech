@@ -38,7 +38,7 @@ export function FAQSection() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.faq.badge}</p>
+            <p className="text-blue-400 text-xs font-semibold uppercase tracking-[0.13em]">{t.faq.badge}</p>
           </motion.div>
 
           <motion.h2

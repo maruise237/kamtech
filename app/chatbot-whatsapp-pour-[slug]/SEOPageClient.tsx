@@ -68,7 +68,7 @@ export default function SEOPageClient({ slug }: { slug: string }) {
         <section className="py-16 px-4 bg-gray-900/50">
           <div className="container mx-auto max-w-4xl text-center">
             <div className="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full mb-6">
-              <span className="text-blue-400 font-semibold uppercase tracking-wider text-sm">{language === "fr" ? "Notre Solution" : "Our Solution"}</span>
+              <span className="text-blue-400 text-xs font-semibold uppercase tracking-[0.13em]">{language === "fr" ? "Notre Solution" : "Our Solution"}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               {language === "fr" ? pageData.solution.title : (pageData.solution.titleEn || pageData.solution.title)}

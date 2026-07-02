@@ -62,7 +62,7 @@ export function ProcessSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <p className="text-green-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.process.badge}</p>
+            <p className="text-green-400 text-xs font-semibold uppercase tracking-[0.13em]">{t.process.badge}</p>
           </motion.div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 tracking-tighter" style={{ fontFamily: "var(--font-playfair)" }}>

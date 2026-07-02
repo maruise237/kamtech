@@ -120,7 +120,7 @@ export default function TestimonialsCarousel({
           className="relative mb-12 text-center md:mb-16"
         >
           <div className="mb-4 sm:mb-6 inline-block px-3 sm:px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full">
-            <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.testimonials.badge}</p>
+            <p className="text-blue-400 text-xs font-semibold uppercase tracking-[0.13em]">{t.testimonials.badge}</p>
           </div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 tracking-tighter" style={{ fontFamily: "var(--font-playfair)" }}>
