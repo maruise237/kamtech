@@ -177,12 +177,12 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     const imageData = offscreenCtx.getImageData(0, 0, canvas.width, canvas.height)
     const pixels = imageData.data
 
-    // Generate new color
-    const newColor = {
-      r: 255, // White particles
-      g: 255,
-      b: 255,
-    }
+	    // Generate new color
+	    const newColor = {
+	      r: 59, // Blue-500 (#3b82f6)
+	      g: 130,
+	      b: 246,
+	    }
 
     const particles = particlesRef.current
     let particleIndex = 0
@@ -389,7 +389,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
 
   return (
     <div className="w-full h-full absolute inset-0">
-      <canvas ref={canvasRef} className="w-full h-full" style={{ background: "black", zIndex: 10 }} />
+      <canvas ref={canvasRef} className="w-full h-full" style={{ background: "#0a0a0a", zIndex: 10 }} />
     </div>
   )
 }
