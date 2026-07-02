@@ -42,7 +42,7 @@ export function FAQSection() {
           </motion.div>
 
           <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tighter"
             style={{ fontFamily: "var(--font-playfair)" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

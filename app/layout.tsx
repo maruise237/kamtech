@@ -1,24 +1,14 @@
 import type React from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
+import { JetBrains_Mono } from "next/font/google"
+import { GeistSans } from "geist/font/sans"
 import "./globals.css"
 import ClientLayout from "./ClientLayout"
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-})
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  weight: ["400", "700"],
 })
 
 export const metadata: Metadata = {
@@ -55,7 +45,7 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{
           __html: `
             body, html {
-              background-color: #000000 !important;
+              background-color: #0a0a0a !important;
               color: #ffffff;
               margin: 0;
               padding: 0;
@@ -63,7 +53,7 @@ export default function RootLayout({
             #loader-kamtech {
               position: fixed;
               top: 0; left: 0; width: 100vw; height: 100vh;
-              background-color: #000000;
+              background-color: #0a0a0a;
               display: flex;
               justify-content: center;
               align-items: center;
@@ -78,7 +68,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-black text-white antialiased`} suppressHydrationWarning>
+      <body className={`${GeistSans.variable} ${jetbrainsMono.variable} bg-[#0a0a0a] text-white antialiased`} suppressHydrationWarning>
         <ClientLayout>
           <Script
             src="https://unpkg.com/@elevenlabs/convai-widget-embed"

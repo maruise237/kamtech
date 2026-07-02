@@ -34,7 +34,7 @@ export function ProblemSection() {
             <p className="text-red-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.problem.badge}</p>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 tracking-tighter" style={{ fontFamily: "var(--font-playfair)" }}>
             {t.problem.title.split('cost you').length > 1 ? (
               <>{t.problem.title.split('cost you')[0]} <span className="text-red-500">cost you</span> {t.problem.title.split('cost you')[1]}</>
             ) : t.problem.title.split('coûte cher').length > 1 ? (

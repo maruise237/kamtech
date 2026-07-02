@@ -64,7 +64,7 @@ export function AnimatedFeaturesSection() {
 
       <div className="container mx-auto">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 tracking-tighter" style={{ fontFamily: "var(--font-playfair)" }}>
             {t.features.title.split('automated').length > 1 ? (
               <>{t.features.title.split('automated')[0]} <span className="text-blue-500">automated</span></>
             ) : t.features.title.split('automatisée').length > 1 ? (

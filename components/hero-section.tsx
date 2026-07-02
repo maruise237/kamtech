@@ -58,7 +58,7 @@ export function HeroSection() {
             <p className="text-[11px] sm:text-sm font-semibold text-blue-400">{t.hero.badge}</p>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance leading-tight">
+	          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance leading-tight tracking-tighter">
             {t.hero.title}
           </h1>
           <div className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-300 mb-6 sm:mb-8 text-balance">

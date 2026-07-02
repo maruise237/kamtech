@@ -65,7 +65,7 @@ export function ProcessSection() {
             <p className="text-green-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.process.badge}</p>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 tracking-tighter" style={{ fontFamily: "var(--font-playfair)" }}>
             {t.process.title.split('complete').length > 1 ? (
               <>{t.process.title.split('complete')[0]} <span className="text-green-500">complete</span></>
             ) : t.process.title.split('complète').length > 1 ? (

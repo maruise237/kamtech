@@ -4,15 +4,15 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Simplified to monochrome color scheme: black, grey, white */
-  --background: #000000;
+  /* Simplified to monochrome color scheme: off-black, grey, white */
+  --background: #0a0a0a;
   --foreground: #ffffff;
   --card: #1a1a1a;
   --card-foreground: #ffffff;
   --popover: #1a1a1a;
   --popover-foreground: #ffffff;
   --primary: #ffffff;
-  --primary-foreground: #000000;
+  --primary-foreground: #0a0a0a;
   --secondary: #404040;
   --secondary-foreground: #ffffff;
   --muted: #1a1a1a;
@@ -20,7 +20,7 @@
   --accent: #404040;
   --accent-foreground: #ffffff;
   --destructive: #ffffff;
-  --destructive-foreground: #000000;
+  --destructive-foreground: #0a0a0a;
   --border: #404040;
   --input: #1a1a1a;
   --ring: rgba(255, 255, 255, 0.3);
@@ -28,9 +28,9 @@
   --chart-2: #a3a3a3;
   --chart-3: #404040;
   --chart-4: #1a1a1a;
-  --chart-5: #000000;
+  --chart-5: #0a0a0a;
   --radius: 0.5rem;
-  --sidebar: #000000;
+  --sidebar: #0a0a0a;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #1a1a1a;
   --sidebar-primary-foreground: #ffffff;
@@ -52,14 +52,14 @@
 
 .dark {
   /* Dark mode uses same monochrome scheme */
-  --background: #000000;
+  --background: #0a0a0a;
   --foreground: #ffffff;
   --card: #1a1a1a;
   --card-foreground: #ffffff;
   --popover: #1a1a1a;
   --popover-foreground: #ffffff;
   --primary: #ffffff;
-  --primary-foreground: #000000;
+  --primary-foreground: #0a0a0a;
   --secondary: #404040;
   --secondary-foreground: #ffffff;
   --muted: #1a1a1a;
@@ -67,7 +67,7 @@
   --accent: #404040;
   --accent-foreground: #ffffff;
   --destructive: #ffffff;
-  --destructive-foreground: #000000;
+  --destructive-foreground: #0a0a0a;
   --border: #404040;
   --input: #1a1a1a;
   --ring: rgba(255, 255, 255, 0.3);
@@ -75,8 +75,8 @@
   --chart-2: #a3a3a3;
   --chart-3: #404040;
   --chart-4: #1a1a1a;
-  --chart-5: #000000;
-  --sidebar: #000000;
+  --chart-5: #0a0a0a;
+  --sidebar: #0a0a0a;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #1a1a1a;
   --sidebar-primary-foreground: #ffffff;
@@ -88,8 +88,9 @@
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-playfair: var(--font-playfair);
+  --font-mono: var(--font-mono);
+  --font-playfair: var(--font-geist-sans);
+  --color-black: #0a0a0a;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -136,12 +137,12 @@
   }
 
   html {
-    background-color: #000000;
+    background-color: #0a0a0a;
   }
 
   body {
     @apply bg-background text-foreground;
-    background-color: #000000; /* Critical inline style for FOUC prevention */
+    background-color: #0a0a0a; /* Critical inline style for FOUC prevention */
   }
 }
 

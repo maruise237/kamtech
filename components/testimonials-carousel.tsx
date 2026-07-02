@@ -123,7 +123,7 @@ export default function TestimonialsCarousel({
             <p className="text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-wider">{t.testimonials.badge}</p>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 tracking-tighter" style={{ fontFamily: "var(--font-playfair)" }}>
             {displayTitle.split('mesurables').length > 1 ? (
               <>{displayTitle.split('mesurables')[0]} <span className="text-blue-500">mesurables</span></>
             ) : displayTitle.split('Measurable').length > 1 ? (
