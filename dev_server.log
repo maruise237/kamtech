@@ -1,0 +1,29 @@
+
+> my-v0-project@0.1.0 dev /app
+> next dev
+
+  ▲ Next.js 14.2.25
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ ✓ Ready in 1830ms
+ ○ Compiling / ...
+ ✓ Compiled / in 16.5s (3044 modules)
+ GET / 200 in 17337ms
+ GET / 200 in 122ms
+ GET / 200 in 58ms
+ GET / 200 in 58ms
+ GET / 200 in 56ms
+ GET / 200 in 76ms
+ ○ Compiling /segments/ecommerce ...
+ ✓ Compiled /segments/ecommerce in 3.3s (3034 modules)
+ GET /segments/ecommerce 200 in 3763ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ○ Compiling /blog ...
+ ✓ Compiled /blog in 1948ms (3071 modules)
+ GET /blog 200 in 2276ms
