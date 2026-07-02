@@ -79,7 +79,7 @@ export function HeroSection() {
                 <DialogTrigger asChild>
                   <Button
                     size="lg"
-                    className={`${ctaVariant ? ctaConfig[ctaVariant].color : ctaConfig["A"].color} text-white group text-sm sm:text-base font-semibold w-full sm:w-auto px-8`}
+                    className={`${ctaVariant ? ctaConfig[ctaVariant].color : ctaConfig["A"].color} text-white group text-sm sm:text-base font-semibold w-full sm:w-auto px-8 active:scale-[0.98] transition-all`}
                   >
                     {ctaVariant ? ctaConfig[ctaVariant].text : ctaConfig["A"].text}
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -94,7 +94,7 @@ export function HeroSection() {
                 onClick={handleExpertClick}
                 size="lg" 
                 variant="outline" 
-                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent font-bold w-full sm:w-auto px-8 h-14 rounded-full transition-all hover:-translate-y-1"
+                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent font-bold w-full sm:w-auto px-8 py-3 sm:py-0 rounded-full transition-all hover:-translate-y-1 active:scale-[0.98]"
               >
                 {t.hero.ctaExpert}
               </Button>

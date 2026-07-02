@@ -23,7 +23,7 @@ export default function SEOPageClient({ slug }: { slug: string }) {
   const h1 = language === "fr" ? pageData.h1 : (pageData.h1En || pageData.h1)
 
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-black overflow-x-hidden">
       <Header />
       <main className="pt-20">
 

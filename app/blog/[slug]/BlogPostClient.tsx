@@ -40,7 +40,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">{t.blog.articleNotFound}</h1>
           <Link href="/blog" className="text-blue-500 hover:underline">{t.blog.backToBlog}</Link>
@@ -59,7 +59,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
   const excerpt = language === "fr" ? post.excerpt : (post.excerptEn || post.excerpt)
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-blue-500/30">
+    <main className="min-h-[100dvh] bg-black text-white selection:bg-blue-500/30">
       <Header />
 
       {/* Scroll Progress Bar */}

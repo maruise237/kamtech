@@ -13,7 +13,7 @@ export default function BlogPageClient() {
   const { t, language } = useTranslation()
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-blue-500/30">
+    <main className="min-h-[100dvh] bg-black text-white selection:bg-blue-500/30">
       <Header />
 
       <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">

@@ -32,7 +32,7 @@ export function SegmentHero({ segment, title, subtitle, before, after, bridge }:
   }, [language])
 
   return (
-    <section className="py-24 px-4 relative overflow-hidden min-h-screen flex flex-col justify-center">
+    <section className="py-24 px-4 relative overflow-hidden min-h-[100dvh] flex flex-col justify-center">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-900/10 to-black z-0" />
 
       <div className="container mx-auto relative z-10 pt-10">

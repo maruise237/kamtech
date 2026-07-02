@@ -53,7 +53,7 @@ export default function RestaurantSegmentClient() {
   ]
 
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-black overflow-x-hidden">
       <Header />
       <main className="pt-20">
         <SegmentHero

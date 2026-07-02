@@ -4,7 +4,7 @@ import React from 'react';
 
 const Loader = ({ className = "" }: { className?: string }) => {
   return (
-    <div className={`flex flex-col items-center justify-center min-h-screen bg-black ${className}`}>
+    <div className={`flex flex-col items-center justify-center min-h-[100dvh] ${className}`}>
       <style jsx>{`
         .loader-container {
           width: 100%;

@@ -15,7 +15,7 @@ const AnimatedCTASection = dynamic(() => import("@/components/animated-cta-secti
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-black overflow-x-hidden">
       <Header />
       <main className="pt-20">
         <HeroSection />
