@@ -26,10 +26,10 @@ interface SegmentHeroProps {
 }
 
 export function SegmentHero({ segment, title, subtitle, before, after, bridge }: SegmentHeroProps) {
-  const { t } = useTranslation()
+  const { t, language } = useTranslation()
   const handleExpertClick = useCallback(() => {
     openWhatsAppChat("parlerExpert", language)
-  }, [])
+  }, [language])
 
   return (
     <section className="py-24 px-4 relative overflow-hidden min-h-screen flex flex-col justify-center">

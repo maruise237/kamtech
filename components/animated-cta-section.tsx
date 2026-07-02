@@ -8,12 +8,12 @@ import { openWhatsAppChat } from "@/lib/whatsapp"
 import { useTranslation } from "@/lib/i18n-context"
 
 export function AnimatedCTASection() {
-  const { t } = useTranslation()
+  const { t, language } = useTranslation()
   const contentRef = useRef<HTMLDivElement>(null)
 
   const handleWhatsAppClick = useCallback(() => {
     openWhatsAppChat("contactDirect", language)
-  }, [])
+  }, [language])
 
   return (
     <section className="relative py-20 px-4 overflow-hidden">

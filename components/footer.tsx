@@ -7,10 +7,10 @@ import { openWhatsAppChat } from "@/lib/whatsapp"
 import { useTranslation } from "@/lib/i18n-context"
 
 export function Footer() {
-  const { t } = useTranslation()
+  const { t, language } = useTranslation()
   const handleContactClick = useCallback(() => {
     openWhatsAppChat("contactDirect", language)
-  }, [])
+  }, [language])
 
   return (
     <footer className="bg-black border-t border-white/10 py-12 px-4">

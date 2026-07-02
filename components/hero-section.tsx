@@ -15,10 +15,10 @@ import {
 } from "./ui/dialog"
 
 export function HeroSection() {
-  const { t } = useTranslation()
+  const { t, language } = useTranslation()
   const handleExpertClick = useCallback(() => {
     openWhatsAppChat("parlerExpert", language)
-  }, [])
+  }, [language])
 
   // A/B Test for Headline (5 variations)
   const headlineVariant = useABTest<"A" | "B" | "C" | "D" | "E">(
