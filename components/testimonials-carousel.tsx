@@ -30,19 +30,19 @@ export default function TestimonialsCarousel({
   autoplaySpeed = 4000,
   className,
 }: TestimonialProps) {
-  const { t } = useTranslation()
+  const { t, language } = useTranslation()
 
   const kamtechTestimonials = [
     {
-      text: t.faq.q1.includes("résultats") || t.faq.q1.includes("results") ? (t.language === "fr" ? "Depuis l'intégration, l'IA répond à 85% de nos requêtes clients sans intervention humaine. Nous avons économisé plus de 15h par semaine." : "Since integration, AI handles 85% of our customer requests without human intervention. We saved over 15h per week.") : "",
+      text: t.faq.q1.includes("résultats") || t.faq.q1.includes("results") ? (language === "fr" ? "Depuis l'intégration, l'IA répond à 85% de nos requêtes clients sans intervention humaine. Nous avons économisé plus de 15h par semaine." : "Since integration, AI handles 85% of our customer requests without human intervention. We saved over 15h per week.") : "",
       metric: "-15h/semaine",
       imageSrc: 'https://i.pravatar.cc/150?u=1',
       name: 'Jean-Christophe P.',
       username: '@jcp_immo',
-      role: t.language === "fr" ? 'Dirigeant Agence Immobilière' : 'Real Estate Agency Manager',
+      role: language === "fr" ? 'Dirigeant Agence Immobilière' : 'Real Estate Agency Manager',
     },
     {
-      text: t.language === "fr" ? "Notre taux de conversion sur WhatsApp a bondi de 35% en seulement 2 semaines. L'IA qualifie parfaitement les prospects avant la vente." : "Our WhatsApp conversion rate jumped 35% in just 2 weeks. AI perfectly qualifies leads before the sale.",
+      text: language === "fr" ? "Notre taux de conversion sur WhatsApp a bondi de 35% en seulement 2 semaines. L'IA qualifie parfaitement les prospects avant la vente." : "Our WhatsApp conversion rate jumped 35% in just 2 weeks. AI perfectly qualifies leads before the sale.",
       metric: "+35% de conversion",
       imageSrc: 'https://i.pravatar.cc/150?u=2',
       name: 'Sophie L.',
@@ -50,28 +50,28 @@ export default function TestimonialsCarousel({
       role: 'CEO E-commerce',
     },
     {
-      text: t.language === "fr" ? "L'automatisation nous a permis de traiter 3 fois plus de leads entrants sans embaucher de commercial supplémentaire. C'est magique." : "Automation allowed us to handle 3 times more incoming leads without hiring additional sales staff. It's magic.",
+      text: language === "fr" ? "L'automatisation nous a permis de traiter 3 fois plus de leads entrants sans embaucher de commercial supplémentaire. C'est magique." : "Automation allowed us to handle 3 times more incoming leads without hiring additional sales staff. It's magic.",
       metric: "x3 Leads traités",
       imageSrc: 'https://i.pravatar.cc/150?u=3',
       name: 'Marc-Antoine G.',
       username: '@mag_conseil',
-      role: t.language === "fr" ? 'Consultant Business' : 'Business Consultant',
+      role: language === "fr" ? 'Consultant Business' : 'Business Consultant',
     },
     {
-      text: t.language === "fr" ? "Temps de réponse passé de 4h à 5 secondes. Nos clients sont bluffés par la rapidité et la pertinence des réponses." : "Response time went from 4h to 5 seconds. Our customers are amazed by the speed and relevance of the answers.",
+      text: language === "fr" ? "Temps de réponse passé de 4h à 5 secondes. Nos clients sont bluffés par la rapidité et la pertinence des réponses." : "Response time went from 4h to 5 seconds. Our customers are amazed by the speed and relevance of the answers.",
       metric: "Réponse en 5s",
       imageSrc: 'https://i.pravatar.cc/150?u=4',
       name: 'Amélie D.',
       username: '@amelie_tech',
-      role: t.language === "fr" ? 'Responsable Opérations' : 'Operations Manager',
+      role: language === "fr" ? 'Responsable Opérations' : 'Operations Manager',
     },
     {
-      text: t.language === "fr" ? "Kamtech a divisé nos coûts de support par 2 tout en augmentant la satisfaction client. Un investissement rentabilisé en 10 jours." : "Kamtech cut our support costs in half while increasing customer satisfaction. Investment paid off in 10 days.",
+      text: language === "fr" ? "Kamtech a divisé nos coûts de support par 2 tout en augmentant la satisfaction client. Un investissement rentabilisé en 10 jours." : "Kamtech cut our support costs in half while increasing customer satisfaction. Investment paid off in 10 days.",
       metric: "-50% coûts support",
       imageSrc: 'https://i.pravatar.cc/150?u=5',
       name: 'Thomas R.',
       username: '@tom_startup',
-      role: t.language === "fr" ? 'Fondateur SaaS' : 'SaaS Founder',
+      role: language === "fr" ? 'Fondateur SaaS' : 'SaaS Founder',
     },
   ];
 
