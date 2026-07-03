@@ -43,18 +43,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "KAMTECH IA",
-    url: "https://kamtech.online",
-    logo: "https://kamtech.online/icon.png",
-    description: "Agence IA sur mesure — solutions personnalisées pour PME partout dans le monde / Custom AI solutions for SMEs worldwide",
-  }
-
   return (
     <html lang="fr" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: "KAMTECH IA",
+              description: "Agence spécialisée en solutions IA sur mesure pour PME — partout dans le monde. Chatbot WhatsApp, automatisation, agents IA, sites web.",
+              url: "https://kamtech.online",
+              telephone: "+237658992588",
+              address: { "@type": "PostalAddress", addressCountry: "CM" },
+              areaServed: "Worldwide",
+              serviceType: ["Chatbot WhatsApp IA", "Automatisation n8n", "Agent IA", "Site web professionnel", "Audit digital"],
+              priceRange: "Sur devis",
+              sameAs: ["https://wa.me/237658992588"],
+            })
+          }}
+        />
         <style dangerouslySetInnerHTML={{
           __html: `
             body, html {
@@ -93,10 +102,6 @@ export default function RootLayout({
             src="https://umami.kamtech.online/script.js"
             data-website-id="ffe15763-97ed-4db8-88e3-7f3923a42ce2"
             strategy="afterInteractive"
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
           {children}
         </ClientLayout>

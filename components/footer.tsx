@@ -91,17 +91,17 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors inline-block">
+                <a href="mailto:contact@kamtech.online" className="hover:text-white transition-colors inline-block">
                   Email
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors inline-block">
+                <a href="/blog" className="hover:text-white transition-colors inline-block">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors inline-block">
+                <a href="#contact" className="hover:text-white transition-colors inline-block">
                   Support
                 </a>
               </li>
