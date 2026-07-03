@@ -169,10 +169,10 @@ export function ArcCarouselSection() {
       
       <div className="relative w-full max-w-7xl mx-auto z-10 px-4">
         {/* Arc Carousel Area containing both text and logos */}
-        <div className="relative h-[320px] sm:h-[600px] lg:h-[750px] w-full mt-4 sm:mt-8">
+        <div className="relative h-[380px] sm:h-[600px] lg:h-[750px] w-full mt-4 sm:mt-8">
           
-          {/* Center Content - Now positioned inside the arch */}
-          <div className="absolute top-[82%] sm:top-[68%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-30 w-full max-w-3xl px-6 pointer-events-none children:pointer-events-auto">
+          {/* Center Content - Positioned at the bottom of the arch */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center z-30 w-full max-w-3xl px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -208,7 +208,7 @@ export function ArcCarouselSection() {
                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl text-sm sm:text-base font-semibold transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] pointer-events-auto"
+                className="bg-blue-600 hover:bg-blue-500 text-white px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-semibold transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)]"
               >
                 {t.hero.ctaAudit}
               </motion.button>
