@@ -77,22 +77,22 @@ export default function ContactSection() {
       />
 
       <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="border border-white/10 bg-gray-900/40 mx-auto max-w-6xl overflow-hidden rounded-[28px] shadow-2xl backdrop-blur-md">
+        <div className="border border-white/10 bg-gray-900/40 mx-auto max-w-6xl overflow-hidden rounded-2xl sm:rounded-[28px] shadow-2xl backdrop-blur-md">
           <div className="grid md:grid-cols-2">
-            <div className="relative p-5 sm:p-8 md:p-12" ref={formRef}>
+            <div className="relative p-6 sm:p-8 md:p-12" ref={formRef}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="relative mb-10"
+                className="relative mb-8 sm:mb-10"
               >
                 <div className="flex items-center gap-3 mb-4">
-                   <div className="h-10 w-1 px-0 bg-blue-600 rounded-full" />
-                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
+                   <div className="h-8 sm:h-10 w-1 px-0 bg-blue-600 rounded-full" />
+                   <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
                     {t.contact.title}
                   </h2>
                 </div>
-                <p className="text-[#E2E8F0] text-base sm:text-lg max-w-md">
+                <p className="text-[#E2E8F0] text-sm sm:text-lg max-w-md">
                   {t.contact.subtitle}
                 </p>
                 
@@ -112,16 +112,16 @@ export default function ContactSection() {
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 onSubmit={handleSubmit}
-                className="space-y-6"
+                className="space-y-5 sm:space-y-6"
               >
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2">
                   <motion.div
                     className="space-y-2"
                     initial={{ opacity: 0, y: 10 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.4 }}
                   >
-                    <Label htmlFor="name" className="text-gray-300 font-medium ml-1">{t.contact.labelName}</Label>
+                    <Label htmlFor="name" className="text-gray-300 font-medium ml-1 text-sm sm:text-base">{t.contact.labelName}</Label>
                     <Input
                       id="name"
                       value={name}
@@ -129,7 +129,7 @@ export default function ContactSection() {
                       placeholder={t.contact.placeholderName}
                       required
                       autoComplete="name"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-12 focus:ring-blue-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-11 sm:h-12 focus:ring-blue-500/50 text-sm sm:text-base"
                     />
                   </motion.div>
 
@@ -139,7 +139,7 @@ export default function ContactSection() {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.5 }}
                   >
-                    <Label htmlFor="email" className="text-gray-300 font-medium ml-1">{t.contact.labelEmail}</Label>
+                    <Label htmlFor="email" className="text-gray-300 font-medium ml-1 text-sm sm:text-base">{t.contact.labelEmail}</Label>
                     <Input
                       id="email"
                       type="email"
@@ -149,7 +149,7 @@ export default function ContactSection() {
                       required
                       autoComplete="email"
                       inputMode="email"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-12 focus:ring-blue-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-11 sm:h-12 focus:ring-blue-500/50 text-sm sm:text-base"
                     />
                   </motion.div>
                 </div>
@@ -160,7 +160,7 @@ export default function ContactSection() {
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.6 }}
                 >
-                  <Label htmlFor="message" className="text-gray-300 font-medium ml-1">{t.contact.labelMessage}</Label>
+                  <Label htmlFor="message" className="text-gray-300 font-medium ml-1 text-sm sm:text-base">{t.contact.labelMessage}</Label>
                   <Textarea
                     id="message"
                     value={message}
@@ -168,19 +168,19 @@ export default function ContactSection() {
                     placeholder={t.contact.placeholderMessage}
                     required
                     inputMode="text"
-                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-40 resize-none focus:ring-blue-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 h-32 sm:h-40 resize-none focus:ring-blue-500/50 text-sm sm:text-base"
                   />
                 </motion.div>
 
                 <motion.div
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
-                  className="w-full pt-4"
+                  className="w-full pt-2 sm:pt-4"
                 >
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-14 text-lg font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 shadow-xl shadow-blue-500/20 group"
+                    className="w-full h-12 sm:h-14 text-base sm:text-lg font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 shadow-xl shadow-blue-500/20 group"
                   >
                     {isSubmitting ? (
                       <span className="flex items-center justify-center">
