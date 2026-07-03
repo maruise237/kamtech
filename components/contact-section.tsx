@@ -64,13 +64,13 @@ export default function ContactSection() {
     <section id="contact" className="bg-black relative w-full overflow-hidden py-16 md:py-24 border-t border-white/5">
       {/* Background Glows (Thematic Blue) */}
       <div
-        className="absolute top-0 left-0 h-[500px] w-[500px] rounded-full opacity-20 blur-[120px]"
+        className="absolute top-0 left-0 h-[250px] w-[250px] sm:h-[500px] sm:w-[500px] rounded-full opacity-20 blur-[100px] sm:blur-[120px]"
         style={{
           background: `radial-gradient(circle at center, #3b82f6, transparent 70%)`,
         }}
       />
       <div
-        className="absolute right-0 bottom-0 h-[300px] w-[300px] rounded-full opacity-10 blur-[100px]"
+        className="absolute right-0 bottom-0 h-[150px] w-[150px] sm:h-[300px] sm:w-[300px] rounded-full opacity-10 blur-[80px] sm:blur-[100px]"
         style={{
           background: `radial-gradient(circle at center, #1d4ed8, transparent 70%)`,
         }}
@@ -79,7 +79,7 @@ export default function ContactSection() {
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="border border-white/10 bg-gray-900/40 mx-auto max-w-6xl overflow-hidden rounded-[28px] shadow-2xl backdrop-blur-md">
           <div className="grid md:grid-cols-2">
-            <div className="relative p-8 md:p-12" ref={formRef}>
+            <div className="relative p-5 sm:p-8 md:p-12" ref={formRef}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -88,11 +88,11 @@ export default function ContactSection() {
               >
                 <div className="flex items-center gap-3 mb-4">
                    <div className="h-10 w-1 px-0 bg-blue-600 rounded-full" />
-                   <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
+                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
                     {t.contact.title}
                   </h2>
                 </div>
-                <p className="text-[#E2E8F0] text-lg max-w-md">
+                <p className="text-[#E2E8F0] text-base sm:text-lg max-w-md">
                   {t.contact.subtitle}
                 </p>
                 
