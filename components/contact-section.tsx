@@ -177,7 +177,7 @@ export default function ContactSection() {
                       </span>
                     )}
                   </Button>
-                </motion.div>
+                </div>
               </motion.form>
             </div>
 
@@ -220,8 +220,8 @@ export default function ContactSection() {
                     {t.contact.sidebarBadge}
                   </p>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
