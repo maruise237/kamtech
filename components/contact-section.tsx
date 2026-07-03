@@ -61,16 +61,16 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="bg-black relative w-full overflow-hidden py-16 md:py-24 border-t border-white/5">
-      {/* Background Glows (Thematic Blue) */}
+    <section id="contact" className="bg-black relative w-full py-16 md:py-24 border-t border-white/5">
+      {/* Background Glows */}
       <div
-        className="absolute top-0 left-0 h-[250px] w-[250px] sm:h-[500px] sm:w-[500px] rounded-full opacity-20 blur-[100px] sm:blur-[120px]"
+        className="absolute top-0 left-0 h-[200px] w-[200px] sm:h-[400px] sm:w-[400px] rounded-full opacity-20 blur-[80px] sm:blur-[120px] pointer-events-none"
         style={{
           background: `radial-gradient(circle at center, #3b82f6, transparent 70%)`,
         }}
       />
       <div
-        className="absolute right-0 bottom-0 h-[150px] w-[150px] sm:h-[300px] sm:w-[300px] rounded-full opacity-10 blur-[80px] sm:blur-[100px]"
+        className="absolute right-0 bottom-0 h-[120px] w-[120px] sm:h-[250px] sm:w-[250px] rounded-full opacity-10 blur-[60px] sm:blur-[100px] pointer-events-none"
         style={{
           background: `radial-gradient(circle at center, #1d4ed8, transparent 70%)`,
         }}
