@@ -77,7 +77,7 @@ export default function ContactSection() {
       />
 
       <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="border border-white/10 bg-gray-900/40 mx-auto max-w-6xl overflow-hidden rounded-[28px] shadow-2xl backdrop-blur-md">
+        <div className="border border-white/10 bg-gray-900/40 mx-auto max-w-6xl rounded-2xl sm:rounded-[28px] shadow-2xl backdrop-blur-md">
           <div className="grid md:grid-cols-2">
             <div className="relative p-5 sm:p-8 md:p-12" ref={formRef}>
               <motion.div
