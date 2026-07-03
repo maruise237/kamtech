@@ -53,6 +53,11 @@ export function Footer() {
                   {t.footer.service4}
                 </a>
               </li>
+              <li>
+                <a href="#features" className="hover:text-white transition-colors inline-block">
+                  {t.footer.service5}
+                </a>
+              </li>
             </ul>
           </div>
 

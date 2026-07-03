@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer"
 const AnimatedFeaturesSection = dynamic(() => import("@/components/animated-features-section").then(mod => mod.AnimatedFeaturesSection), { ssr: false })
 const ArcCarouselSection = dynamic(() => import("@/components/arc-carousel-section").then(mod => mod.ArcCarouselSection), { ssr: false })
 const TestimonialsCarousel = dynamic(() => import("@/components/testimonials-carousel"), { ssr: false })
-const PricingSection = dynamic(() => import("@/components/pricing-section").then(mod => mod.PricingSection), { ssr: false })
+const WhyKamtechSection = dynamic(() => import("@/components/why-kamtech-section"), { ssr: false })
 const FAQSection = dynamic(() => import("@/components/faq-section").then(mod => mod.FAQSection), { ssr: false })
 const ContactSection = dynamic(() => import("@/components/contact-section"), { ssr: false })
 const AnimatedCTASection = dynamic(() => import("@/components/animated-cta-section").then(mod => mod.AnimatedCTASection), { ssr: false })
@@ -23,8 +23,8 @@ export default function HomePage() {
         <ProcessSection />
         <AnimatedFeaturesSection />
         <ArcCarouselSection />
+        <WhyKamtechSection />
         <TestimonialsCarousel />
-        <PricingSection />
         <FAQSection />
         <ContactSection />
         <AnimatedCTASection />

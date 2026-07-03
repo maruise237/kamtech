@@ -2,7 +2,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Search, Settings, GraduationCap, TrendingUp } from 'lucide-react';
+import { CheckCircle2, Search, Settings, GraduationCap, TrendingUp, HeartHandshake } from 'lucide-react';
 import { BentoCard } from '@/components/ui/bento-card';
 import { useTranslation } from "@/lib/i18n-context"
 
@@ -35,6 +35,13 @@ export function ProcessSection() {
       title: t.process.step4Title,
       description: t.process.step4Desc,
       metric: t.process.step4Metric,
+      size: 'medium'
+    },
+    {
+      icon: <HeartHandshake className="size-6" />,
+      title: t.process.step5Title,
+      description: t.process.step5Desc,
+      metric: t.process.step5Metric,
       size: 'medium'
     },
   ];
