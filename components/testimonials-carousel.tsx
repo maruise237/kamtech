@@ -150,9 +150,16 @@ export default function TestimonialsCarousel({
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-blue-900/40 to-black border border-blue-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center gap-8 shadow-[0_0_40px_rgba(37,99,235,0.15)]"
+            className="group relative overflow-hidden rounded-2xl border border-blue-500/20 bg-black p-6 sm:p-8 flex flex-col md:flex-row items-center gap-8 shadow-lg transition-all duration-500 hover:border-blue-500/40"
           >
-            <div className="flex-1 space-y-4">
+            {/* Grid pattern */}
+            <div 
+              className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
+              style={{
+                backgroundImage: `linear-gradient(to right, #3b82f611 1px, transparent 1px), linear-gradient(to bottom, #3b82f611 1px, transparent 1px)`
+              }}
+            />
+            <div className="flex-1 space-y-4 relative z-10">
               <div className="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold uppercase tracking-wide">
                 {t.testimonials.caseStudyBadge}
               </div>
@@ -184,6 +191,8 @@ export default function TestimonialsCarousel({
                 <p className="text-xs text-[#E2E8F0]">{t.testimonials.metric2Label}</p>
               </div>
             </div>
+            {/* Bottom glow bar */}
+            <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-blue-600 to-blue-400 blur-2xl transition-all duration-500 group-hover:blur-lg pointer-events-none" />
           </motion.div>
         </div>
 
@@ -200,8 +209,17 @@ export default function TestimonialsCarousel({
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="border-gray-800 bg-gray-900/50 relative h-full w-full rounded-2xl border p-6 shadow-xl backdrop-blur-md flex flex-col group hover:border-blue-500/30 transition-all duration-300"
+                  className="group relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-black p-6 shadow-lg flex flex-col transition-all duration-500 hover:border-blue-500/30"
                 >
+                  {/* Grid pattern (signature BentoCard) */}
+                  <div 
+                    className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
+                    style={{
+                      backgroundImage: `linear-gradient(to right, #3b82f611 1px, transparent 1px), linear-gradient(to bottom, #3b82f611 1px, transparent 1px)`
+                    }}
+                  />
+
+                  <div className="relative z-10 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-6">
                     <Quote className="h-8 w-8 text-blue-500/50 -rotate-180" />
                     {testimonial.metric && (
@@ -247,6 +265,9 @@ export default function TestimonialsCarousel({
                       </p>
                     </div>
                   </motion.div>
+
+                  {/* Bottom glow bar (signature BentoCard) */}
+                  <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-blue-600 to-blue-400 blur-2xl transition-all duration-500 group-hover:blur-lg pointer-events-none" />
                 </motion.div>
               </div>
             ))}
