@@ -81,12 +81,24 @@ export default function AccompagnementLanding() {
       <div className="absolute bottom-8 left-8 w-2 h-2 opacity-30 bg-blue-400 rounded-full" style={{ animation: "word-appear 1s ease-out forwards", animationDelay: "4.4s" }} />
       <div className="absolute bottom-8 right-8 w-2 h-2 opacity-30 bg-blue-400 rounded-full" style={{ animation: "word-appear 1s ease-out forwards", animationDelay: "4.6s" }} />
 
-      {/* KAMTECH logo top left */}
-      <div className="absolute top-6 left-6 z-20">
+      {/* KAMTECH logo top left — lien vers l'accueil */}
+      <a href="/" className="absolute top-6 left-6 z-20 hover:opacity-80 transition-opacity">
         <span className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase">
           KAMTECH <span className="text-blue-500">IA</span>
         </span>
-      </div>
+      </a>
+
+      {/* Bouton retour vers l'accueil */}
+      <a
+        href="/"
+        className="absolute top-6 right-6 z-20 flex items-center gap-1.5 text-xs text-[#9BA1B5] hover:text-white transition-colors border border-[rgba(255,255,255,0.08)] rounded-full px-3.5 py-1.5 hover:border-white/20"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+        Retour
+      </a>
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-between px-6 py-16 md:px-16 md:py-20">
         {/* Top tagline */}
@@ -181,6 +193,16 @@ export default function AccompagnementLanding() {
             <div className="w-1 h-1 rounded-full bg-blue-400 opacity-40" />
           </div>
         </div>
+
+        {/* SEO Footer links */}
+        <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-[#9BA1B5] mt-8 opacity-60 hover:opacity-100 transition-opacity" aria-label="Liens internes">
+          <a href="/" className="hover:text-white transition-colors">Accueil</a>
+          <a href="/#services" className="hover:text-white transition-colors">Services</a>
+          <a href="/#why-kamtech" className="hover:text-white transition-colors">Pourquoi KAMTECH</a>
+          <a href="/#testimonials" className="hover:text-white transition-colors">Témoignages</a>
+          <a href="/#contact" className="hover:text-white transition-colors">Contact</a>
+          <a href="/accompagnement/quiz" className="hover:text-white transition-colors">Diagnostic gratuit</a>
+        </nav>
       </div>
 
       {/* Mouse gradient */}
