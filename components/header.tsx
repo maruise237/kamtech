@@ -76,7 +76,7 @@ export function Header() {
             <LeLoLogo />
           </div>
 
-          <nav className="hidden lg:flex items-center gap-2 h-10 px-2">
+          <nav className="hidden lg:flex items-center gap-2 h-10 px-2 flex-1 justify-center">
             {navLinks.map((link) => (
               <NavIcon key={link.name} mouseX={mouseX} title={link.name} href={link.href} />
             ))}
