@@ -265,6 +265,7 @@ export default function TestimonialsCarousel({
                       </p>
                     </div>
                   </motion.div>
+                  </div>
 
                   {/* Bottom glow bar (signature BentoCard) */}
                   <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-blue-600 to-blue-400 blur-2xl transition-all duration-500 group-hover:blur-lg pointer-events-none" />
