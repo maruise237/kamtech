@@ -58,7 +58,7 @@ export function Header() {
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         className={`
-          fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out w-[95%] sm:w-auto
+          fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out w-[95%] lg:max-w-7xl
           ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
         `}
       >
