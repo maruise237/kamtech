@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowRight, Sparkles } from "lucide-react"
 import { PointerHighlight } from "@/components/ui/pointer-highlight"
+import { GradientBars } from "@/components/ui/gradient-bars"
 
 const colors = {
   black: "#0a0a0a",
@@ -54,6 +55,9 @@ export default function AccompagnementLanding() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-[#0a0a0a] via-black to-[#111111] text-[#F6F2E9] font-sans">
+      {/* Gradient Bars background — ultra subtle */}
+      <GradientBars />
+
       {/* SVG Background Grid */}
       <svg className="absolute inset-0 h-full w-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
         <defs>
