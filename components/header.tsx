@@ -47,6 +47,7 @@ export function Header() {
 
   const navLinks = [
     { name: t.header.services, href: "/#features" },
+    { name: t.header.diagnostic, href: "/accompagnement" },
     { name: t.header.blog, href: "/blog" },
     { name: t.header.faq, href: "/#faq" },
     { name: t.header.contact, href: "/#contact" },

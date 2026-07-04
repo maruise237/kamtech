@@ -4,6 +4,7 @@ export const fr = {
     blog: "Blog",
     faq: "FAQ",
     contact: "Contact",
+    diagnostic: "Diagnostic",
     getAudit: "Obtenir mon diagnostic gratuit",
     closeMenu: "Fermer le menu",
     openMenu: "Ouvrir le menu",

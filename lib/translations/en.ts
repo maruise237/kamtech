@@ -4,6 +4,7 @@ export const en = {
     blog: "Blog",
     faq: "FAQ",
     contact: "Contact",
+    diagnostic: "Diagnosis",
     getAudit: "Get my free diagnosis",
     closeMenu: "Close menu",
     openMenu: "Open menu",
