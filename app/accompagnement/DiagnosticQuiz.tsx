@@ -257,7 +257,8 @@ export default function DiagnosticQuiz() {
   const nextBranchQuestion = useCallback(() => {
     setStepCount(2)
     setBranchIndex(0)
-  }, [])
+    goTo("q_branch")
+  }, [goTo])
 
   const answerBranch = useCallback(
     (key: string, value: string, tierId?: string) => {
