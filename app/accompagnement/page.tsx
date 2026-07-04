@@ -120,7 +120,7 @@ export default function AccompagnementLanding() {
         {/* Main headline */}
         <div className="mx-auto max-w-5xl text-center">
           <h1 className="font-display text-4xl leading-[1.1] font-bold tracking-tight md:text-6xl lg:text-7xl text-[#F6F2E9]">
-            <div className="mb-5 md:mb-7">
+            <div className="flex flex-wrap justify-center gap-x-[0.35em] mb-5 md:mb-7">
               <span className="word" data-delay="1200">Arrête</span>
               <span className="word" data-delay="1350">de</span>
               <span className="word" data-delay="1500">
@@ -132,7 +132,7 @@ export default function AccompagnementLanding() {
               <span className="word" data-delay="1800">tutos</span>
               <span className="word" data-delay="1950">IA.</span>
             </div>
-            <div className="text-3xl leading-[1.15] font-semibold md:text-4xl lg:text-5xl text-[#9BA1B5]">
+            <div className="flex flex-wrap justify-center gap-x-[0.35em] text-3xl leading-[1.15] font-semibold md:text-4xl lg:text-5xl text-[#9BA1B5]">
               <span className="word" data-delay="2200">Commence</span>
               <span className="word" data-delay="2350">à</span>
               <span className="word" data-delay="2500">
