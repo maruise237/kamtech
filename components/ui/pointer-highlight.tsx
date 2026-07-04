@@ -89,12 +89,17 @@ export function PointerHighlight({
         )}
       >
         <svg
-          width="22"
-          height="22"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
-          fill="currentColor"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M5 2.5C5 2.5 4.5 2 4.5 2.5V18.5C4.5 19 5 19.5 5.5 19.5H10.5L12.5 23L13 23.5L13.5 23L17 19H19C19.5 19 20 18.5 20 18V16.5C20 16 19.5 15.5 19 15.5H15.5L12.5 11L12 10.5L11.5 11L8.5 15.5H5.5V2.5Z" />
+          <path d="M5 3L5 19L9 15L13 20L14.5 19L10.5 14L18 14L5 3Z" fill="currentColor" stroke="none" />
+          <path d="M5 3L5 19L9 15L13 20L14.5 19L10.5 14L18 14L5 3Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       </motion.span>
 
