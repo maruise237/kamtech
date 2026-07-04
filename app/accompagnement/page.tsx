@@ -58,7 +58,7 @@ export default function AccompagnementLanding() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `linear-gradient(to right, rgba(59,130,246,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.05) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(to right, rgba(59,130,246,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.12) 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
           maskImage: "radial-gradient(ellipse at center, transparent 20%, black 70%)",
           WebkitMaskImage: "radial-gradient(ellipse at center, transparent 20%, black 70%)",
