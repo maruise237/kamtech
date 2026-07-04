@@ -101,7 +101,7 @@ export default function AccompagnementLanding() {
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-between px-6 py-16 md:px-16 md:py-20">
         {/* Top tagline */}
         <div className="text-center">
-          <h2 className="font-mono text-xs font-light tracking-[0.2em] uppercase text-[#9BA1B5] md:text-sm">
+          <h2 className="font-display text-xs font-semibold tracking-[0.15em] uppercase text-[#9BA1B5] md:text-sm">
             <span className="word" data-delay="0">Diagnostic</span>
             <span className="word" data-delay="200">gratuit</span>
             <span className="word" data-delay="400">—</span>
@@ -119,8 +119,8 @@ export default function AccompagnementLanding() {
 
         {/* Main headline */}
         <div className="mx-auto max-w-5xl text-center">
-          <h1 className="text-3xl leading-tight font-extralight tracking-tight md:text-5xl lg:text-6xl text-[#F6F2E9]">
-            <div className="mb-4 md:mb-6">
+          <h1 className="font-display text-4xl leading-[1.1] font-bold tracking-tight md:text-6xl lg:text-7xl text-[#F6F2E9]">
+            <div className="mb-5 md:mb-7">
               <span className="word" data-delay="1200">Arrête</span>
               <span className="word" data-delay="1350">de</span>
               <span className="word" data-delay="1500">
@@ -132,12 +132,12 @@ export default function AccompagnementLanding() {
               <span className="word" data-delay="1800">tutos</span>
               <span className="word" data-delay="1950">IA.</span>
             </div>
-            <div className="text-2xl leading-relaxed font-thin md:text-3xl lg:text-4xl text-[#9BA1B5]">
+            <div className="text-3xl leading-[1.15] font-semibold md:text-4xl lg:text-5xl text-[#9BA1B5]">
               <span className="word" data-delay="2200">Commence</span>
               <span className="word" data-delay="2350">à</span>
               <span className="word" data-delay="2500">
                 <PointerHighlight rectangleClassName="border-blue-500/60" pointerClassName="text-blue-500" delay={1.5}>
-                  <span className="text-blue-500 font-normal">produire</span>
+                  <span className="text-blue-500 font-bold">produire</span>
                 </PointerHighlight>
               </span>
               <span className="word" data-delay="2650">avec</span>
@@ -176,7 +176,7 @@ export default function AccompagnementLanding() {
               background: `linear-gradient(to right, transparent, rgba(59,130,246,0.3), transparent)`,
             }}
           />
-          <h2 className="font-mono text-xs font-light tracking-[0.2em] uppercase text-[#9BA1B5] md:text-sm">
+          <h2 className="font-display text-xs font-semibold tracking-[0.15em] uppercase text-[#9BA1B5] md:text-sm">
             <span className="word" data-delay="4000">Sans</span>
             <span className="word" data-delay="4150">engagement.</span>
             <span className="word" data-delay="4300">Sans</span>
