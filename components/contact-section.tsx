@@ -86,13 +86,13 @@ export default function ContactSection() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="relative mb-10"
               >
-                <div className="flex items-center gap-3 mb-4">
-                   <div className="h-10 w-1 px-0 bg-blue-600 rounded-full" />
+                <div className="flex items-start sm:items-center gap-2 sm:gap-3 mb-4">
+                   <div className="h-8 sm:h-10 w-1 mt-1 sm:mt-0 shrink-0 bg-blue-600 rounded-full" />
                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
                     {t.contact.title}
                   </h2>
                 </div>
-                <p className="text-[#E2E8F0] text-lg max-w-md">
+                <p className="text-[#E2E8F0] text-base sm:text-lg max-w-md">
                   {t.contact.subtitle}
                 </p>
                 
@@ -102,7 +102,7 @@ export default function ContactSection() {
                   minSize={0.4}
                   maxSize={1.2}
                   particleDensity={100}
-                  className="absolute -top-10 -left-10 h-32 w-full opacity-30 pointer-events-none"
+                  className="absolute -top-10 left-0 h-32 w-full opacity-30 pointer-events-none overflow-hidden"
                   particleColor="#3b82f6"
                 />
               </motion.div>
@@ -180,7 +180,7 @@ export default function ContactSection() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-14 text-lg font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 shadow-xl shadow-blue-500/20 group"
+                    className="w-full h-auto min-h-14 text-base sm:text-lg font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 shadow-xl shadow-blue-500/20 group whitespace-normal px-4 py-3"
                   >
                     {isSubmitting ? (
                       <span className="flex items-center justify-center">
