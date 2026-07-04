@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowRight, Sparkles } from "lucide-react"
+import { PointerHighlight } from "@/components/ui/pointer-highlight"
 
 const colors = {
   black: "#0a0a0a",
@@ -122,7 +123,11 @@ export default function AccompagnementLanding() {
             <div className="mb-4 md:mb-6">
               <span className="word" data-delay="1200">Arrête</span>
               <span className="word" data-delay="1350">de</span>
-              <span className="word" data-delay="1500" className="text-blue-500">collectionner</span>
+              <span className="word" data-delay="1500">
+                <PointerHighlight rectangleClassName="border-blue-500/60" pointerClassName="text-blue-500">
+                  <span className="text-blue-500">collectionner</span>
+                </PointerHighlight>
+              </span>
               <span className="word" data-delay="1650">les</span>
               <span className="word" data-delay="1800">tutos</span>
               <span className="word" data-delay="1950">IA.</span>
@@ -130,7 +135,11 @@ export default function AccompagnementLanding() {
             <div className="text-2xl leading-relaxed font-thin md:text-3xl lg:text-4xl text-[#9BA1B5]">
               <span className="word" data-delay="2200">Commence</span>
               <span className="word" data-delay="2350">à</span>
-              <span className="word" data-delay="2500" className="text-blue-500 font-normal">produire</span>
+              <span className="word" data-delay="2500">
+                <PointerHighlight rectangleClassName="border-blue-500/60" pointerClassName="text-blue-500" delay={1.5}>
+                  <span className="text-blue-500 font-normal">produire</span>
+                </PointerHighlight>
+              </span>
               <span className="word" data-delay="2650">avec</span>
               <span className="word" data-delay="2800">un</span>
               <span className="word" data-delay="2950">plan</span>
