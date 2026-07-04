@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Diagnostic IA Gratuit | KAMTECH — Trouvez votre solution IA",
+  title: "Diagnostic IA Gratuit | KAMTECH — Trouvez votre solution IA en 90 secondes",
   description:
-    "Répondez à 4 questions et recevez un plan personnalisé pour automatiser votre activité avec l'IA. Diagnostic gratuit — sans engagement.",
+    "6 questions pour identifier la solution IA adaptée à votre business. Chatbot WhatsApp, site web IA, automatisation, agent IA ou audit. Résultat personnalisé immédiat.",
   openGraph: {
     title: "Diagnostic IA Gratuit | KAMTECH",
-    description: "Trouvez la solution IA qui correspond à votre activité en 2 minutes. Plan personnalisé offert.",
+    description: "Trouvez la solution IA qui correspond à votre business en 90 secondes.",
     type: "website",
     url: "https://kamtech.online/accompagnement/quiz",
   },
