@@ -151,14 +151,11 @@ export default function TestimonialsCarousel({
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             className="group relative overflow-hidden rounded-2xl border border-blue-500/20 bg-black p-6 sm:p-8 flex flex-col md:flex-row items-center gap-8 shadow-lg transition-all duration-500 hover:border-blue-500/40"
+            style={{
+              backgroundImage: `radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.03) 0%, transparent 100%), linear-gradient(to right, rgba(59,130,246,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.02) 1px, transparent 1px)`,
+              backgroundSize: 'auto, 24px 24px, 24px 24px'
+            }}
           >
-            {/* Grid pattern (signature BentoCard) */}
-            <div 
-              className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
-              style={{
-                backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
-              }}
-            />
             <div className="flex-1 space-y-4 relative z-10">
               <div className="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold uppercase tracking-wide">
                 {t.testimonials.caseStudyBadge}
@@ -180,31 +177,27 @@ export default function TestimonialsCarousel({
             </div>
 
             <div className="grid grid-cols-2 gap-4 w-full md:w-auto shrink-0">
-              <div className="bg-black border border-blue-500/20 rounded-xl p-4 text-center relative overflow-hidden">
-                <div 
-                  className="absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
-                  style={{
-                    backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
-                  }}
-                />
-                <div className="relative z-10">
-                  <Clock className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                  <p className="text-2xl font-black text-white">-60h</p>
-                  <p className="text-xs text-gray-400">{t.testimonials.metric1Label}</p>
-                </div>
+              <div 
+                className="bg-black border border-blue-500/20 rounded-xl p-4 text-center"
+                style={{
+                  backgroundImage: `radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.03) 0%, transparent 100%), linear-gradient(to right, rgba(59,130,246,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.02) 1px, transparent 1px)`,
+                  backgroundSize: 'auto, 24px 24px, 24px 24px'
+                }}
+              >
+                <Clock className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+                <p className="text-2xl font-black text-white">-60h</p>
+                <p className="text-xs text-gray-400">{t.testimonials.metric1Label}</p>
               </div>
-              <div className="bg-black border border-blue-500/20 rounded-xl p-4 text-center relative overflow-hidden">
-                <div 
-                  className="absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
-                  style={{
-                    backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
-                  }}
-                />
-                <div className="relative z-10">
-                  <TrendingUp className="w-6 h-6 text-green-400 mx-auto mb-2" />
-                  <p className="text-2xl font-black text-white">+42%</p>
-                  <p className="text-xs text-gray-400">{t.testimonials.metric2Label}</p>
-                </div>
+              <div 
+                className="bg-black border border-blue-500/20 rounded-xl p-4 text-center"
+                style={{
+                  backgroundImage: `radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.03) 0%, transparent 100%), linear-gradient(to right, rgba(59,130,246,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.02) 1px, transparent 1px)`,
+                  backgroundSize: 'auto, 24px 24px, 24px 24px'
+                }}
+              >
+                <TrendingUp className="w-6 h-6 text-green-400 mx-auto mb-2" />
+                <p className="text-2xl font-black text-white">+42%</p>
+                <p className="text-xs text-gray-400">{t.testimonials.metric2Label}</p>
               </div>
             </div>
             {/* Bottom glow bar */}
@@ -226,15 +219,11 @@ export default function TestimonialsCarousel({
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   className="group relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-black p-6 shadow-lg flex flex-col transition-all duration-500 hover:border-blue-500/30"
+                  style={{
+                    backgroundImage: `radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.03) 0%, transparent 100%), linear-gradient(to right, rgba(59,130,246,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.02) 1px, transparent 1px)`,
+                    backgroundSize: 'auto, 24px 24px, 24px 24px'
+                  }}
                 >
-                  {/* Grid pattern (signature BentoCard) */}
-                  <div 
-                    className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
-                    style={{
-                      backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
-                    }}
-                  />
-
                   <div className="relative z-10 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-6">
                     <Quote className="h-8 w-8 text-blue-500/50 -rotate-180" />
