@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 
 const WHATSAPP_NUMBER = "237658992588"
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xkopjrbj"
 
 /* =========================================================
    DATA
@@ -233,6 +234,8 @@ export default function DiagnosticQuiz() {
   const [stepCount, setStepCount] = useState(0)
   const [totalSteps, setTotalSteps] = useState(6)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
+  const [isSending, setIsSending] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
   const nameRef = useRef<HTMLInputElement>(null)
 
   const progressPct = Math.min(100, Math.round((stepCount / totalSteps) * 100))
@@ -279,15 +282,52 @@ export default function DiagnosticQuiz() {
     [branch, branchIndex, totalSteps, goTo]
   )
 
-  const submitName = useCallback(() => {
+  const submitName = useCallback(async () => {
     const val = nameInput.trim()
-    setName(val || "Toi")
+    const userName = val || "Toi"
+    setName(userName)
+    setIsSending(true)
+    setSendError(null)
+
+    // Send quiz data to Formspree before anything else
+    try {
+      const offerLabel =
+        branch === "A"
+          ? answers.tier === "45"
+            ? "IA Business Complet (45 000 FCFA)"
+            : "IA Starter (25 000 FCFA)"
+          : "Accompagnement Business IA"
+
+      const answersLines = Object.entries(answers)
+        .filter(([k]) => k !== "tier")
+        .map(([k, v]) => `- ${k}: ${v}`)
+        .join("\n")
+
+      await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          _subject: `Nouveau diagnostic IA - ${userName}`,
+          name: userName,
+          profile: branch === "A" ? "Apprendre l'IA" : "Activité à structurer",
+          offre: offerLabel,
+          reponses: answersLines,
+          timestamp: new Date().toISOString(),
+          source: "quiz-diagnostic-kamtech",
+        }),
+      })
+    } catch (err) {
+      console.error("Erreur envoi diagnostic:", err)
+      // On continue même si l'envoi échoue — le WhatsApp reste disponible
+    }
+
+    setIsSending(false)
     setStepCount(totalSteps)
     goTo("loading")
     setTimeout(() => {
       goTo("result")
     }, 2400)
-  }, [nameInput, totalSteps, goTo])
+  }, [nameInput, branch, answers, totalSteps, goTo])
 
   useEffect(() => {
     if (screen === "q_name" && nameRef.current) {
@@ -558,9 +598,17 @@ export default function DiagnosticQuiz() {
               />
               <button
                 onClick={submitName}
-                className="w-full inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white border-none rounded-[18px] px-6 py-4 font-bold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(59,130,246,0.35)] active:translate-y-0"
+                disabled={isSending}
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white border-none rounded-[18px] px-6 py-4 font-bold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(59,130,246,0.35)] active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
-                Voir mon plan →
+                {isSending ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Envoi de ton diagnostic…
+                  </>
+                ) : (
+                  "Voir mon plan →"
+                )}
               </button>
             </div>
           )}
