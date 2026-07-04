@@ -22,7 +22,7 @@ function ClientLayoutContent({
   const pathname = usePathname()
 
   // Hide popups/widgets on quiz & funnel pages
-  const isQuizPage = pathname?.startsWith("/accompagnement")
+  const isQuizPage = pathname?.startsWith("/accompagnement") || pathname?.startsWith("/diagnostic")
 
   useEffect(() => {
     (async function () {
