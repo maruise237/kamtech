@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { LeLoLogo } from "./lelo-logo"
 import { Button } from "./ui/button"
 import { openWhatsAppChat } from "@/lib/whatsapp"
@@ -17,16 +18,13 @@ import {
 
 export function Header() {
   const { t, language, setLanguage } = useTranslation()
+  const router = useRouter()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const mouseX = useMotionValue(Infinity)
-
-  const handleAuditClick = useCallback(() => {
-    openWhatsAppChat("auditGratuit")
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,11 +101,9 @@ export function Header() {
             </DropdownMenu>
 
             <Button
-              data-cal-namespace="15min"
-              data-cal-link="kamtech/15min"
-              data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+              onClick={() => router.push("/diagnostic")}
               size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-semibold h-9 px-4 sm:px-6"
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-semibold h-9 px-4 sm:px-6 cursor-pointer"
             >
               {t.header.getAudit}
             </Button>
@@ -160,11 +156,11 @@ export function Header() {
                   ))}
                   <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
                     <Button
-                      data-cal-namespace="15min"
-                      data-cal-link="kamtech/15min"
-                      data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
-                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl w-full"
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl w-full cursor-pointer"
+                      onClick={() => {
+                        router.push("/diagnostic")
+                        setIsMobileMenuOpen(false)
+                      }}
                     >
                       {t.header.bookAudit}
                     </Button>

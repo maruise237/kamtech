@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import { useTranslation } from "@/lib/i18n-context"
 
 export function ExitIntentPopup() {
   const { t } = useTranslation()
+  const router = useRouter()
   const [isVisible, setIsVisible] = useState(false)
   const [hasTriggered, setHasTriggered] = useState(false)
 
@@ -68,11 +70,11 @@ export function ExitIntentPopup() {
               </p>
 
               <button
-                data-cal-namespace="15min"
-                data-cal-link="kamtech/15min"
-                data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
-                onClick={() => setIsVisible(false)} // Close the popup when opening cal.com modal
-                className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-base font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 group"
+                onClick={() => {
+                  router.push("/diagnostic")
+                  setIsVisible(false)
+                }}
+                className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-base font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 group cursor-pointer"
               >
                 {t.exitIntent.cta}
               </button>

@@ -4,7 +4,7 @@ export const en = {
     blog: "Blog",
     faq: "FAQ",
     contact: "Contact",
-    diagnostic: "Diagnosis",
+	    diagnostic: "Coaching",
     getAudit: "Get my free diagnosis",
     closeMenu: "Close menu",
     openMenu: "Open menu",
@@ -192,9 +192,9 @@ export const en = {
     contact: "Contact",
     rights: "All rights reserved.",
   },
-  stickyCTA: {
-    cta: "Get my free diagnosis",
-  },
+	  stickyCTA: {
+	    cta: "Book an appointment",
+	  },
   exitIntent: {
     badge: "Don't leave without your diagnosis",
     title: "You might be losing 20h per week?",
@@ -241,8 +241,8 @@ export const en = {
     title: "You have a problem?",
     title2: "We have a solution for you.",
     subtitle: "While you're hesitating, others are moving forward.",
-    desc: "Take 15 minutes with us. We listen to your situation and tell you exactly what we can do for you. No hard sell. Just answers and an action plan.",
-    ctaAudit: "Get my free diagnosis",
+	    desc: "Take 15 minutes with us. We listen to your situation and tell you exactly what we can do for you. No hard sell. Just answers and an action plan.",
+	    ctaAudit: "Book an appointment",
     ctaExpert: "Talk to an expert (WhatsApp)",
     formLink: "Send a request",
     guarantee: "Free diagnosis",

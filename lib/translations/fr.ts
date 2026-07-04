@@ -4,7 +4,7 @@ export const fr = {
     blog: "Blog",
     faq: "FAQ",
     contact: "Contact",
-    diagnostic: "Diagnostic",
+	    diagnostic: "Accompagnement",
     getAudit: "Obtenir mon diagnostic gratuit",
     closeMenu: "Fermer le menu",
     openMenu: "Ouvrir le menu",
@@ -192,9 +192,9 @@ export const fr = {
     contact: "Contact",
     rights: "Tous droits réservés.",
   },
-  stickyCTA: {
-    cta: "Obtenir mon diagnostic gratuit",
-  },
+	  stickyCTA: {
+	    cta: "Prendre rendez-vous",
+	  },
   exitIntent: {
     badge: "Ne partez pas sans votre diagnostic",
     title: "Vous perdez peut-être 20h par semaine ?",
@@ -241,8 +241,8 @@ export const fr = {
     title: "Vous avez un problème ?",
     title2: "On a une solution pour vous.",
     subtitle: "Pendant que vous hésitez, d'autres avancent.",
-    desc: "Prenez 15 minutes avec nous. On écoute votre situation et on vous dit exactement ce qu'on peut faire pour vous. Pas de vente forcée. Juste des réponses et un plan d'action.",
-    ctaAudit: "Obtenir mon diagnostic gratuit",
+	    desc: "Prenez 15 minutes avec nous. On écoute votre situation et on vous dit exactement ce qu'on peut faire pour vous. Pas de vente forcée. Juste des réponses et un plan d'action.",
+	    ctaAudit: "Prendre rendez-vous",
     ctaExpert: "Parler à un expert (WhatsApp)",
     formLink: "Envoyer une demande",
     guarantee: "Diagnostic gratuit",

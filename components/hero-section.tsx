@@ -1,21 +1,17 @@
 "use client"
 
 import { useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "./ui/button"
 import { ArrowRight, ShieldCheck, Zap, Clock } from "lucide-react"
 import { ParticleTextEffect } from "./particle-text-effect"
 import { openWhatsAppChat } from "@/lib/whatsapp"
 import { useABTest } from "@/hooks/use-ab-test"
-import { AuditForm } from "./audit-form"
 import { useTranslation } from "@/lib/i18n-context"
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "./ui/dialog"
 
 export function HeroSection() {
   const { t, language } = useTranslation()
+  const router = useRouter()
   const handleExpertClick = useCallback(() => {
     openWhatsAppChat("parlerExpert", language)
   }, [language])
@@ -75,20 +71,14 @@ export function HeroSection() {
 
           <div className="flex flex-col items-center gap-4 sm:gap-6 w-full px-2 sm:px-0">
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    size="lg"
-                    className={`${ctaVariant ? ctaConfig[ctaVariant].color : ctaConfig["A"].color} text-white group text-sm sm:text-base font-semibold w-full sm:w-auto px-8 active:scale-[0.98] transition-all`}
-                  >
-                    {ctaVariant ? ctaConfig[ctaVariant].text : ctaConfig["A"].text}
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="p-0 bg-transparent border-none max-w-2xl">
-                  <AuditForm />
-                </DialogContent>
-              </Dialog>
+              <Button
+                onClick={() => router.push("/diagnostic")}
+                size="lg"
+                className={`${ctaVariant ? ctaConfig[ctaVariant].color : ctaConfig["A"].color} text-white group text-sm sm:text-base font-semibold w-full sm:w-auto px-8 active:scale-[0.98] transition-all cursor-pointer`}
+              >
+                {ctaVariant ? ctaConfig[ctaVariant].text : ctaConfig["A"].text}
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
 
               <Button 
                 onClick={handleExpertClick}
