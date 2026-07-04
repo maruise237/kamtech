@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { Suspense, useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { getCalApi } from "@calcom/embed-react"
 import { Toaster } from "sonner"
 import Loader from "@/components/ui/loader"
@@ -18,6 +19,10 @@ function ClientLayoutContent({
 }>) {
   const [showLoader, setShowLoader] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const pathname = usePathname()
+
+  // Hide popups/widgets on quiz & funnel pages
+  const isQuizPage = pathname?.startsWith("/accompagnement")
 
   useEffect(() => {
     (async function () {
@@ -71,9 +76,13 @@ function ClientLayoutContent({
       <div>
         {children}
         <NoSSRWrapper>
-          <StickyMobileCTA />
-          <ExitIntentPopup />
-          <ElevenLabsWidget />
+          {!isQuizPage && (
+            <>
+              <StickyMobileCTA />
+              <ExitIntentPopup />
+              <ElevenLabsWidget />
+            </>
+          )}
         </NoSSRWrapper>
         <Toaster richColors position="top-right" />
       </div>

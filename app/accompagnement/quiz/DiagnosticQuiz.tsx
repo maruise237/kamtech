@@ -263,6 +263,26 @@ export default function DiagnosticQuiz() {
     goTo("q_branch")
   }, [goTo])
 
+  const goBack = useCallback(() => {
+    if (screen === "q_segment") {
+      goTo("intro")
+    } else if (screen === "insight") {
+      goTo("q_segment")
+    } else if (screen === "q_branch") {
+      if (branchIndex === 0) {
+        goTo("insight")
+      } else {
+        setBranchIndex((prev) => prev - 1)
+        setStepCount((prev) => prev - 1)
+      }
+    } else if (screen === "q_name") {
+      const lastIdx = branch ? BRANCH_QUESTIONS[branch].length - 1 : 0
+      setBranchIndex(lastIdx)
+      setStepCount(2 + lastIdx)
+      goTo("q_branch")
+    }
+  }, [screen, branchIndex, branch, goTo])
+
   const answerBranch = useCallback(
     (key: string, value: string, tierId?: string) => {
       setAnswers((prev) => {
@@ -404,8 +424,21 @@ export default function DiagnosticQuiz() {
       <div className="w-full max-w-[560px] min-h-screen flex flex-col px-[22px] py-6 pb-10 relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-7">
-          <div className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase">
-            KAMTECH <span className="text-blue-500">IA</span>
+          <div className="flex items-center gap-3">
+            {screen !== "intro" && screen !== "result" && screen !== "loading" && (
+              <button
+                onClick={goBack}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#9BA1B5] cursor-pointer transition-all duration-200 hover:text-white hover:border-white/20 hover:bg-[#1a1a1a]"
+                aria-label="Retour"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+            )}
+            <div className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase">
+              KAMTECH <span className="text-blue-500">IA</span>
+            </div>
           </div>
           {showProgress && (
             <div className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase">
