@@ -393,7 +393,7 @@ export default function DiagnosticQuiz() {
         <div className="flex-1 flex flex-col justify-center">
           {/* INTRO */}
           {screen === "intro" && (
-            <div className="animate-[enter_0.5s_ease-out]">
+            <div style={{ animation: "enter 0.5s ease-out" }}>
               <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
                 Diagnostic gratuit — 2 minutes
               </p>
@@ -418,7 +418,7 @@ export default function DiagnosticQuiz() {
 
           {/* Q_SEGMENT */}
           {screen === "q_segment" && (
-            <div className="animate-[enter_0.5s_ease-out]">
+            <div style={{ animation: "enter 0.5s ease-out" }}>
               <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
                 Question 1
               </p>
@@ -447,7 +447,7 @@ export default function DiagnosticQuiz() {
 
           {/* INSIGHT */}
           {screen === "insight" && branch && (
-            <div className="animate-[enter_0.5s_ease-out]">
+            <div style={{ animation: "enter 0.5s ease-out" }}>
               <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
                 {INSIGHTS[branch].eyebrow}
               </p>
@@ -468,7 +468,7 @@ export default function DiagnosticQuiz() {
 
           {/* Q_BRANCH */}
           {screen === "q_branch" && currentQ && (
-            <div className="animate-[enter_0.5s_ease-out]">
+            <div style={{ animation: "enter 0.5s ease-out" }}>
               <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
                 Question {branchIndex + 2}
               </p>
@@ -535,7 +535,7 @@ export default function DiagnosticQuiz() {
 
           {/* Q_NAME */}
           {screen === "q_name" && (
-            <div className="animate-[enter_0.5s_ease-out]">
+            <div style={{ animation: "enter 0.5s ease-out" }}>
               <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
                 Dernière étape
               </p>
@@ -569,7 +569,7 @@ export default function DiagnosticQuiz() {
             <div className="text-center py-10">
               <div className="w-14 h-14 mx-auto mb-6 rounded-full border-[3px] border-[rgba(255,255,255,0.08)] border-t-blue-500 animate-spin" />
               <div className="flex flex-col gap-2 items-center">
-                <p className="text-sm text-[#9BA1B5] animate-[fadeStep_0.6s_forwards]">
+                <p className="text-sm text-[#9BA1B5]" style={{ animation: "fadeStep 0.6s forwards" }}>
                   Analyse de ta situation…
                 </p>
                 <p
@@ -590,7 +590,7 @@ export default function DiagnosticQuiz() {
 
           {/* RESULT */}
           {screen === "result" && branch && resultData && (
-            <div className="animate-[enter_0.5s_ease-out]">
+            <div style={{ animation: "enter 0.5s ease-out" }}>
               <span className="inline-block bg-[rgba(59,130,246,0.14)] text-blue-500 font-bold text-xs tracking-wider uppercase px-3 py-1.5 rounded-full mb-4">
                 {resultData.badge}
               </span>
