@@ -22,30 +22,45 @@ export function PointerHighlight({
   delay = 0.5,
 }: PointerHighlightProps) {
   return (
-    <span className={cn("relative inline-flex items-center mx-1", containerClassName)}>
-      {/* Highlight background fill */}
+    <motion.span
+      className={cn("relative inline-flex items-center mx-1 group cursor-pointer", containerClassName)}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+    >
+      {/* Highlight background fill — loops continuously */}
       <motion.span
-        initial={{ width: "0%", opacity: 0 }}
-        whileInView={{ width: "100%", opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{
+          width: ["0%", "100%", "100%", "0%"],
+          opacity: [0, 1, 1, 0],
+        }}
         transition={{
-          duration: 0.4,
+          duration: 3,
           delay,
-          ease: "easeOut",
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatDelay: 2,
         }}
         className="absolute inset-0 bg-blue-500/10 rounded-lg pointer-events-none"
         style={{ transformOrigin: "left center" }}
       />
 
-      {/* Animated border that draws from top-left to bottom-right */}
+      {/* Animated border that draws around text — loops */}
       <motion.span
-        initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" }}
-        whileInView={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-        viewport={{ once: true }}
+        animate={{
+          clipPath: [
+            "polygon(0 0, 0 0, 0 100%, 0 100%)",
+            "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+            "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+            "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)",
+          ],
+          opacity: [0, 1, 1, 0],
+        }}
         transition={{
-          duration: 0.5,
+          duration: 3,
           delay: delay + 0.15,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatDelay: 2,
         }}
         className={cn(
           "absolute inset-0 rounded-lg border-2 border-blue-500/70 pointer-events-none",
@@ -53,15 +68,20 @@ export function PointerHighlight({
         )}
       />
 
-      {/* Mouse pointer cursor that follows the border draw */}
+      {/* Mouse pointer cursor — appears then fades in loop */}
       <motion.span
-        initial={{ opacity: 0, x: -8, y: -8 }}
-        whileInView={{ opacity: 1, x: 0, y: 0 }}
-        viewport={{ once: true }}
+        animate={{
+          opacity: [0, 1, 1, 0],
+          scale: [0.8, 1, 1, 0.8],
+          x: [0, 4, 4, 0],
+          y: [0, -4, -4, 0],
+        }}
         transition={{
-          duration: 0.35,
+          duration: 3,
           delay: delay + 0.4,
-          ease: "easeOut",
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatDelay: 2,
         }}
         className={cn(
           "absolute -top-3 -right-3 text-blue-500 pointer-events-none drop-shadow-lg",
@@ -78,7 +98,12 @@ export function PointerHighlight({
         </svg>
       </motion.span>
 
+      {/* Hover glow effect */}
+      <motion.span
+        className="absolute inset-0 rounded-lg bg-blue-500/0 group-hover:bg-blue-500/20 pointer-events-none transition-colors duration-300"
+      />
+
       <span className={cn("relative z-10", className)}>{children}</span>
-    </span>
+    </motion.span>
   )
 }
