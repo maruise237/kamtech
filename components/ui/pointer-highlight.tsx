@@ -27,105 +27,118 @@ export function PointerHighlight({
       whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
-      {/* Highlight fill that follows the cursor */}
+      {/* Highlight fill — expands from left to right, FOLLOWING the cursor */}
       <motion.span
         animate={{
-          width: ["0%", "100%", "100%", "0%"],
-          opacity: [0, 1, 1, 0],
+          width: ["0%", "0%", "100%", "100%", "0%"],
+          opacity: [0, 0, 1, 1, 0],
         }}
         transition={{
-          duration: 3.5,
+          duration: 4,
           delay,
-          ease: "easeInOut",
+          times: [0, 0.05, 0.5, 0.8, 1],
+          ease: "easeOut",
           repeat: Infinity,
-          repeatDelay: 2.5,
+          repeatDelay: 3,
         }}
-        className="absolute inset-y-0 left-0 bg-blue-500/15 rounded-lg pointer-events-none"
+        className="absolute inset-y-1 left-0 bg-blue-500/20 rounded-lg pointer-events-none"
         style={{ transformOrigin: "left center" }}
       />
 
-      {/* Animated border that draws — follows cursor trail */}
+      {/* Border — draws behind the cursor trail */}
       <motion.span
         animate={{
           clipPath: [
+            "polygon(0 0, 0 0, 0 100%, 0 100%)",
             "polygon(0 0, 0 0, 0 100%, 0 100%)",
             "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
             "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
             "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)",
           ],
-          opacity: [0, 1, 1, 0],
+          opacity: [0, 0, 1, 1, 0],
         }}
         transition={{
-          duration: 3.5,
-          delay: delay + 0.1,
-          ease: "easeInOut",
+          duration: 4,
+          delay: delay + 0.05,
+          times: [0, 0.05, 0.5, 0.8, 1],
+          ease: "easeOut",
           repeat: Infinity,
-          repeatDelay: 2.5,
+          repeatDelay: 3,
         }}
         className={cn(
-          "absolute inset-0 rounded-lg border-2 border-blue-500/70 pointer-events-none",
+          "absolute inset-0 rounded-lg border-[3px] border-blue-500/80 pointer-events-none",
           rectangleClassName,
         )}
       />
 
-      {/* Realistic mouse cursor that DRAGS across the text */}
+      {/* Big blue cursor that drags across the text */}
       <motion.span
         animate={{
-          // Move from left edge → right edge, with slight vertical dip (like real dragging)
-          x: ["-40%", "105%", "105%", "-40%"],
-          y: ["-60%", "-40%", "-40%", "-60%"],
-          opacity: [0, 1, 1, 0],
-          rotate: [0, 8, 8, 0],
+          // Start off-screen left, move to start, drag to end, release
+          left: ["-24px", "-4px", "calc(100% - 12px)", "calc(100% - 12px)", "-24px"],
+          top: ["-8px", "-8px", "-8px", "8px", "-8px"],
+          opacity: [0, 1, 1, 1, 0],
+          rotate: [0, 0, 6, 6, 0],
         }}
         transition={{
-          duration: 3.5,
+          duration: 4,
           delay,
-          ease: [0.45, 0, 0.55, 1],
+          times: [0, 0.08, 0.5, 0.75, 1],
+          ease: [0.25, 0.1, 0.25, 1],
           repeat: Infinity,
-          repeatDelay: 2.5,
+          repeatDelay: 3,
         }}
         className={cn(
-          "absolute top-1/2 left-0 text-blue-500 pointer-events-none drop-shadow-lg z-20",
+          "absolute top-0 text-blue-500 pointer-events-none drop-shadow-[0_2px_8px_rgba(59,130,246,0.5)] z-20",
           pointerClassName,
         )}
       >
         <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
+          width="28"
+          height="28"
+          viewBox="0 0 28 28"
           fill="none"
         >
+          {/* Outer glow */}
+          <path
+            d="M4.5 2.5L4.5 21.5L9.5 16L14.5 22L16 21.5L11 15.5L19 15.5L4.5 2.5Z"
+            fill="rgba(59,130,246,0.3)"
+            stroke="none"
+            transform="translate(0.5, 0.5)"
+          />
           {/* Cursor body */}
           <path
-            d="M3.5 2L3.5 15.5L7 11.5L10.5 16L11.5 15.5L8 11L14 11L3.5 2Z"
+            d="M4.5 2.5L4.5 21.5L9.5 16L14.5 22L16 21.5L11 15.5L19 15.5L4.5 2.5Z"
             fill="white"
             stroke="#3b82f6"
-            strokeWidth="1.2"
+            strokeWidth="1.5"
             strokeLinejoin="round"
           />
-          {/* Cursor inner accent */}
+          {/* Inner blue accent */}
           <path
-            d="M5 4L5 13L7.5 10L10 13.5L10.5 13L8 9.5L12 9.5L5 4Z"
+            d="M7 5.5L7 18L10.5 14L13.5 18.5L14 18L11 13.5L16 13.5L7 5.5Z"
             fill="#3b82f6"
-            opacity="0.5"
+            opacity="0.6"
           />
         </svg>
       </motion.span>
 
-      {/* Click ripple effect */}
+      {/* Click ripple at end of selection */}
       <motion.span
         animate={{
-          scale: [0, 2, 0],
-          opacity: [0, 0.4, 0],
+          scale: [0, 0, 2.5, 0],
+          opacity: [0, 0, 0.4, 0],
         }}
         transition={{
-          duration: 1.2,
-          delay: delay + 0.8,
+          duration: 1.5,
+          delay: delay + 1.8,
+          times: [0, 0.4, 0.7, 1],
           ease: "easeOut",
           repeat: Infinity,
-          repeatDelay: 4.8,
+          repeatDelay: 5.5,
         }}
-        className="absolute top-1/2 left-0 w-4 h-4 bg-blue-500/30 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-1/2 right-2 w-5 h-5 bg-blue-500/30 rounded-full pointer-events-none"
+        style={{ transform: "translate(0, -50%)" }}
       />
 
       {/* Hover glow */}
