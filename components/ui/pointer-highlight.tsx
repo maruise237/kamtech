@@ -27,24 +27,24 @@ export function PointerHighlight({
       whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
-      {/* Highlight background fill — loops continuously */}
+      {/* Highlight fill that follows the cursor */}
       <motion.span
         animate={{
           width: ["0%", "100%", "100%", "0%"],
           opacity: [0, 1, 1, 0],
         }}
         transition={{
-          duration: 3,
+          duration: 3.5,
           delay,
           ease: "easeInOut",
           repeat: Infinity,
-          repeatDelay: 2,
+          repeatDelay: 2.5,
         }}
-        className="absolute inset-0 bg-blue-500/10 rounded-lg pointer-events-none"
+        className="absolute inset-y-0 left-0 bg-blue-500/15 rounded-lg pointer-events-none"
         style={{ transformOrigin: "left center" }}
       />
 
-      {/* Animated border that draws around text — loops */}
+      {/* Animated border that draws — follows cursor trail */}
       <motion.span
         animate={{
           clipPath: [
@@ -56,11 +56,11 @@ export function PointerHighlight({
           opacity: [0, 1, 1, 0],
         }}
         transition={{
-          duration: 3,
-          delay: delay + 0.15,
+          duration: 3.5,
+          delay: delay + 0.1,
           ease: "easeInOut",
           repeat: Infinity,
-          repeatDelay: 2,
+          repeatDelay: 2.5,
         }}
         className={cn(
           "absolute inset-0 rounded-lg border-2 border-blue-500/70 pointer-events-none",
@@ -68,42 +68,67 @@ export function PointerHighlight({
         )}
       />
 
-      {/* Mouse pointer cursor — appears then fades in loop */}
+      {/* Realistic mouse cursor that DRAGS across the text */}
       <motion.span
         animate={{
+          // Move from left edge → right edge, with slight vertical dip (like real dragging)
+          x: ["-40%", "105%", "105%", "-40%"],
+          y: ["-60%", "-40%", "-40%", "-60%"],
           opacity: [0, 1, 1, 0],
-          scale: [0.8, 1, 1, 0.8],
-          x: [0, 4, 4, 0],
-          y: [0, -4, -4, 0],
+          rotate: [0, 8, 8, 0],
         }}
         transition={{
-          duration: 3,
-          delay: delay + 0.4,
-          ease: "easeInOut",
+          duration: 3.5,
+          delay,
+          ease: [0.45, 0, 0.55, 1],
           repeat: Infinity,
-          repeatDelay: 2,
+          repeatDelay: 2.5,
         }}
         className={cn(
-          "absolute -top-3 -right-3 text-blue-500 pointer-events-none drop-shadow-lg",
+          "absolute top-1/2 left-0 text-blue-500 pointer-events-none drop-shadow-lg z-20",
           pointerClassName,
         )}
       >
         <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
         >
-          <path d="M5 3L5 19L9 15L13 20L14.5 19L10.5 14L18 14L5 3Z" fill="currentColor" stroke="none" />
-          <path d="M5 3L5 19L9 15L13 20L14.5 19L10.5 14L18 14L5 3Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          {/* Cursor body */}
+          <path
+            d="M3.5 2L3.5 15.5L7 11.5L10.5 16L11.5 15.5L8 11L14 11L3.5 2Z"
+            fill="white"
+            stroke="#3b82f6"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+          />
+          {/* Cursor inner accent */}
+          <path
+            d="M5 4L5 13L7.5 10L10 13.5L10.5 13L8 9.5L12 9.5L5 4Z"
+            fill="#3b82f6"
+            opacity="0.5"
+          />
         </svg>
       </motion.span>
 
-      {/* Hover glow effect */}
+      {/* Click ripple effect */}
+      <motion.span
+        animate={{
+          scale: [0, 2, 0],
+          opacity: [0, 0.4, 0],
+        }}
+        transition={{
+          duration: 1.2,
+          delay: delay + 0.8,
+          ease: "easeOut",
+          repeat: Infinity,
+          repeatDelay: 4.8,
+        }}
+        className="absolute top-1/2 left-0 w-4 h-4 bg-blue-500/30 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2"
+      />
+
+      {/* Hover glow */}
       <motion.span
         className="absolute inset-0 rounded-lg bg-blue-500/0 group-hover:bg-blue-500/20 pointer-events-none transition-colors duration-300"
       />
