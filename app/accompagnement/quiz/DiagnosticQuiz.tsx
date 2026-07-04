@@ -1,567 +1,784 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { useRouter } from "next/navigation"
 
 const WHATSAPP_NUMBER = "237658992588"
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xkopjrbj"
 
-/* ════════════════════════════════════════════
-   DATA — QUESTIONS
-   ════════════════════════════════════════════ */
-const QUESTIONS = [
-  { id: "goal",     opts: [
-    { icon: "💬", txt: "Répondre plus vite à mes clients et qualifier mes prospects" },
-    { icon: "💰", txt: "Attirer plus de clients et développer mes ventes" },
-    { icon: "⚙️", txt: "Automatiser mes tâches répétitives et gagner du temps" },
-    { icon: "🤖", txt: "Avoir un assistant IA qui travaille à ma place" },
-    { icon: "🤔", txt: "Comprendre comment l'IA peut m'aider — je débute" },
-  ]},
-  { id: "sector",   opts: [
-    { icon: "🛒", txt: "Commerce & Boutique" },
-    { icon: "🍽️", txt: "Restaurant & Alimentation" },
-    { icon: "💼", txt: "Services & Consulting" },
-    { icon: "📚", txt: "Formation & Coaching" },
-    { icon: "🏗️", txt: "BTP & Artisanat" },
-    { icon: "✨", txt: "Autre secteur" },
-  ]},
-  { id: "blocker",  opts: [
-    { icon: "🤔", txt: "Je ne sais pas par où commencer" },
-    { icon: "💸", txt: "Je pensais que c'était trop cher" },
-    { icon: "⏱️", txt: "Je n'avais pas le temps de m'en occuper" },
-    { icon: "❌", txt: "J'ai essayé des outils génériques — rien ne collait" },
-    { icon: "🆕", txt: "Je découvre l'IA maintenant" },
-  ]},
-  { id: "volume",   opts: [
-    { icon: "🌱", txt: "Moins de 20 demandes par semaine" },
-    { icon: "📈", txt: "Entre 20 et 50 demandes" },
-    { icon: "🔥", txt: "Entre 50 et 100 demandes" },
-    { icon: "🚀", txt: "Plus de 100 demandes" },
-  ]},
-  { id: "digital",  opts: [
-    { icon: "🚫", txt: "Aucun site web ni réseaux sociaux actifs" },
-    { icon: "📱", txt: "Réseaux sociaux uniquement" },
-    { icon: "🌐", txt: "Un site web mais pas vraiment optimisé" },
-    { icon: "✅", txt: "Bonne présence en ligne, je veux aller plus loin" },
-  ]},
-  { id: "timing",   opts: [
-    { icon: "🔥", txt: "Maintenant — je suis prêt(e) à démarrer" },
-    { icon: "📅", txt: "Dans les 2 prochaines semaines" },
-    { icon: "🔍", txt: "Je compare d'abord les options disponibles" },
-    { icon: "💬", txt: "Dès que j'ai un devis clair" },
-  ]},
-]
+/* =========================================================
+   DATA
+========================================================= */
+const SEGMENT_Q = {
+  options: [
+    { label: "J'ai une activité qui tourne déjà — je veux l'IA pour la faire grandir", branch: "B" },
+    { label: "J'ai une idée, mais rien de lancé", branch: "A" },
+    { label: "Je pars de zéro, je veux juste comprendre l'IA", branch: "A" },
+  ],
+}
 
-const INS1 = [
-  { icon: "💡", stat: "💡 C'est le blocage #1 — et le plus simple à lever",
-    txt: "Ne pas savoir par où commencer, c'est la raison la plus courante pour laquelle des PME compétentes restent à la traîne sur le digital. C'est aussi le problème le plus simple à résoudre avec un bon diagnostic de 45 minutes." },
-  { icon: "💸", stat: "📊 Le ROI moyen d'un chatbot WhatsApp : 3-5x en 90 jours",
-    txt: "La plupart des solutions IA coûtent moins cher qu'un demi-mois de temps perdu sur des tâches manuelles. On définit toujours ce qui est faisable dans votre budget — à partir du diagnostic gratuit, sans engagement." },
-  { icon: "⏱️", stat: "⚡ Règle #1 : si vous manquez de temps, c'est urgent",
-    txt: "Le manque de temps est souvent le signe le plus clair que l'automatisation est urgente, pas optionnelle. On s'occupe de la mise en place de A à Z — vous n'avez pas à tout gérer vous-même." },
-  { icon: "🎯", stat: "✓ KAMTECH construit sur mesure — pas depuis un template",
-    txt: "Les outils génériques ne sont pas conçus pour votre business spécifique. C'est exactement la raison pour laquelle KAMTECH part toujours de votre situation réelle avant de construire quoi que ce soit." },
-  { icon: "🚀", stat: "📈 2025-2026 : la fenêtre d'avance pour les PME early adopters",
-    txt: "Vous arrivez au bon moment. Les PME qui adoptent l'IA maintenant prennent 2 à 3 ans d'avance sur leurs concurrents. Le diagnostic gratuit vous montre exactement par où commencer, sans vous noyer dans la technique." },
-]
-
-const INS2 = [
-  { icon: "🌱", stat: "📌 Démarrer tôt = avantage concurrentiel réel",
-    txt: "Même avec moins de 20 demandes par semaine, chaque heure perdue sur des tâches répétitives est une heure de moins pour votre croissance." },
-  { icon: "⏱️", stat: "📊 8h/semaine récupérées en moyenne à ce volume",
-    txt: "Entre 20 et 50 demandes par semaine, vous commencez à toucher les limites du traitement manuel. Les PME à ce niveau récupèrent 6 à 8 heures par semaine." },
-  { icon: "🔥", stat: "⚡ 70% des réponses automatisables à ce volume",
-    txt: "Plus de 50 demandes par semaine gérées manuellement, c'est un coût caché réel : chaque délai de réponse est une chance donnée à un concurrent." },
-  { icon: "🚀", stat: "🏆 +15h/semaine récupérées en moyenne avec un système IA",
-    txt: "Plus de 100 demandes par semaine en traitement manuel, c'est probablement 15 heures ou plus perdues chaque semaine." },
-]
-
-const SEG: Record<string, {
-  emoji: string; tag: string; name: string; diag: string;
-  phases: { when: string; txt: string }[];
-  benefits: string[]; loss: string; wa: string;
-}> = {
-  chatbot: {
-    emoji: "💬", tag: "✦ Chatbot WhatsApp IA", name: "L'Entrepreneur Débordé",
-    diag: "Vous répondez aux mêmes questions des dizaines de fois par semaine — et chaque délai coûte des prospects.",
-    phases: [
-      { when: "J1-J3", txt: "Audit de vos flux WhatsApp & identification des 10-15 cas les plus fréquents à automatiser" },
-      { when: "J4-J7", txt: "Configuration du chatbot IA sur vos cas réels + tests sur votre numéro WhatsApp Business" },
-      { when: "J8-J14", txt: "Déploiement live + formation + suivi des 30 premiers jours de fonctionnement autonome" },
-    ],
-    benefits: [
-      "Réponses automatiques instantanées à toutes vos demandes récurrentes",
-      "Qualification des leads et prise de RDV sans votre intervention directe",
-      "Déployé sur votre numéro WhatsApp existant — pas de changement pour vos clients",
-    ],
-    loss: "Sans automatisation, chaque minute de délai de réponse est une chance donnée à votre concurrent.",
-    wa: "Bonjour KAMTECH IA 👋 J'ai fait le diagnostic et je suis intéressé(e) par le Chatbot WhatsApp IA. Secteur : [SECTOR]. Je suis prêt(e) [TIMING].",
+const INSIGHTS: Record<string, { eyebrow: string; title: string; sub: string }> = {
+  A: {
+    eyebrow: "Bien noté",
+    title: "OK. Tu n'as pas besoin d'une carte de plus.",
+    sub: "T'as déjà vu 10 tutos différents — ça, c'est la carte. Ce qui te manque, c'est un GPS : quelqu'un qui regarde où t'en es et te dit où tourner, maintenant. C'est le Syndrome du Tuto Infini — trop de contenu, zéro feedback réel sur ton cas. On va casser ça.",
   },
-  website: {
-    emoji: "🌐", tag: "✦ Site Web Professionnel IA", name: "Le Pro Invisible",
-    diag: "Vous êtes bon dans votre métier — mais vos prospects ne peuvent pas vous trouver en ligne.",
-    phases: [
-      { when: "J1-J3", txt: "Brief site + maquette wireframe adaptée à votre secteur et votre marché local" },
-      { when: "J4-J10", txt: "Développement WordPress/Kadence + SEO de base + intégration chatbot ou formulaire IA" },
-      { when: "J11-J14", txt: "Mise en ligne + formation + premier bilan de trafic et de performance" },
-    ],
-    benefits: [
-      "Site pro optimisé SEO et mobile, livré en moins de 2 semaines",
-      "Chatbot et formulaires intelligents intégrés dès le départ",
-      "Conçu pour transformer vos visiteurs en clients réels — pas juste une vitrine",
-    ],
-    loss: "Sans présence digitale optimisée, vos prospects choisissent le concurrent qu'ils trouvent en premier sur Google.",
-    wa: "Bonjour KAMTECH IA 👋 J'ai fait le diagnostic et je suis intéressé(e) par un Site Web Professionnel IA. Secteur : [SECTOR]. Je suis prêt(e) [TIMING].",
-  },
-  automation: {
-    emoji: "⚙️", tag: "✦ Automatisation & Flux n8n", name: "Le Patron Chronophage",
-    diag: "Vous faites faire à la main ce que la machine devrait faire — et ça ralentit votre croissance chaque jour.",
-    phases: [
-      { when: "J1-J3", txt: "Cartographie de vos flux métier + identification des 3 tâches les plus chronophages à automatiser" },
-      { when: "J4-J10", txt: "Construction et test des automatisations n8n sur vos cas réels" },
-      { when: "J11-J14", txt: "Déploiement + formation + premières heures récupérées mesurées" },
-    ],
-    benefits: [
-      "Automatisation sur mesure de vos flux les plus chronophages",
-      "Connexion de tous vos outils existants entre eux (CRM, WhatsApp, email, sheets)",
-      "10 à 20 heures récupérées par semaine en moyenne",
-    ],
-    loss: "Les tâches manuelles répétitives ne disparaissent pas — elles s'accumulent jusqu'à bloquer la croissance.",
-    wa: "Bonjour KAMTECH IA 👋 J'ai fait le diagnostic et je suis intéressé(e) par l'automatisation. Secteur : [SECTOR]. Je suis prêt(e) [TIMING].",
-  },
-  agent: {
-    emoji: "🤖", tag: "✦ Agent IA Personnel ou Métier", name: "Le Stratège Solo",
-    diag: "Vous voulez déléguer à l'IA — mais les outils génériques ne correspondent pas à votre business unique.",
-    phases: [
-      { when: "J1-J3", txt: "Mapping de vos tâches + définition du périmètre et des cas d'usage de l'agent IA" },
-      { when: "J4-J10", txt: "Construction + entraînement de l'agent sur vos données, vos clients et vos processus réels" },
-      { when: "J11-J14", txt: "Déploiement + handoff + suivi des premières semaines de fonctionnement autonome" },
-    ],
-    benefits: [
-      "Agent 100% personnalisé sur votre business, vos clients et vos processus",
-      "Gère emails, prospection, support client ou veille selon vos besoins",
-      "S'adapte à votre workflow existant — pas l'inverse",
-    ],
-    loss: "Les outils génériques consomment du temps au lieu d'en économiser.",
-    wa: "Bonjour KAMTECH IA 👋 J'ai fait le diagnostic et je suis intéressé(e) par un Agent IA personnalisé. Secteur : [SECTOR]. Je suis prêt(e) [TIMING].",
-  },
-  audit: {
-    emoji: "🔍", tag: "✦ Audit & Conseil IA", name: "L'Explorateur IA",
-    diag: "Vous savez que l'IA peut vous aider — mais sans diagnostic, difficile de savoir par où commencer.",
-    phases: [
-      { when: "J1", txt: "Diagnostic business complet de 45 minutes (appel ou WhatsApp) — gratuit, sans engagement" },
-      { when: "J2-J5", txt: "Analyse de vos opportunités + roadmap IA personnalisée + devis pour chaque option" },
-      { when: "J6+", txt: "Choix du point d'entrée avec vous + démarrage de la 1ère solution retenue ensemble" },
-    ],
-    benefits: [
-      "Diagnostic complet de votre situation actuelle — offert, sans jargon technique",
-      "Roadmap priorisée : quoi faire en premier et avec quel budget réaliste",
-      "Plan d'action livré par écrit, actionnable immédiatement",
-    ],
-    loss: "Chaque mois sans décision est un mois de retard sur vos concurrents.",
-    wa: "Bonjour KAMTECH IA 👋 J'ai fait le diagnostic et je souhaite un audit IA de mon business. Secteur : [SECTOR]. Je suis prêt(e) [TIMING].",
+  B: {
+    eyebrow: "Bien noté",
+    title: "Une activité qui stagne, c'est rarement un problème de produit.",
+    sub: "C'est presque toujours un problème de système : pas de process clair, trop de tâches manuelles, ou une visibilité mal exploitée. On regarde ça de près.",
   },
 }
 
-const SECTOR_NAMES = ["commerce", "restaurant", "services", "formation", "BTP", "votre secteur"]
-const TIMING_NAMES = [
-  "maintenant — prêt(e) à démarrer",
-  "dans les 2 prochaines semaines",
-  "après avoir comparé les options",
-  "dès que j'ai un devis clair",
-]
+interface BranchQ {
+  key: string
+  title: string
+  sub: string
+  options?: string[]
+  isTierChoice?: boolean
+  tiers?: {
+    id: string
+    name: string
+    price: string
+    tag: string | null
+    bullets: string[]
+    result: string
+  }[]
+}
 
-/* ════════════════════════════════════════════
+const BRANCH_QUESTIONS: Record<string, BranchQ[]> = {
+  A: [
+    {
+      key: "ai_usage",
+      title: "T'as déjà utilisé un outil IA (ChatGPT, Claude, Canva IA…) ?",
+      sub: "",
+      options: ["Jamais, ça me fait un peu peur", "J'ai testé une ou deux fois, sans méthode", "Je m'en sers de temps en temps, mais mal"],
+    },
+    {
+      key: "blocker",
+      title: "C'est quoi ton plus gros blocage avec l'IA aujourd'hui ?",
+      sub: "",
+      options: [
+        "Je sais pas quel outil choisir",
+        "Je sais pas quoi lui demander (les prompts)",
+        "J'ai peur que ce soit trop technique pour moi",
+        "J'ai pas de méthode, je bricole",
+      ],
+    },
+    {
+      key: "time",
+      title: "Combien de temps tu peux vraiment y consacrer par semaine ?",
+      sub: "Sois honnête, ça détermine le rythme qu'on te propose.",
+      options: ["Moins de 2h", "Entre 2h et 5h", "Plus de 5h"],
+    },
+    {
+      key: "tier",
+      title: "Tu veux aller jusqu'où ?",
+      sub: "Mêmes lives en groupe pour les deux formats. La différence : le niveau de suivi et ce que tu repars avec.",
+      isTierChoice: true,
+      tiers: [
+        {
+          id: "25",
+          name: "IA Starter",
+          price: "25 000 FCFA",
+          tag: null,
+          bullets: [
+            "4 lives en groupe, 1 par semaine",
+            "Exercices guidés chaque semaine",
+            "Bibliothèque de prompts prêts à copier-coller",
+            "Groupe WhatsApp de la cohorte",
+          ],
+          result: "Repars avec 1 mois de contenu produit toi-même avec l'IA",
+        },
+        {
+          id: "45",
+          name: "IA Business Complet",
+          price: "45 000 FCFA",
+          tag: "Le plus complet",
+          bullets: [
+            "Tout Starter, en plus complet",
+            "Diagnostic individuel 15 min en semaine 1",
+            "Modules automatisation + vidéo IA en plus",
+            "1 session bonus 1-to-1 (30 min) en fin de programme",
+            "Pack de prompts avancés",
+          ],
+          result: "Repars avec un vrai système IA opérationnel pour ton activité",
+        },
+      ],
+    },
+  ],
+  B: [
+    {
+      key: "activity",
+      title: "C'est quoi ton activité aujourd'hui ?",
+      sub: "",
+      options: ["Produits physiques (boutique, e-commerce…)", "Services (conseil, prestations, artisanat…)", "Digital / formation / contenu", "Autre"],
+    },
+    {
+      key: "frein",
+      title: "Ton plus gros frein pour grandir en ce moment ?",
+      sub: "",
+      options: [
+        "Manque de visibilité en ligne",
+        "Trop de tâches manuelles / pas de temps",
+        "Pas de système clair pour vendre",
+        "Je sais pas exactement — tout est un peu flou",
+      ],
+    },
+    {
+      key: "objectif",
+      title: "Tu veux qu'on t'aide en priorité à…",
+      sub: "",
+      options: ["Vendre plus", "Automatiser des tâches répétitives", "Structurer mon offre et mes process", "Un peu de tout ça à la fois"],
+    },
+  ],
+}
+
+const FAQS: Record<string, [string, string][]> = {
+  A: [
+    [
+      "C'est trop cher pour moi en ce moment",
+      "C'est justement pour ça qu'il y a deux formats. Starter (25 000 FCFA) est pensé pour tester sans se ruiner. Compare ça au temps déjà perdu sur des tutos gratuits jamais terminés.",
+    ],
+    [
+      "Je vais pas avoir le temps de suivre",
+      "Les exercices se font à ton rythme, hors live. Le seul rendez-vous fixe, c'est 1h par semaine. On a d'ailleurs ajusté le programme selon le temps que tu as indiqué.",
+    ],
+    [
+      "Ça va être trop technique pour moi",
+      "Zéro code, zéro jargon. Si tu sais utiliser WhatsApp, tu peux suivre. Le format live existe justement pour débloquer ce qui coince, en direct.",
+    ],
+    [
+      "Pourquoi payer alors qu'il y a des tutos gratuits sur YouTube ?",
+      "Les tutos gratuits t'expliquent un outil. Ici, quelqu'un regarde CE QUE TU PRODUIS et corrige en direct. C'est la différence entre lire une carte et avoir un GPS.",
+    ],
+  ],
+  B: [
+    [
+      "C'est un budget conséquent, pourquoi ce prix ?",
+      "C'est un accompagnement 1-to-1 sur 6 semaines, pas un cours. Le prix reflète le temps dédié uniquement à ton activité, pas un programme partagé entre 15 personnes.",
+    ],
+    [
+      "Comment je sais que ça va marcher pour MON activité précise ?",
+      "Le diagnostic de la semaine 1 sert exactement à ça : on identifie le frein réel avant de commencer à construire quoi que ce soit.",
+    ],
+    [
+      "Et si mon besoin change en cours de route ?",
+      "C'est fréquent — le programme s'ajuste semaine après semaine parce que c'est du 1-to-1, pas un plan figé à l'avance.",
+    ],
+  ],
+}
+
+const RESULTS = {
+  A: {
+    "25": {
+      badge: "Ton profil — IA Starter",
+      title: (name: string) => `${name}, voici ton plan : IA Starter`,
+      sub: "La méthode Diagnostic → Application → Correction en Live : chaque semaine tu appliques un exercice concret, puis un humain corrige en direct sur TON cas — pas un cours pré-enregistré générique. 4 semaines, zéro tuto de plus.",
+      price: "25 000 FCFA",
+      priceSub: "cohorte limitée à 15 personnes",
+      plan: [
+        ["S1", "Prise en main de ChatGPT/Claude + Canva IA, appliqué à TA situation"],
+        ["S2", "Créer une semaine de contenu (textes + visuels) avec l'IA"],
+        ["S3", "Mise en application + retours en live sur ce que t'as produit"],
+        ["S4", "Ton système de prompts personnel + plan pour continuer seul"],
+      ],
+      note: "Inclus : bibliothèque de prompts + groupe WhatsApp de la cohorte.",
+    },
+    "45": {
+      badge: "Ton profil — IA Business Complet",
+      title: (name: string) => `${name}, voici ton plan : IA Business Complet`,
+      sub: "Le même GPS que Starter, avec un point de plus : un diagnostic individuel dès la semaine 1, l'automatisation et la vidéo IA en plus, et une session bonus 1-to-1 pour finaliser TON système avec toi.",
+      price: "45 000 FCFA",
+      priceSub: "cohorte limitée à 15 personnes",
+      plan: [
+        ["S1", "Diagnostic individuel (15 min) + prise en main ChatGPT/Claude + Canva IA"],
+        ["S2", "Contenu avec l'IA + intro automatisation simple (WhatsApp Business, vidéo IA)"],
+        ["S3", "Mise en application + retours en live"],
+        ["S4", "Système IA complet + session bonus 1-to-1 (30 min) pour finaliser avec toi"],
+      ],
+      note: "Inclus : diagnostic individuel, session bonus 1-to-1, pack de prompts avancés.",
+    },
+  },
+  B: {
+    badge: "Ton profil — Activité à structurer",
+    title: (name: string) => `${name}, voici ton plan : Accompagnement Business IA`,
+    sub: "Un accompagnement 1-to-1 sur 6 semaines. On part de ton activité réelle, on identifie ce qui bloque, et on structure + implémente ensemble en live. Si le besoin s'y prête, on peut aller jusqu'à mettre en place un outil concret (chatbot, automatisation) avec toi.",
+    price: "200 000 — 300 000 FCFA",
+    priceSub: "package complet 6 semaines",
+    plan: [
+      ["S1", "Diagnostic complet de ton activité + priorisation du frein réel à traiter"],
+      ["S2-3", "Structuration : process, offre, ou système de vente selon ton besoin"],
+      ["S4-5", "Implémentation concrète en live avec toi"],
+      ["S6", "Finalisation + plan de suite (et automatisation si pertinent)"],
+    ],
+    note: "1-to-1 exclusivement — nombre de places très limité par mois pour garder la qualité du suivi.",
+  },
+}
+
+/* =========================================================
+   TYPES
+========================================================= */
+type Screen = "intro" | "q_segment" | "insight" | "q_branch" | "q_name" | "loading" | "result"
+type Branch = "A" | "B"
+
+/* =========================================================
    COMPONENT
-   ════════════════════════════════════════════ */
-type Screen = "intro" | "q0" | "q1" | "q2" | "ins1" | "q3" | "ins2" | "q4" | "q5" | "loading" | "result"
-
-const SCREEN_ORDER: Screen[] = ["intro", "q0", "q1", "q2", "ins1", "q3", "ins2", "q4", "q5", "loading", "result"]
-
+========================================================= */
 export default function DiagnosticQuiz() {
-  const router = useRouter()
   const [screen, setScreen] = useState<Screen>("intro")
-  const [answers, setAnswers] = useState<Record<string, number>>({})
-  const [animDir, setAnimDir] = useState<"next" | "back">("next")
-  const [loadingStep, setLoadingStep] = useState(0)
+  const [branch, setBranch] = useState<Branch | null>(null)
+  const [branchIndex, setBranchIndex] = useState(0)
+  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [name, setName] = useState("")
+  const [nameInput, setNameInput] = useState("")
+  const [stepCount, setStepCount] = useState(0)
+  const [totalSteps, setTotalSteps] = useState(6)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
   const [isSending, setIsSending] = useState(false)
-  const [showDots, setShowDots] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
   const nameRef = useRef<HTMLInputElement>(null)
 
-  const currentIdx = SCREEN_ORDER.indexOf(screen)
-  const totalDots = 6
+  const progressPct = Math.min(100, Math.round((stepCount / totalSteps) * 100))
+  const showProgress = screen !== "intro" && screen !== "result" && screen !== "loading"
 
-  const goTo = useCallback((s: Screen, dir: "next" | "back" = "next") => {
-    setAnimDir(dir)
+  const goTo = useCallback((s: Screen) => {
     setScreen(s)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }, [])
 
-  const dotIndex = (() => {
-    const map: Record<string, number> = { q0: 0, q1: 1, q2: 2, ins1: 2, q3: 3, ins2: 3, q4: 4, q5: 5 }
-    return map[screen] ?? -1
-  })()
+  const selectSegment = useCallback(
+    (b: Branch) => {
+      setBranch(b)
+      const steps = 2 + BRANCH_QUESTIONS[b].length + 1
+      setTotalSteps(steps)
+      setStepCount(1)
+      goTo("insight")
+    },
+    [goTo]
+  )
 
-  const canGoBack = screen !== "intro" && screen !== "loading" && screen !== "result"
+  const nextBranchQuestion = useCallback(() => {
+    setStepCount(2)
+    setBranchIndex(0)
+    goTo("q_branch")
+  }, [goTo])
 
   const goBack = useCallback(() => {
-    const backMap: Record<string, Screen> = { q0: "intro", q1: "q0", q2: "q1", ins1: "q2", q3: "ins1", ins2: "q3", q4: "ins2", q5: "q4" }
-    const prev = backMap[screen]
-    if (prev) goTo(prev, "back")
-  }, [screen, goTo])
-
-  const pick = useCallback((qi: number, oi: number) => {
-    setAnswers((prev) => ({ ...prev, [QUESTIONS[qi].id]: oi }))
-    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "loading" }
-    setTimeout(() => {
-      if (qi === 2) setShowDots(true)
-      if (qi === 5) {
-        setShowDots(false)
-        setLoadingStep(0)
+    if (screen === "q_segment") {
+      goTo("intro")
+    } else if (screen === "insight") {
+      goTo("q_segment")
+    } else if (screen === "q_branch") {
+      if (branchIndex === 0) {
+        goTo("insight")
+      } else {
+        setBranchIndex((prev) => prev - 1)
+        setStepCount((prev) => prev - 1)
       }
-      goTo(nextMap[qi] || `q${qi + 1}`)
-    }, 320)
-  }, [goTo])
+    } else if (screen === "q_name") {
+      const lastIdx = branch ? BRANCH_QUESTIONS[branch].length - 1 : 0
+      setBranchIndex(lastIdx)
+      setStepCount(2 + lastIdx)
+      goTo("q_branch")
+    }
+  }, [screen, branchIndex, branch, goTo])
 
-  const afterInsight = useCallback((next: Screen) => {
-    goTo(next)
-  }, [goTo])
+  const answerBranch = useCallback(
+    (key: string, value: string, tierId?: string) => {
+      setAnswers((prev) => {
+        const next = { ...prev, [key]: value }
+        if (tierId) next.tier = tierId
+        return next
+      })
+      const nextIdx = branchIndex + 1
+      if (branch && nextIdx < BRANCH_QUESTIONS[branch].length) {
+        setBranchIndex(nextIdx)
+        setStepCount(2 + nextIdx)
+      } else {
+        setStepCount(totalSteps - 1)
+        goTo("q_name")
+      }
+    },
+    [branch, branchIndex, totalSteps, goTo]
+  )
 
-  /* Loading animation */
+  const submitName = useCallback(async () => {
+    const val = nameInput.trim()
+    const userName = val || "Toi"
+    setName(userName)
+    setIsSending(true)
+    setSendError(null)
+
+    // Send quiz data to Formspree before anything else
+    try {
+      const offerLabel =
+        branch === "A"
+          ? answers.tier === "45"
+            ? "IA Business Complet (45 000 FCFA)"
+            : "IA Starter (25 000 FCFA)"
+          : "Accompagnement Business IA"
+
+      const answersLines = Object.entries(answers)
+        .filter(([k]) => k !== "tier")
+        .map(([k, v]) => `- ${k}: ${v}`)
+        .join("\n")
+
+      await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          _subject: `Nouveau diagnostic IA - ${userName}`,
+          name: userName,
+          profile: branch === "A" ? "Apprendre l'IA" : "Activité à structurer",
+          offre: offerLabel,
+          reponses: answersLines,
+          timestamp: new Date().toISOString(),
+          source: "quiz-diagnostic-kamtech",
+        }),
+      })
+    } catch (err) {
+      console.error("Erreur envoi diagnostic:", err)
+      // On continue même si l'envoi échoue — le WhatsApp reste disponible
+    }
+
+    setIsSending(false)
+    setStepCount(totalSteps)
+    goTo("loading")
+    setTimeout(() => {
+      goTo("result")
+    }, 2400)
+  }, [nameInput, branch, answers, totalSteps, goTo])
+
   useEffect(() => {
-    if (screen !== "loading") return
-    const steps = [
-      { step: "Analyse en cours", title: "On lit vos réponses", sub: "Identification de votre profil..." },
-      { step: "Matching profil", title: "On compare avec des cas similaires", sub: "Sélection de la solution adaptée..." },
-      { step: "Construction du plan", title: "On bâtit votre plan sur mesure", sub: "Phases et timeline personnalisées..." },
-      { step: "Finalisation", title: "Dernières vérifications", sub: "Presque prêt — encore quelques secondes" },
-    ]
-    let i = 0
-    setLoadingStep(0)
-    const iv = setInterval(() => {
-      i = (i + 1) % steps.length
-      setLoadingStep(i)
-    }, 900)
-    // Send to Formspree
-    const sectorName = SECTOR_NAMES[answers.sector] ?? "votre secteur"
-    const timingName = TIMING_NAMES[answers.timing] ?? "quand vous serez prêt(e)"
-    const segKey = getSegKey(answers)
-    const seg = SEG[segKey]
-    const msg = seg.wa.replace("[SECTOR]", sectorName).replace("[TIMING]", timingName)
-    fetch(FORMSPREE_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        _subject: `Nouveau diagnostic IA`,
-        segment: segKey,
-        segment_name: seg.name,
-        reponses: Object.entries(answers).map(([k, v]) => `${k}: ${QUESTIONS.find(q => q.id === k)?.opts[v]?.txt ?? v}`).join(" | "),
-        message_whatsapp: msg,
-        timestamp: new Date().toISOString(),
-        source: "quiz-diagnostic-v2",
-      }),
-    }).catch(() => {})
-    setTimeout(() => { clearInterval(iv); goTo("result") }, 4000)
-    return () => clearInterval(iv)
-  }, [screen === "loading"]) // eslint-disable-line
+    if (screen === "q_name" && nameRef.current) {
+      setTimeout(() => nameRef.current?.focus(), 400)
+    }
+  }, [screen])
 
-  const getSegKey = (a: Record<string, number>): string => {
-    const g = a.goal
-    const d = a.digital
-    if (g === 0) return "chatbot"
-    if (g === 1) return (d !== undefined && d <= 1) ? "website" : "chatbot"
-    if (g === 2) return "automation"
-    if (g === 3) return "agent"
-    return "audit"
-  }
+  useEffect(() => {
+    if (screen === "result") {
+      setOpenFaqIndex(null)
+    }
+  }, [screen])
 
-  const segKey = screen === "result" ? getSegKey(answers) : ""
-  const seg = segKey ? SEG[segKey] : null
-  const sectorName = SECTOR_NAMES[answers.sector] ?? "votre secteur"
-  const timingName = TIMING_NAMES[answers.timing] ?? "quand vous serez prêt(e)"
-  const waMsg = seg ? seg.wa.replace("[SECTOR]", sectorName).replace("[TIMING]", timingName) : ""
-  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`
+  /* =========================================================
+     RENDER HELPERS
+  ========================================================= */
+  const currentQ = branch ? BRANCH_QUESTIONS[branch][branchIndex] : null
 
-  const getIns1 = () => INS1[answers.blocker] ?? INS1[0]
-  const getIns2 = () => INS2[answers.volume] ?? INS2[0]
+  const resultData = (() => {
+    if (!branch) return null
+    if (branch === "A") {
+      const tier = answers.tier || "25"
+      return RESULTS.A[tier as "25" | "45"]
+    }
+    return RESULTS.B
+  })()
 
-  const loadingSteps = [
-    { step: "Analyse en cours", title: "On lit vos réponses", sub: "Identification de votre profil..." },
-    { step: "Matching profil", title: "On compare avec des cas similaires", sub: "Sélection de la solution adaptée..." },
-    { step: "Construction du plan", title: "On bâtit votre plan sur mesure", sub: "Phases et timeline personnalisées..." },
-    { step: "Finalisation", title: "Dernières vérifications", sub: "Presque prêt — encore quelques secondes" },
-  ]
+  const whatsappUrl = (() => {
+    if (!branch || !resultData) return "#"
+    const offerLabel =
+      branch === "A"
+        ? answers.tier === "45"
+          ? "IA Business Complet (45 000 FCFA)"
+          : "IA Starter (25 000 FCFA)"
+        : "Accompagnement Business IA"
+    const answersLines = Object.entries(answers)
+      .filter(([k]) => k !== "tier")
+      .map(([, v]) => `- ${v}`)
+      .join("\n")
+    const msg = `Bonjour KAMTECH IA 👋\nJe m'appelle ${name}, je viens de faire le diagnostic.\n\nProfil : ${branch === "A" ? "Apprendre l'IA" : "Activité à structurer"}\nRéponses clés :\n${answersLines}\n\nJe veux réserver ma place sur l'offre "${offerLabel}".`
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
+  })()
 
-  const renderQuestion = (qi: number) => {
-    const q = QUESTIONS[qi]
-    const selected = answers[q.id]
-    return (
-      <>
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-[11px] font-semibold tracking-[0.1em] uppercase text-blue-400">
-            Question {qi + 1} / 6
-          </span>
-        </div>
-        <h2 className="font-display text-xl md:text-2xl font-bold leading-tight text-white mb-1.5">
-          {qi === 0 ? "Quel résultat voulez-vous en priorité ?" :
-           qi === 1 ? "Dans quel secteur travaillez-vous ?" :
-           qi === 2 ? "Qu'est-ce qui vous a bloqué jusqu'ici ?" :
-           qi === 3 ? "Combien de demandes clients par semaine ?" :
-           qi === 4 ? "Où en est votre présence digitale ?" :
-           "Quand souhaitez-vous démarrer ?"}
-        </h2>
-        <p className="text-sm text-[#9BA1B5] mb-5 leading-relaxed">
-          {qi === 0 ? "Votre réponse est le point de départ de votre recommandation" :
-           qi === 1 ? "On adapte notre recommandation à votre domaine" :
-           qi === 2 ? "Soyez direct — c'est ce qui permet d'adapter le plan" :
-           qi === 3 ? "Via WhatsApp, téléphone, email — tous canaux confondus" :
-           qi === 4 ? "" :
-           "On adapte notre réponse à votre disponibilité"}
-        </p>
-        <div className="flex flex-col gap-2">
-          {q.opts.map((o, oi) => (
-            <button
-              key={oi}
-              onClick={() => pick(qi, oi)}
-              className={`group text-left bg-[#111111] border ${
-                selected === oi ? "border-blue-500 bg-blue-500/10" : "border-[rgba(255,255,255,0.08)]"
-              } rounded-[14px] px-4 py-3.5 cursor-pointer transition-all duration-200 hover:border-blue-500/50 hover:bg-[#1a1a1a] flex items-center gap-3`}
-            >
-              <span className="text-xl flex-shrink-0">{o.icon}</span>
-              <span className={`text-sm leading-relaxed flex-1 ${selected === oi ? "text-white" : "text-[#d4d4d8]"}`}>
-                {o.txt}
-              </span>
-              <div className={`w-[18px] h-[18px] rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200 ${
-                selected === oi ? "border-blue-500 bg-blue-500" : "border-[#3f3f46]"
-              }`}>
-                {selected === oi && (
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                    <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-              </div>
-            </button>
-          ))}
-        </div>
-      </>
-    )
-  }
+  const faqList = branch ? FAQS[branch] || [] : []
 
-  const renderInsight = (type: "ins1" | "ins2") => {
-    const data = type === "ins1" ? getIns1() : getIns2()
-    const next = type === "ins1" ? "q3" as Screen : "q4" as Screen
-    return (
-      <>
-        <div className="bg-[#1a1a1a] border-l-[3px] border-blue-500 rounded-[14px] p-5 mb-5">
-          <div className="text-[11px] font-semibold tracking-[0.09em] uppercase text-blue-400 mb-2.5">
-            {type === "ins1" ? "Ce qu'on observe" : "Le coût caché"}
-          </div>
-          <div className="text-3xl mb-2.5">{data.icon}</div>
-          <p className="text-sm text-[#d4d4d8] leading-relaxed mb-3">{data.txt}</p>
-          <span className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full">
-            {data.stat}
-          </span>
-        </div>
-        <button
-          onClick={() => afterInsight(next)}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[14px] px-6 py-3.5 font-bold text-sm cursor-pointer transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
-        >
-          Continuer →
-        </button>
-      </>
-    )
+  /* =========================================================
+     STYLES
+  ========================================================= */
+  const s = {
+    void: "#0a0a0a",
+    surface: "#111111",
+    surface2: "#1a1a1a",
+    line: "rgba(255,255,255,0.08)",
+    accent: "#3b82f6",
+    accentSoft: "rgba(59,130,246,0.14)",
+    ink: "#F6F2E9",
+    inkMuted: "#9BA1B5",
+    green: "#3FA796",
+    radius: "18px",
   }
 
   return (
-    <div className="min-h-screen bg-black text-[#F6F2E9] font-sans flex flex-col items-center relative overflow-x-hidden">
-      {/* Ambient glow */}
-      <div className="fixed left-1/2 bottom-0 w-[140vw] h-[70vh] pointer-events-none -z-10"
-        style={{ background: "radial-gradient(closest-side, rgba(59,130,246,0.08), rgba(59,130,246,0.02) 45%, transparent 70%)", transform: "translateX(-50%)" }}
-      />
-
-      {/* Grid background subtle */}
-      <div className="fixed inset-0 pointer-events-none -z-10"
+    <div className="min-h-screen bg-black text-[#F6F2E9] font-sans overflow-x-hidden relative flex flex-col items-center">
+      {/* ambient glow */}
+      <div
+        className="fixed left-1/2 bottom-0 w-[140vw] h-[70vh] pointer-events-none -z-10"
         style={{
-          backgroundImage: "linear-gradient(to right, rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.04) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-          maskImage: "radial-gradient(ellipse at center, transparent 20%, black 70%)",
-          WebkitMaskImage: "radial-gradient(ellipse at center, transparent 20%, black 70%)",
+          background:
+            "radial-gradient(closest-side, rgba(59,130,246,0.12), rgba(59,130,246,0.04) 45%, transparent 70%)",
+          transform: "translateX(-50%)",
         }}
       />
 
-      <div className="w-full max-w-[520px] min-h-screen flex flex-col px-5 py-6 pb-10 relative z-10">
+      <div className="w-full max-w-[560px] min-h-screen flex flex-col px-[22px] py-6 pb-10 relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-7">
           <div className="flex items-center gap-3">
-            {canGoBack && (
-              <button onClick={goBack} className="flex items-center justify-center w-8 h-8 rounded-full bg-[#111] border border-[rgba(255,255,255,0.08)] text-[#9BA1B5] cursor-pointer transition-all hover:text-white hover:border-white/20" aria-label="Retour">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+            {screen !== "intro" && screen !== "result" && screen !== "loading" && (
+              <button
+                onClick={goBack}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#9BA1B5] cursor-pointer transition-all duration-200 hover:text-white hover:border-white/20 hover:bg-[#1a1a1a]"
+                aria-label="Retour"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
               </button>
             )}
-            <a href="/accompagnement" className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase hover:text-white transition-colors">
+            <div className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase">
               KAMTECH <span className="text-blue-500">IA</span>
-            </a>
+            </div>
           </div>
-          {screen !== "intro" && screen !== "loading" && screen !== "result" && (
-            <span className="text-xs font-semibold text-[#9BA1B5]">
-              {dotIndex + 1}/{totalDots}
-            </span>
+          {showProgress && (
+            <div className="font-bold text-sm tracking-widest text-[#9BA1B5] uppercase">
+              {stepCount}/{totalSteps}
+            </div>
           )}
         </div>
 
-        {/* Progress dots */}
-        {showDots && dotIndex >= 0 && (
-          <div className="flex items-center justify-center gap-2 mb-6">
-            {Array.from({ length: totalDots }).map((_, i) => (
-              <div key={i} className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i < dotIndex ? "bg-blue-500" : i === dotIndex ? "bg-blue-400 scale-125 shadow-[0_0_6px_rgba(96,165,250,0.6)]" : "bg-[#3f3f46]"
-              }`} />
-            ))}
+        {/* Progress bar */}
+        {showProgress && (
+          <div className="mb-7" style={{ display: showProgress ? "block" : "none" }}>
+            <div className="relative h-[2px] bg-[rgba(255,255,255,0.08)] rounded mb-2.5">
+              <div
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#3FA796] to-blue-500 rounded transition-all duration-500 ease-out"
+                style={{ width: `${progressPct}%` }}
+              />
+              <div
+                className="absolute top-1/2 w-2.5 h-2.5 bg-blue-500 rounded-full shadow-[0_0_0_4px_rgba(59,130,246,0.14)] transition-all duration-500 ease-out"
+                style={{ left: `${progressPct}%`, transform: "translate(-50%, -50%)" }}
+              />
+            </div>
           </div>
         )}
 
-        {/* Screens */}
-        <div className="flex-1 flex flex-col justify-center" style={{ animation: `${animDir === "next" ? "slideIn" : "slideOut"} 0.26s ease forwards` }}>
+        {/* ========== SCREENS ========== */}
+        <div className="flex-1 flex flex-col justify-center">
           {/* INTRO */}
           {screen === "intro" && (
-            <div>
-              <div className="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[11px] font-semibold tracking-[0.09em] uppercase px-3 py-1.5 rounded-full mb-4">
-                🎯 Diagnostic IA Gratuit
-              </div>
-              <h1 className="font-display text-2xl md:text-3xl font-bold leading-tight text-white mb-3">
-                Quelle solution IA correspond à <span className="text-blue-500">votre business</span> ?
-              </h1>
-              <p className="text-sm text-[#9BA1B5] leading-relaxed mb-6">
-                6 questions — moins de 90 secondes — recommandation personnalisée selon votre situation réelle. Pas de conseil générique.
+            <div style={{ animation: "enter 0.5s ease-out" }}>
+              <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
+                Diagnostic gratuit — 2 minutes
               </p>
-              <div className="flex flex-wrap gap-x-5 gap-y-2 mb-7">
-                {["100% gratuit", "Sans engagement", "Résultat immédiat", "Sur mesure"].map((item) => (
-                  <div key={item} className="flex items-center gap-1.5 text-xs text-[#9BA1B5]">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                    {item}
-                  </div>
-                ))}
-              </div>
-              <button onClick={() => { setShowDots(true); goTo("q0") }} className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[14px] px-6 py-4 font-bold text-sm cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(59,130,246,0.3)] active:translate-y-0 flex items-center justify-center gap-2">
-                Démarrer mon diagnostic →
+              <h1 className="font-display font-bold text-[clamp(26px,6vw,34px)] leading-tight tracking-tight mb-3.5">
+                Arrête de <span className="text-blue-500">collectionner</span> les tutos IA.{" "}
+                <br />
+                Commence à produire.
+              </h1>
+              <p className="text-base leading-relaxed text-[#9BA1B5] mb-7 max-w-[48ch]">
+                Le problème, c&apos;est jamais le manque de contenu — internet en est saturé. Le
+                problème, c&apos;est que personne ne corrige ce que TU fais, sur TA situation
+                précise. C&apos;est exactement ce qu&apos;on va changer, en 2 minutes.
+              </p>
+              <button
+                onClick={() => goTo("q_segment")}
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white border-none rounded-[18px] px-6 py-4 font-bold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(59,130,246,0.35)] active:translate-y-0"
+              >
+                Commencer le diagnostic →
               </button>
             </div>
           )}
 
-          {/* QUESTIONS */}
-          {screen === "q0" && <div>{renderQuestion(0)}</div>}
-          {screen === "q1" && <div>{renderQuestion(1)}</div>}
-          {screen === "q2" && <div>{renderQuestion(2)}</div>}
-          {screen === "ins1" && <div>{renderInsight("ins1")}</div>}
-          {screen === "q3" && <div>{renderQuestion(3)}</div>}
-          {screen === "ins2" && <div>{renderInsight("ins2")}</div>}
-          {screen === "q4" && <div>{renderQuestion(4)}</div>}
-          {screen === "q5" && <div>{renderQuestion(5)}</div>}
+          {/* Q_SEGMENT */}
+          {screen === "q_segment" && (
+            <div style={{ animation: "enter 0.5s ease-out" }}>
+              <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
+                Question 1
+              </p>
+              <h1 className="font-display font-bold text-[clamp(26px,6vw,34px)] leading-tight tracking-tight mb-3.5">
+                Où t&apos;en es aujourd&apos;hui ?
+              </h1>
+              <p className="text-base leading-relaxed text-[#9BA1B5] mb-7 max-w-[48ch]">
+                Réponds pour ta situation réelle, pas celle que t&apos;aimerais avoir.
+              </p>
+              <div className="flex flex-col gap-2.5 mb-6">
+                {SEGMENT_Q.options.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => selectSegment(opt.branch as Branch)}
+                    className="group text-left bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#F6F2E9] rounded-[18px] px-4 py-4 font-medium text-base leading-relaxed cursor-pointer transition-all duration-200 hover:border-blue-500 hover:bg-[#1a1a1a] hover:translate-x-0.5 active:scale-[0.99] flex items-center justify-between gap-3"
+                  >
+                    <span>{opt.label}</span>
+                    <span className="text-blue-500 opacity-0 transition-all duration-200 group-hover:opacity-100 shrink-0">
+                      →
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* INSIGHT */}
+          {screen === "insight" && branch && (
+            <div style={{ animation: "enter 0.5s ease-out" }}>
+              <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
+                {INSIGHTS[branch].eyebrow}
+              </p>
+              <h1 className="font-display font-bold text-[clamp(26px,6vw,34px)] leading-tight tracking-tight mb-3.5">
+                {INSIGHTS[branch].title}
+              </h1>
+              <p className="text-base leading-relaxed text-[#9BA1B5] mb-7 max-w-[48ch]">
+                {INSIGHTS[branch].sub}
+              </p>
+              <button
+                onClick={nextBranchQuestion}
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white border-none rounded-[18px] px-6 py-4 font-bold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(59,130,246,0.35)] active:translate-y-0"
+              >
+                Continuer →
+              </button>
+            </div>
+          )}
+
+          {/* Q_BRANCH */}
+          {screen === "q_branch" && currentQ && (
+            <div style={{ animation: "enter 0.5s ease-out" }}>
+              <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
+                Question {branchIndex + 2}
+              </p>
+              <h1 className="font-display font-bold text-[clamp(26px,6vw,34px)] leading-tight tracking-tight mb-3.5">
+                {currentQ.title}
+              </h1>
+              {currentQ.sub && (
+                <p className="text-base leading-relaxed text-[#9BA1B5] mb-7 max-w-[48ch]">
+                  {currentQ.sub}
+                </p>
+              )}
+
+              {/* Options (standard) */}
+              {!currentQ.isTierChoice && currentQ.options && (
+                <div className="flex flex-col gap-2.5 mb-6">
+                  {currentQ.options.map((opt, i) => (
+                    <button
+                      key={i}
+                      onClick={() => answerBranch(currentQ.key, opt)}
+                      className="group text-left bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#F6F2E9] rounded-[18px] px-4 py-4 font-medium text-base leading-relaxed cursor-pointer transition-all duration-200 hover:border-blue-500 hover:bg-[#1a1a1a] hover:translate-x-0.5 active:scale-[0.99] flex items-center justify-between gap-3"
+                    >
+                      <span>{opt}</span>
+                      <span className="text-blue-500 opacity-0 transition-all duration-200 group-hover:opacity-100 shrink-0">→</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Tier choice */}
+              {currentQ.isTierChoice && currentQ.tiers && (
+                <div className="flex flex-col gap-3.5 mb-6">
+                  {currentQ.tiers.map((tier) => (
+                    <button
+                      key={tier.id}
+                      onClick={() => answerBranch(currentQ.key, tier.name, tier.id)}
+                      className="text-left bg-[#111111] border border-[rgba(255,255,255,0.08)] rounded-[18px] p-5 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:bg-[#1a1a1a] hover:-translate-y-0.5 relative"
+                    >
+                      {tier.tag && (
+                        <span className="absolute -top-2.5 right-4 bg-blue-500 text-[#14110A] font-bold text-[11px] tracking-wider uppercase px-2.5 py-1 rounded-full">
+                          {tier.tag}
+                        </span>
+                      )}
+                      <div className="font-display font-bold text-[17px] mb-1">{tier.name}</div>
+                      <div className="font-display font-bold text-[22px] text-blue-500 mb-3">
+                        {tier.price}
+                      </div>
+                      <ul className="flex flex-col gap-[7px] mb-3">
+                        {tier.bullets.map((b, j) => (
+                          <li key={j} className="text-sm leading-relaxed flex gap-2">
+                            <span className="text-[#3FA796] font-bold shrink-0">✓</span>
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="text-[13px] text-[#9BA1B5] italic border-t border-[rgba(255,255,255,0.08)] pt-2.5">
+                        {tier.result}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Q_NAME */}
+          {screen === "q_name" && (
+            <div style={{ animation: "enter 0.5s ease-out" }}>
+              <p className="font-bold text-xs tracking-[0.1em] uppercase text-[#3FA796] mb-3.5">
+                Dernière étape
+              </p>
+              <h1 className="font-display font-bold text-[clamp(26px,6vw,34px)] leading-tight tracking-tight mb-3.5">
+                C&apos;est quoi ton prénom ?
+              </h1>
+              <p className="text-base leading-relaxed text-[#9BA1B5] mb-7 max-w-[48ch]">
+                Pour qu&apos;on personnalise ton plan.
+              </p>
+              <input
+                ref={nameRef}
+                type="text"
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitName()}
+                placeholder="Ton prénom"
+                maxLength={30}
+                className="w-full bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#F6F2E9] rounded-[18px] px-4 py-4 font-sans text-[17px] mb-4 outline-none transition-colors focus:border-blue-500 placeholder:text-[#9BA1B5]"
+              />
+              <button
+                onClick={submitName}
+                disabled={isSending}
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white border-none rounded-[18px] px-6 py-4 font-bold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(59,130,246,0.35)] active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              >
+                {isSending ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Envoi de ton diagnostic…
+                  </>
+                ) : (
+                  "Voir mon plan →"
+                )}
+              </button>
+            </div>
+          )}
 
           {/* LOADING */}
           {screen === "loading" && (
-            <div className="text-center py-12">
-              <div className="relative w-[70px] h-[70px] mx-auto mb-6">
-                <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-blue-500 animate-spin" />
-                <div className="absolute inset-[10px] rounded-full border-2 border-transparent border-r-blue-400 animate-spin" style={{ animationDirection: "reverse", animationDuration: "0.85s" }} />
-                <div className="absolute inset-[19px] rounded-full border-2 border-transparent border-b-blue-300 animate-spin" style={{ animationDuration: "0.6s" }} />
-              </div>
-              <div className="text-[11px] font-semibold tracking-[0.09em] uppercase text-blue-400 mb-2">
-                {loadingSteps[loadingStep].step}
-              </div>
-              <div className="font-display text-lg font-bold text-white mb-1">
-                {loadingSteps[loadingStep].title}
-              </div>
-              <div className="text-sm text-[#9BA1B5] animate-pulse">
-                {loadingSteps[loadingStep].sub}
-              </div>
-              <div className="inline-flex items-center gap-2 bg-[#1a1a1a] border border-[rgba(255,255,255,0.06)] rounded-full px-4 py-2 mt-5 text-xs text-[#9BA1B5]">
-                <span>📊</span>
-                <span>247 diagnostics créés ce mois</span>
+            <div className="text-center py-10">
+              <div className="w-14 h-14 mx-auto mb-6 rounded-full border-[3px] border-[rgba(255,255,255,0.08)] border-t-blue-500 animate-spin" />
+              <div className="flex flex-col gap-2 items-center">
+                <p className="text-sm text-[#9BA1B5]" style={{ animation: "fadeStep 0.6s forwards" }}>
+                  Analyse de ta situation…
+                </p>
+                <p
+                  className="text-sm text-[#9BA1B5] opacity-0"
+                  style={{ animation: "fadeStep 0.6s 0.9s forwards" }}
+                >
+                  Sélection de l&apos;accompagnement adapté…
+                </p>
+                <p
+                  className="text-sm text-[#9BA1B5] opacity-0"
+                  style={{ animation: "fadeStep 0.6s 1.7s forwards" }}
+                >
+                  Construction de ton plan…
+                </p>
               </div>
             </div>
           )}
 
           {/* RESULT */}
-          {screen === "result" && seg && (
-            <div>
-              {/* Header */}
-              <div className="bg-gradient-to-b from-blue-500/10 to-transparent border-b border-[rgba(255,255,255,0.06)] -mx-5 px-5 py-6 text-center relative overflow-hidden mb-5">
-                <div className="absolute top-[-50px] left-1/2 -translate-x-1/2 w-[220px] h-[220px] bg-blue-500/10 rounded-full pointer-events-none blur-3xl" />
-                <div className="text-4xl mb-2.5 relative">{seg.emoji}</div>
-                <span className="inline-flex items-center gap-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[11px] font-semibold tracking-[0.09em] uppercase px-3 py-1 rounded-full mb-3 relative">
-                  {seg.tag}
-                </span>
-                <h2 className="font-display text-xl font-bold text-white mb-2 relative">{seg.name}</h2>
-                <p className="text-sm text-[#9BA1B5] italic leading-relaxed relative">&ldquo;{seg.diag}&rdquo;</p>
+          {screen === "result" && branch && resultData && (
+            <div style={{ animation: "enter 0.5s ease-out" }}>
+              <span className="inline-block bg-[rgba(59,130,246,0.14)] text-blue-500 font-bold text-xs tracking-wider uppercase px-3 py-1.5 rounded-full mb-4">
+                {resultData.badge}
+              </span>
+              <h1
+                className="font-display font-bold text-[clamp(26px,6vw,34px)] leading-tight tracking-tight mb-3.5"
+                dangerouslySetInnerHTML={{
+                  __html: resultData.title(name).replace(
+                    /((?:IA|Starter|Business|Complet)\s*(?:Business|Complet|Starter)?)/,
+                    '<span class="text-blue-500">$1</span>'
+                  ),
+                }}
+              />
+              <p className="text-base leading-relaxed text-[#9BA1B5] mb-7 max-w-[48ch]">
+                {resultData.sub}
+              </p>
+
+              {/* Plan card */}
+              <div className="bg-[#111111] border border-[rgba(255,255,255,0.08)] rounded-[18px] p-5 my-5">
+                <div className="font-display text-[28px] font-bold text-blue-500 mb-1">
+                  {resultData.price}{" "}
+                  <small className="text-sm text-[#9BA1B5] font-medium">{resultData.priceSub}</small>
+                </div>
+                <ul className="flex flex-col gap-3 mt-4">
+                  {(resultData.plan as [string, string][]).map(([wk, desc], i) => (
+                    <li key={i} className="flex gap-3 text-sm sm:text-[15px] leading-relaxed">
+                      <span className="font-bold text-[#3FA796] shrink-0 w-7">{wk}</span>
+                      <span>{desc}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Plan phases */}
-              <div className="mb-5">
-                <div className="text-[11px] font-semibold tracking-[0.09em] uppercase text-[#9BA1B5] mb-3">Votre plan KAMTECH IA</div>
-                {seg.phases.map((p, i) => (
-                  <div key={i} className="flex gap-3 mb-2.5">
-                    <div className="flex flex-col items-center flex-shrink-0 pt-0.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                      {i < seg.phases.length - 1 && <div className="w-[2px] flex-1 bg-[rgba(255,255,255,0.08)] mt-1" />}
+              {/* FAQ */}
+              {faqList.length > 0 && (
+                <div className="flex flex-col gap-2 my-2 mb-5">
+                  {faqList.map(([q, a], i) => (
+                    <div
+                      key={i}
+                      className="border border-[rgba(255,255,255,0.08)] rounded-[14px] overflow-hidden bg-[#111111]"
+                    >
+                      <button
+                        onClick={() => setOpenFaqIndex(openFaqIndex === i ? null : i)}
+                        className="w-full text-left bg-none border-none text-[#F6F2E9] font-semibold text-sm px-4 py-3.5 cursor-pointer flex justify-between items-center gap-2.5"
+                      >
+                        <span>{q}</span>
+                        <span
+                          className="text-blue-500 text-lg shrink-0 transition-transform duration-200"
+                          style={{ transform: openFaqIndex === i ? "rotate(45deg)" : "rotate(0)" }}
+                        >
+                          +
+                        </span>
+                      </button>
+                      <div
+                        className="overflow-hidden transition-all duration-200 ease-out"
+                        style={{
+                          maxHeight: openFaqIndex === i ? "220px" : "0",
+                          padding: openFaqIndex === i ? "0 16px 14px" : "0 16px",
+                        }}
+                      >
+                        <p className="text-[13px] text-[#9BA1B5] leading-relaxed">{a}</p>
+                      </div>
                     </div>
-                    <div className="pb-2.5">
-                      <div className="text-[11px] font-semibold tracking-[0.07em] text-blue-400 mb-0.5">{p.when}</div>
-                      <div className="text-sm text-[#d4d4d8] leading-relaxed">{p.txt}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
-              {/* Benefits */}
-              <div className="mb-5">
-                <div className="text-[11px] font-semibold tracking-[0.09em] uppercase text-[#9BA1B5] mb-3">Ce que ça change pour vous</div>
-                {seg.benefits.map((b, i) => (
-                  <div key={i} className="flex items-start gap-2 mb-2">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12" /></svg>
-                    <span className="text-sm text-[#d4d4d8] leading-relaxed">{b}</span>
-                  </div>
-                ))}
-              </div>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white border-none rounded-[18px] px-6 py-4 font-bold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(59,130,246,0.35)] active:translate-y-0 no-underline"
+              >
+                Réserver ma place sur WhatsApp →
+              </a>
 
-              {/* Loss aversion */}
-              <div className="bg-blue-500/5 border border-blue-500/20 rounded-[12px] p-3.5 mb-5 text-sm text-[#d4d4d8] leading-relaxed">
-                <strong className="text-white">{seg.loss}</strong>
-              </div>
+              <p className="text-[12px] text-[#9BA1B5] text-center mt-3.5 leading-relaxed">
+                KAMTECH IA — accompagnement conçu et animé par un spécialiste IA & automatisation
+                pour entrepreneurs.
+              </p>
 
-              {/* CTA */}
-              <div className="mt-5">
-                <a
-                  href={waUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1da851] text-white rounded-[14px] px-6 py-4 font-bold text-sm cursor-pointer transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 no-underline"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                  Obtenir mon diagnostic gratuit
-                </a>
-                <a href="/" className="w-full inline-flex items-center justify-center gap-2 bg-transparent text-[#9BA1B5] border border-[rgba(255,255,255,0.1)] rounded-[14px] px-6 py-3 mt-2.5 text-sm font-medium cursor-pointer transition-all hover:text-white hover:border-white/30 no-underline">
-                  Voir toutes nos solutions →
-                </a>
-                <p className="text-center text-xs text-[#9BA1B5] mt-3">Diagnostic 100% gratuit · Sans engagement · Réponse sous 24h</p>
-              </div>
+              <p className="text-[13px] text-[#9BA1B5] mt-4 leading-relaxed">{resultData.note}</p>
             </div>
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer note */}
         {screen !== "result" && (
-          <p className="text-center text-[11px] text-[#71717a] mt-6 leading-relaxed">
-            KAMTECH IA · Yaoundé &amp; Douala, Cameroun<br />
-            +237 658 992 588 · +237 676 634 549
+          <p className="text-center text-[12px] text-[#9BA1B5] mt-6 opacity-70">
+            KAMTECH IA — Accompagnement en live, adapté à ta situation. Aucun enregistrement, aucun
+            contenu générique.
           </p>
         )}
       </div>
 
+      {/* Animations keyframes */}
       <style>{`
-        @keyframes slideIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
-        @keyframes slideOut { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes enter {
+          from { opacity: 0; transform: translateY(14px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeStep {
+          to { opacity: 1; }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
       `}</style>
     </div>
   )
