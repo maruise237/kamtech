@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     title: "Diagnostic IA Gratuit | KAMTECH",
     description: "Trouvez la solution IA qui correspond à votre activité en 2 minutes. Plan personnalisé offert.",
     type: "website",
-    url: "https://kamtech.online/funnel",
+    url: "https://kamtech.online/accompagnement/quiz",
   },
   alternates: {
-    canonical: "https://kamtech.online/funnel",
+    canonical: "https://kamtech.online/accompagnement/quiz",
   },
   robots: {
     index: true,
@@ -19,6 +19,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function FunnelLayout({ children }: { children: React.ReactNode }) {
+export default function QuizLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
