@@ -152,11 +152,11 @@ export default function TestimonialsCarousel({
             viewport={{ once: true }}
             className="group relative overflow-hidden rounded-2xl border border-blue-500/20 bg-black p-6 sm:p-8 flex flex-col md:flex-row items-center gap-8 shadow-lg transition-all duration-500 hover:border-blue-500/40"
           >
-            {/* Grid pattern */}
+            {/* Grid pattern (signature BentoCard) */}
             <div 
-              className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
+              className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
               style={{
-                backgroundImage: `linear-gradient(to right, #3b82f611 1px, transparent 1px), linear-gradient(to bottom, #3b82f611 1px, transparent 1px)`
+                backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
               }}
             />
             <div className="flex-1 space-y-4 relative z-10">
@@ -180,15 +180,31 @@ export default function TestimonialsCarousel({
             </div>
 
             <div className="grid grid-cols-2 gap-4 w-full md:w-auto shrink-0">
-              <div className="bg-black/50 border border-gray-800 rounded-xl p-4 text-center">
-                <Clock className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                <p className="text-2xl font-black text-white">-60h</p>
-                <p className="text-xs text-[#E2E8F0]">{t.testimonials.metric1Label}</p>
+              <div className="bg-black border border-blue-500/20 rounded-xl p-4 text-center relative overflow-hidden">
+                <div 
+                  className="absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
+                  style={{
+                    backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
+                  }}
+                />
+                <div className="relative z-10">
+                  <Clock className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+                  <p className="text-2xl font-black text-white">-60h</p>
+                  <p className="text-xs text-gray-400">{t.testimonials.metric1Label}</p>
+                </div>
               </div>
-              <div className="bg-black/50 border border-gray-800 rounded-xl p-4 text-center">
-                <TrendingUp className="w-6 h-6 text-green-400 mx-auto mb-2" />
-                <p className="text-2xl font-black text-white">+42%</p>
-                <p className="text-xs text-[#E2E8F0]">{t.testimonials.metric2Label}</p>
+              <div className="bg-black border border-blue-500/20 rounded-xl p-4 text-center relative overflow-hidden">
+                <div 
+                  className="absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
+                  style={{
+                    backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
+                  }}
+                />
+                <div className="relative z-10">
+                  <TrendingUp className="w-6 h-6 text-green-400 mx-auto mb-2" />
+                  <p className="text-2xl font-black text-white">+42%</p>
+                  <p className="text-xs text-gray-400">{t.testimonials.metric2Label}</p>
+                </div>
               </div>
             </div>
             {/* Bottom glow bar */}
@@ -213,9 +229,9 @@ export default function TestimonialsCarousel({
                 >
                   {/* Grid pattern (signature BentoCard) */}
                   <div 
-                    className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
+                    className="absolute top-0 -right-1/2 z-0 size-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_40%,transparent_100%)] bg-[size:24px_24px] pointer-events-none"
                     style={{
-                      backgroundImage: `linear-gradient(to right, #3b82f611 1px, transparent 1px), linear-gradient(to bottom, #3b82f611 1px, transparent 1px)`
+                      backgroundImage: `linear-gradient(to right, #3b82f608 1px, transparent 1px), linear-gradient(to bottom, #3b82f608 1px, transparent 1px)`
                     }}
                   />
 
