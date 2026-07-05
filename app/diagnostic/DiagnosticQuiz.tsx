@@ -82,49 +82,55 @@ export default function DiagnosticQuiz() {
     if (m[screen]) goTo(m[screen], "back")
   }, [screen, goTo])
 
-  const pick = useCallback((qi: number, oi: number) => {
-    setAnswers(prev => ({ ...prev, [QUESTIONS[qi].id]: oi }))
-    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "loading" }
-    setTimeout(() => { if (qi === 2) setShowDots(true); if (qi === 5) { setShowDots(false); setLoadingStep(0) }; goTo(nextMap[qi] || `q${qi + 1}`) }, 320)
-  }, [goTo])
+	  const pick = useCallback((qi: number, oi: number) => {
+	    setAnswers(prev => {
+	      const next = { ...prev, [QUESTIONS[qi].id]: oi }
+	      // On déclenche l'envoi Formspree quand la dernière question est répondue
+	      if (qi === 5) {
+	        setTimeout(() => sendToFormspree(next), 100)
+	      }
+	      return next
+	    })
+	    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "loading" }
+	    setTimeout(() => { if (qi === 2) setShowDots(true); if (qi === 5) { setShowDots(false); setLoadingStep(0) }; goTo(nextMap[qi] || `q${qi + 1}`) }, 320)
+	  }, [goTo])
+
+	  const sendToFormspree = (a: Record<string, number>) => {
+	    const g = a.goal; const d = a.digital
+	    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
+	    const s = SEG[key]
+	    if (!s) return
+
+	    const reponsesTexte = QUESTIONS.map((q, qi) => {
+	      const rep = a[q.id]
+	      return rep !== undefined ? `  • ${q.opts[rep]?.txt ?? rep}` : "  • (non répondu)"
+	    }).join("\n")
+
+	    fetch(FORMSPREE_ENDPOINT, {
+	      method: "POST",
+	      headers: { "Content-Type": "application/json" },
+	      body: JSON.stringify({
+	        _subject: `Diagnostic IA - ${s.name}`,
+	        name: s.name,
+	        email: "quiz@kamtech.online",
+	        message: `Segment : ${key}\nProfil : ${s.name}\n\nRéponses :\n${reponsesTexte}`,
+	        profile: key,
+	        offre: s.tag,
+	        reponses: reponsesTexte,
+	        timestamp: new Date().toISOString(),
+	        source: "diagnostic-v2",
+	      }),
+	    }).then(async (res) => {
+	      if (!res.ok) console.error("Formspree error:", res.status, await res.text().catch(() => ""))
+	      else console.log("Formspree success:", res.status)
+	    }).catch((err) => console.error("Formspree failed:", err))
+	  }
 
 	  useEffect(() => {
 	    if (screen !== "loading") return
 	    const steps = ["Analyse…", "Matching…", "Construction…", "Finalisation…"]
 	    let i = 0; setLoadingStep(0)
 	    const iv = setInterval(() => { i = (i + 1) % 4; setLoadingStep(i) }, 900)
-	    const g = answers.goal; const d = answers.digital
-	    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
-	    const s = SEG[key]
-
-	    const reponsesTexte = QUESTIONS.map((q, qi) => {
-	      const rep = answers[q.id]
-	      return rep !== undefined ? `  • ${q.opts[rep]?.txt ?? rep}` : "  • (non répondu)"
-	    }).join("\n")
-
-	    const quizName = s?.name ?? "Diagnostic"
-	    const quizEmail = "quiz@kamtech.online"
-
-	    // EXACT same structure as contact form: { name, email, message }
-	    fetch(FORMSPREE_ENDPOINT, {
-	      method: "POST",
-	      headers: { "Content-Type": "application/json" },
-	      body: JSON.stringify({
-	        name: `KAMTECH Quiz - ${quizName}`,
-	        email: quizEmail,
-	        message: `Segment : ${key}\nProfil : ${quizName}\n\nRéponses :\n${reponsesTexte}`,
-	      }),
-	    }).then(async (res) => {
-	      if (!res.ok) {
-	        const text = await res.text().catch(() => "no body")
-	        console.error("Formspree error:", res.status, text)
-	      } else {
-	        console.log("Formspree success:", res.status)
-	      }
-	    }).catch((err) => {
-	      console.error("Formspree fetch failed:", err)
-	    })
-
 	    setTimeout(() => { clearInterval(iv); goTo("result") }, 4000)
 	    return () => clearInterval(iv)
 	  }, [screen === "loading"]) // eslint-disable-line
