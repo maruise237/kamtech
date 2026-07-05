@@ -63,7 +63,7 @@ const SEG: Record<string, { emoji: string; tag: string; name: string; diag: stri
 const SECTOR_NAMES = ["commerce", "restaurant", "services", "formation", "BTP", "votre secteur"]
 const TIMING_NAMES = ["maintenant", "dans 2 semaines", "après comparaison", "dès que j'ai un devis"]
 
-type Screen = "intro" | "q0" | "q1" | "q2" | "ins1" | "q3" | "ins2" | "q4" | "q5" | "loading" | "result"
+type Screen = "intro" | "q0" | "q1" | "q2" | "ins1" | "q3" | "ins2" | "q4" | "q5" | "name" | "loading" | "result"
 
 export default function DiagnosticQuiz() {
   const [screen, setScreen] = useState<Screen>("intro")
@@ -71,6 +71,10 @@ export default function DiagnosticQuiz() {
   const [animDir, setAnimDir] = useState<"next" | "back">("next")
   const [loadingStep, setLoadingStep] = useState(0)
   const [showDots, setShowDots] = useState(false)
+  const [userName, setUserName] = useState("")
+  const [userPhone, setUserPhone] = useState("")
+  const nameRef = useRef<HTMLInputElement>(null)
+  const phoneRef = useRef<HTMLInputElement>(null)
 
   const goTo = useCallback((s: Screen, dir: "next" | "back" = "next") => { setAnimDir(dir); setScreen(s); window.scrollTo({ top: 0, behavior: "smooth" }) }, [])
 
@@ -78,11 +82,11 @@ export default function DiagnosticQuiz() {
   const canGoBack = !["intro", "loading", "result"].includes(screen)
 
   const goBack = useCallback(() => {
-    const m: Record<string, Screen> = { q0: "intro", q1: "q0", q2: "q1", ins1: "q2", q3: "ins1", ins2: "q3", q4: "ins2", q5: "q4" }
+    const m: Record<string, Screen> = { q0: "intro", q1: "q0", q2: "q1", ins1: "q2", q3: "ins1", ins2: "q3", q4: "ins2", q5: "q4", name: "q5" }
     if (m[screen]) goTo(m[screen], "back")
   }, [screen, goTo])
 
-  const sendToFormspree = (a: Record<string, number>) => {
+  const sendToFormspree = (a: Record<string, number>, nameVal: string, phoneVal: string) => {
     const g = a.goal; const d = a.digital
     const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
     const s = SEG[key]
@@ -97,10 +101,12 @@ export default function DiagnosticQuiz() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        _subject: `Diagnostic IA - ${s.name}`,
-        name: s.name,
+        _subject: `Diagnostic IA - ${nameVal || s.name}`,
+        name: nameVal || s.name,
+        phone: phoneVal,
         email: "quiz@kamtech.online",
-        message: `Segment : ${key}\nProfil : ${s.name}\n\nRéponses :\n${reponsesTexte}`,
+        message: `Nom : ${nameVal}\nTéléphone : ${phoneVal}\nSegment : ${key}\nProfil : ${s.name}\n\nRéponses :\n${reponsesTexte}`,
+        telephone: phoneVal,
         profile: key,
         offre: s.tag,
         reponses: reponsesTexte,
@@ -115,14 +121,18 @@ export default function DiagnosticQuiz() {
 
   const pick = useCallback((qi: number, oi: number) => {
     setAnswers(prev => ({ ...prev, [QUESTIONS[qi].id]: oi }))
-    // Envoi Formspree quand la dernière question est répondue
-    if (qi === 5) {
-      const finalAnswers = { ...answers, [QUESTIONS[5].id]: oi }
-      setTimeout(() => sendToFormspree(finalAnswers), 100)
-    }
-    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "loading" }
+    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "name" }
     setTimeout(() => { if (qi === 2) setShowDots(true); if (qi === 5) { setShowDots(false); setLoadingStep(0) }; goTo(nextMap[qi] || `q${qi + 1}`) }, 320)
-  }, [goTo, answers])
+  }, [goTo])
+
+  const submitQuiz = () => {
+    const nameVal = userName.trim() || "Anonyme"
+    const phoneVal = userPhone.trim()
+    setShowDots(false)
+    setLoadingStep(0)
+    sendToFormspree(answers, nameVal, phoneVal)
+    goTo("loading")
+  }
 
 	  useEffect(() => {
 	    if (screen !== "loading") return
@@ -214,6 +224,39 @@ export default function DiagnosticQuiz() {
           {screen === "ins2" && <div>{renderInsight("ins2")}</div>}
           {screen === "q4" && <div>{renderQuestion(4)}</div>}
           {screen === "q5" && <div>{renderQuestion(5)}</div>}
+          {screen === "name" && (
+            <div>
+              <span className="text-[11px] font-semibold tracking-[0.1em] uppercase text-blue-400 mb-3 block">Dernière étape</span>
+              <h2 className="font-display text-xl md:text-2xl font-bold leading-tight text-white mb-1.5">Comment vous appelez-vous ?</h2>
+              <p className="text-sm text-[#9BA1B5] mb-5 leading-relaxed">Pour qu'on personnalise votre plan et vous contacte.</p>
+              <input
+                ref={nameRef}
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && phoneRef.current?.focus()}
+                placeholder="Votre prénom"
+                maxLength={30}
+                className="w-full bg-[#111] border border-[rgba(255,255,255,0.08)] text-white rounded-[14px] px-4 py-3.5 font-sans text-[15px] mb-3 outline-none transition-colors focus:border-blue-500 placeholder:text-[#9BA1B5]"
+              />
+              <input
+                ref={phoneRef}
+                type="tel"
+                value={userPhone}
+                onChange={(e) => setUserPhone(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitQuiz()}
+                placeholder="Numéro WhatsApp (ex: +237 6XX XXX XXX)"
+                maxLength={20}
+                className="w-full bg-[#111] border border-[rgba(255,255,255,0.08)] text-white rounded-[14px] px-4 py-3.5 font-sans text-[15px] mb-4 outline-none transition-colors focus:border-blue-500 placeholder:text-[#9BA1B5]"
+              />
+              <button
+                onClick={submitQuiz}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[14px] px-6 py-3.5 font-bold text-sm cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(59,130,246,0.3)] active:translate-y-0"
+              >
+                Voir mon plan →
+              </button>
+            </div>
+          )}
           {screen === "loading" && (
             <div className="text-center py-12">
               <div className="relative w-[70px] h-[70px] mx-auto mb-6"><div className="absolute inset-0 rounded-full border-2 border-transparent border-t-blue-500 animate-spin"/><div className="absolute inset-[10px] rounded-full border-2 border-transparent border-r-blue-400 animate-spin" style={{ animationDirection: "reverse", animationDuration: "0.85s" }}/><div className="absolute inset-[19px] rounded-full border-2 border-transparent border-b-blue-300 animate-spin" style={{ animationDuration: "0.6s" }}/></div>

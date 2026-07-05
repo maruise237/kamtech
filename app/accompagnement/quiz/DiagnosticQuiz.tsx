@@ -236,7 +236,9 @@ export default function DiagnosticQuiz() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
   const [isSending, setIsSending] = useState(false)
   const [sendError, setSendError] = useState<string | null>(null)
+  const [phoneInput, setPhoneInput] = useState("")
   const nameRef = useRef<HTMLInputElement>(null)
+  const phoneRef = useRef<HTMLInputElement>(null)
 
   const progressPct = Math.min(100, Math.round((stepCount / totalSteps) * 100))
   const showProgress = screen !== "intro" && screen !== "result" && screen !== "loading"
@@ -305,6 +307,7 @@ export default function DiagnosticQuiz() {
   const submitName = useCallback(async () => {
     const val = nameInput.trim()
     const userName = val || "Toi"
+    const userPhone = phoneInput.trim()
     setName(userName)
     setIsSending(true)
     setSendError(null)
@@ -329,10 +332,12 @@ export default function DiagnosticQuiz() {
         body: JSON.stringify({
           _subject: `Diagnostic IA - ${userName}`,
           name: userName,
+          phone: userPhone,
           email: "quiz@kamtech.online",
-          message: `Profil : ${branch === "A" ? "Apprendre l'IA" : "Activité à structurer"}\nOffre : ${offerLabel}\n\nRéponses :\n${answersLines}`,
+          message: `Profil : ${branch === "A" ? "Apprendre l'IA" : "Activité à structurer"}\nOffre : ${offerLabel}\nTéléphone : ${userPhone}\n\nRéponses :\n${answersLines}`,
           profile: branch === "A" ? "Apprendre l'IA" : "Activité à structurer",
           offre: offerLabel,
+          telephone: userPhone,
           reponses: answersLines,
           timestamp: new Date().toISOString(),
           source: "quiz-accompagnement",
@@ -626,9 +631,19 @@ export default function DiagnosticQuiz() {
                 type="text"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && submitName()}
+                onKeyDown={(e) => e.key === "Enter" && phoneRef.current?.focus()}
                 placeholder="Ton prénom"
                 maxLength={30}
+                className="w-full bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#F6F2E9] rounded-[18px] px-4 py-4 font-sans text-[17px] mb-3 outline-none transition-colors focus:border-blue-500 placeholder:text-[#9BA1B5]"
+              />
+              <input
+                ref={phoneRef}
+                type="tel"
+                value={phoneInput}
+                onChange={(e) => setPhoneInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitName()}
+                placeholder="Numéro WhatsApp (ex: +237 6XX XXX XXX)"
+                maxLength={20}
                 className="w-full bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[#F6F2E9] rounded-[18px] px-4 py-4 font-sans text-[17px] mb-4 outline-none transition-colors focus:border-blue-500 placeholder:text-[#9BA1B5]"
               />
               <button
