@@ -95,28 +95,32 @@ export default function DiagnosticQuiz() {
 	    const iv = setInterval(() => { i = (i + 1) % 4; setLoadingStep(i) }, 900)
 	    const g = answers.goal; const d = answers.digital
 	    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
-	    const s = SEG[key]; const sn = SECTOR_NAMES[answers.sector] ?? "votre secteur"; const tn = TIMING_NAMES[answers.timing] ?? "bientôt"
+	    const s = SEG[key]
 
-	    const reponsesBrutes = QUESTIONS.map((q, qi) => {
+	    const reponsesTexte = QUESTIONS.map((q, qi) => {
 	      const rep = answers[q.id]
-	      return rep !== undefined ? `• ${q.opts[rep]?.txt ?? rep}` : null
-	    }).filter(Boolean).join("\n")
+	      return rep !== undefined ? `  • ${q.opts[rep]?.txt ?? rep}` : "  • (non répondu)"
+	    }).join("\n")
 
+	    const quizName = s?.name ?? "Diagnostic"
+	    const quizEmail = "quiz@kamtech.online"
+
+	    // EXACT same structure as contact form: { name, email, message }
 	    fetch(FORMSPREE_ENDPOINT, {
 	      method: "POST",
 	      headers: { "Content-Type": "application/json" },
 	      body: JSON.stringify({
-	        _subject: `Diagnostic IA - ${s.name}`,
-	        name: s.name,
-	        email: "quiz@kamtech.online",
-	        message: `Segment : ${s.name}\nProfil : ${key}\n\nRéponses :\n${reponsesBrutes}\n\nMessage WhatsApp : ${s.wa.replace("[SECTOR]", sn).replace("[TIMING]", tn)}`,
-	        segment: key,
-	        reponses: reponsesBrutes,
-	        source: "diagnostic-v2",
-	        timestamp: new Date().toISOString(),
+	        name: `KAMTECH Quiz - ${quizName}`,
+	        email: quizEmail,
+	        message: `Segment : ${key}\nProfil : ${quizName}\n\nRéponses :\n${reponsesTexte}`,
 	      }),
-	    }).then((res) => {
-	      if (!res.ok) console.error("Formspree error:", res.status, res.statusText)
+	    }).then(async (res) => {
+	      if (!res.ok) {
+	        const text = await res.text().catch(() => "no body")
+	        console.error("Formspree error:", res.status, text)
+	      } else {
+	        console.log("Formspree success:", res.status)
+	      }
 	    }).catch((err) => {
 	      console.error("Formspree fetch failed:", err)
 	    })

@@ -323,19 +323,14 @@ export default function DiagnosticQuiz() {
         .map(([k, v]) => `- ${k}: ${v}`)
         .join("\n")
 
+      // EXACT same structure as contact form: { name, email, message }
       await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          _subject: `Diagnostic IA - ${userName}`,
-          name: userName,
+          name: `KAMTECH Quiz - ${userName}`,
           email: "quiz@kamtech.online",
           message: `Profil : ${branch === "A" ? "Apprendre l'IA" : "Activité à structurer"}\nOffre : ${offerLabel}\n\nRéponses :\n${answersLines}`,
-          profile: branch === "A" ? "Apprendre l'IA" : "Activité à structurer",
-          offre: offerLabel,
-          reponses: answersLines,
-          timestamp: new Date().toISOString(),
-          source: "quiz-accompagnement",
         }),
       })
     } catch (err) {
