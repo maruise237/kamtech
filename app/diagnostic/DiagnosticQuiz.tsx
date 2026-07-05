@@ -88,18 +88,42 @@ export default function DiagnosticQuiz() {
     setTimeout(() => { if (qi === 2) setShowDots(true); if (qi === 5) { setShowDots(false); setLoadingStep(0) }; goTo(nextMap[qi] || `q${qi + 1}`) }, 320)
   }, [goTo])
 
-  useEffect(() => {
-    if (screen !== "loading") return
-    const steps = ["Analyse…", "Matching…", "Construction…", "Finalisation…"]
-    let i = 0; setLoadingStep(0)
-    const iv = setInterval(() => { i = (i + 1) % 4; setLoadingStep(i) }, 900)
-    const g = answers.goal; const d = answers.digital
-    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
-    const s = SEG[key]; const sn = SECTOR_NAMES[answers.sector] ?? "votre secteur"; const tn = TIMING_NAMES[answers.timing] ?? "bientôt"
-    fetch(FORMSPREE_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ _subject: "Nouveau diagnostic", segment: key, name: s.name, reponses: Object.entries(answers).map(([k, v]) => `${k}:${QUESTIONS.find(q => q.id === k)?.opts[v]?.txt ?? v}`).join(" | "), message: s.wa.replace("[SECTOR]", sn).replace("[TIMING]", tn), timestamp: new Date().toISOString(), source: "diagnostic-v2" }) }).catch(() => {})
-    setTimeout(() => { clearInterval(iv); goTo("result") }, 4000)
-    return () => clearInterval(iv)
-  }, [screen === "loading"]) // eslint-disable-line
+	  useEffect(() => {
+	    if (screen !== "loading") return
+	    const steps = ["Analyse…", "Matching…", "Construction…", "Finalisation…"]
+	    let i = 0; setLoadingStep(0)
+	    const iv = setInterval(() => { i = (i + 1) % 4; setLoadingStep(i) }, 900)
+	    const g = answers.goal; const d = answers.digital
+	    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
+	    const s = SEG[key]; const sn = SECTOR_NAMES[answers.sector] ?? "votre secteur"; const tn = TIMING_NAMES[answers.timing] ?? "bientôt"
+
+	    const reponsesBrutes = QUESTIONS.map((q, qi) => {
+	      const rep = answers[q.id]
+	      return rep !== undefined ? `• ${q.opts[rep]?.txt ?? rep}` : null
+	    }).filter(Boolean).join("\n")
+
+	    fetch(FORMSPREE_ENDPOINT, {
+	      method: "POST",
+	      headers: { "Content-Type": "application/json" },
+	      body: JSON.stringify({
+	        _subject: `Diagnostic IA - ${s.name}`,
+	        name: s.name,
+	        email: "quiz@kamtech.online",
+	        message: `Segment : ${s.name}\nProfil : ${key}\n\nRéponses :\n${reponsesBrutes}\n\nMessage WhatsApp : ${s.wa.replace("[SECTOR]", sn).replace("[TIMING]", tn)}`,
+	        segment: key,
+	        reponses: reponsesBrutes,
+	        source: "diagnostic-v2",
+	        timestamp: new Date().toISOString(),
+	      }),
+	    }).then((res) => {
+	      if (!res.ok) console.error("Formspree error:", res.status, res.statusText)
+	    }).catch((err) => {
+	      console.error("Formspree fetch failed:", err)
+	    })
+
+	    setTimeout(() => { clearInterval(iv); goTo("result") }, 4000)
+	    return () => clearInterval(iv)
+	  }, [screen === "loading"]) // eslint-disable-line
 
   const getSegKey = (a: Record<string, number>) => { const g = a.goal; const d = a.digital; if (g === 0) return "chatbot"; if (g === 1) return (d !== undefined && d <= 1) ? "website" : "chatbot"; if (g === 2) return "automation"; if (g === 3) return "agent"; return "audit" }
   const segKey = screen === "result" ? getSegKey(answers) : ""

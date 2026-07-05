@@ -327,13 +327,15 @@ export default function DiagnosticQuiz() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          _subject: `Nouveau diagnostic IA - ${userName}`,
+          _subject: `Diagnostic IA - ${userName}`,
           name: userName,
+          email: "quiz@kamtech.online",
+          message: `Profil : ${branch === "A" ? "Apprendre l'IA" : "Activité à structurer"}\nOffre : ${offerLabel}\n\nRéponses :\n${answersLines}`,
           profile: branch === "A" ? "Apprendre l'IA" : "Activité à structurer",
           offre: offerLabel,
           reponses: answersLines,
           timestamp: new Date().toISOString(),
-          source: "quiz-diagnostic-kamtech",
+          source: "quiz-accompagnement",
         }),
       })
     } catch (err) {
