@@ -82,49 +82,47 @@ export default function DiagnosticQuiz() {
     if (m[screen]) goTo(m[screen], "back")
   }, [screen, goTo])
 
-	  const pick = useCallback((qi: number, oi: number) => {
-	    setAnswers(prev => {
-	      const next = { ...prev, [QUESTIONS[qi].id]: oi }
-	      // On déclenche l'envoi Formspree quand la dernière question est répondue
-	      if (qi === 5) {
-	        setTimeout(() => sendToFormspree(next), 100)
-	      }
-	      return next
-	    })
-	    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "loading" }
-	    setTimeout(() => { if (qi === 2) setShowDots(true); if (qi === 5) { setShowDots(false); setLoadingStep(0) }; goTo(nextMap[qi] || `q${qi + 1}`) }, 320)
-	  }, [goTo])
+  const sendToFormspree = (a: Record<string, number>) => {
+    const g = a.goal; const d = a.digital
+    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
+    const s = SEG[key]
+    if (!s) return
 
-	  const sendToFormspree = (a: Record<string, number>) => {
-	    const g = a.goal; const d = a.digital
-	    const key = g === 0 ? "chatbot" : g === 1 ? (d !== undefined && d <= 1 ? "website" : "chatbot") : g === 2 ? "automation" : g === 3 ? "agent" : "audit"
-	    const s = SEG[key]
-	    if (!s) return
+    const reponsesTexte = QUESTIONS.map((q, qi) => {
+      const rep = a[q.id]
+      return rep !== undefined ? `  • ${q.opts[rep]?.txt ?? rep}` : "  • (non répondu)"
+    }).join("\n")
 
-	    const reponsesTexte = QUESTIONS.map((q, qi) => {
-	      const rep = a[q.id]
-	      return rep !== undefined ? `  • ${q.opts[rep]?.txt ?? rep}` : "  • (non répondu)"
-	    }).join("\n")
+    fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _subject: `Diagnostic IA - ${s.name}`,
+        name: s.name,
+        email: "quiz@kamtech.online",
+        message: `Segment : ${key}\nProfil : ${s.name}\n\nRéponses :\n${reponsesTexte}`,
+        profile: key,
+        offre: s.tag,
+        reponses: reponsesTexte,
+        timestamp: new Date().toISOString(),
+        source: "diagnostic-v2",
+      }),
+    }).then(async (res) => {
+      if (!res.ok) console.error("Formspree error:", res.status, await res.text().catch(() => ""))
+      else console.log("Formspree success:", res.status)
+    }).catch((err) => console.error("Formspree failed:", err))
+  }
 
-	    fetch(FORMSPREE_ENDPOINT, {
-	      method: "POST",
-	      headers: { "Content-Type": "application/json" },
-	      body: JSON.stringify({
-	        _subject: `Diagnostic IA - ${s.name}`,
-	        name: s.name,
-	        email: "quiz@kamtech.online",
-	        message: `Segment : ${key}\nProfil : ${s.name}\n\nRéponses :\n${reponsesTexte}`,
-	        profile: key,
-	        offre: s.tag,
-	        reponses: reponsesTexte,
-	        timestamp: new Date().toISOString(),
-	        source: "diagnostic-v2",
-	      }),
-	    }).then(async (res) => {
-	      if (!res.ok) console.error("Formspree error:", res.status, await res.text().catch(() => ""))
-	      else console.log("Formspree success:", res.status)
-	    }).catch((err) => console.error("Formspree failed:", err))
-	  }
+  const pick = useCallback((qi: number, oi: number) => {
+    setAnswers(prev => ({ ...prev, [QUESTIONS[qi].id]: oi }))
+    // Envoi Formspree quand la dernière question est répondue
+    if (qi === 5) {
+      const finalAnswers = { ...answers, [QUESTIONS[5].id]: oi }
+      setTimeout(() => sendToFormspree(finalAnswers), 100)
+    }
+    const nextMap: Record<number, Screen> = { 0: "q1", 1: "q2", 2: "ins1", 3: "ins2", 4: "q5", 5: "loading" }
+    setTimeout(() => { if (qi === 2) setShowDots(true); if (qi === 5) { setShowDots(false); setLoadingStep(0) }; goTo(nextMap[qi] || `q${qi + 1}`) }, 320)
+  }, [goTo, answers])
 
 	  useEffect(() => {
 	    if (screen !== "loading") return
