@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 
 const WHATSAPP_NUMBER = "237658992588"
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xkopjrbj"
