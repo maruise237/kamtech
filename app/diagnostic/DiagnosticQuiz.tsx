@@ -101,7 +101,7 @@ export default function DiagnosticQuiz() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        _subject: `Diagnostic IA - ${nameVal || s.name}`,
+        _subject: `Diagnostic rapide - ${nameVal || s.name}`,
         name: nameVal || s.name,
         phone: phoneVal,
         email: "quiz@kamtech.online",

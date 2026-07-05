@@ -330,7 +330,7 @@ export default function DiagnosticQuiz() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          _subject: `Diagnostic IA - ${userName}`,
+          _subject: `Accompagnement IA - ${userName}`,
           name: userName,
           phone: userPhone,
           email: "quiz@kamtech.online",
@@ -354,7 +354,7 @@ export default function DiagnosticQuiz() {
     setTimeout(() => {
       goTo("result")
     }, 2400)
-  }, [nameInput, branch, answers, totalSteps, goTo])
+  }, [nameInput, phoneInput, branch, answers, totalSteps, goTo])
 
   useEffect(() => {
     if (screen === "q_name" && nameRef.current) {
